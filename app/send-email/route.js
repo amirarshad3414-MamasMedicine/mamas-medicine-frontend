@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import getDeepEmail from "../api/send-insight/deep";
+import getSummary from "../api/send-insight/summary";
 
 const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
 const MAIL_PASS = process.env.MAIL_PASS || "denl xlhu orci ydcm";
@@ -71,6 +72,48 @@ function renderBlock(block) {
   return `<tr><td style="font-size:16px;line-height:1.7;color:#2F2A26;padding:8px 0;">${block}</td></tr>`;
 }
 
+function buildSummaryEmailHTML(insight) {
+  const summaryContent = insight?.summary_text || "";
+  const childName = insight?.insights_api_payload?.childName || "";
+
+  const summaryItems = summaryContent
+    ? summaryContent
+        .split("\n")
+        .map((line) => line.replace(/^[-•]\s*/, "").trim())
+        .filter(Boolean)
+    : [];
+
+  const summaryHTML = summaryItems.length > 0
+    ? `
+<table width="100%" cellpadding="0" cellspacing="0" align="left" style="margin-bottom:32px;">
+  <tr>
+    <td align="left">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#FFF9F6;border-radius:16px;">
+        <tr>
+          <td style="padding:24px;">
+            <div style="font-size:26px;font-weight:bold;color:#1F1A17;margin-bottom:10px;">
+              🌟 Soul Snapshot — You + ${childName}
+            </div>
+            <div style="width:50px;height:4px;background:#FABD96;margin-bottom:18px;"></div>
+            <table width="100%" cellpadding="0" cellspacing="0">
+              ${summaryItems.map((item) => `
+              <tr>
+                <td style="font-size:16px;line-height:1.7;color:#2F2A26;padding-bottom:12px;">
+                  • ${item}
+                </td>
+              </tr>`).join("")}
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`
+    : "";
+
+  return getSummary(childName, summaryHTML);
+}
+
 function buildDeepEmailHTML(insight) {
   const deepContent = insight?.deep_text || "";
   const deepBlocks = preprocess(deepContent)
@@ -112,29 +155,25 @@ export async function POST(req) {
       return Response.json({ success: true, skipped: "preview mode" });
     }
 
-    if (!deep) {
-      return Response.json({ success: false, error: "No email type specified" }, { status: 400 });
-    }
-
     // insight arrives as an object (no quotes in Klaviyo template)
     const insightObj = insight && typeof insight === "object" ? insight : null;
 
-    if (!insightObj?.deep_text) {
-      return Response.json({ success: true, skipped: "no deep_text" });
+    if (!insightObj) {
+      return Response.json({ success: true, skipped: "no insight" });
     }
 
-    const html = buildDeepEmailHTML(insightObj);
+    const html = deep ? buildDeepEmailHTML(insightObj) : buildSummaryEmailHTML(insightObj);
+    const subject = deep ? "Deep summary" : "Summary";
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: { user: MAIL_USER, pass: MAIL_PASS },
     });
 
-    console.log({deepSummary:html})
     await transporter.sendMail({
       from: `"Soul-Sighted" <${MAIL_USER}>`,
       to: email,
-      subject: "Deep summary",
+      subject,
       html,
     });
     
