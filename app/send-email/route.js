@@ -104,11 +104,11 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    // Klaviyo sends: { email, insight_id, deep }
-    const { email, insight_id, deep } = body;
+    // Klaviyo sends: { childName, parentName, email, insight, deep }
+    const { email, insight, deep } = body;
 
+    // Klaviyo preview sends literal "{{ person.real_email }}" — skip silently
     if (!email || !email.includes("@")) {
-      // Klaviyo preview sends literal "{{ person.real_email }}" — skip silently
       return Response.json({ success: true, skipped: "preview mode" });
     }
 
@@ -116,20 +116,8 @@ export async function POST(req) {
       return Response.json({ success: false, error: "No email type specified" }, { status: 400 });
     }
 
-    if (!insight_id || insight_id.toString().startsWith("{{")) {
-      // Klaviyo preview — no real insight_id yet
-      return Response.json({ success: true, skipped: "preview mode" });
-    }
-
-    // Fetch the insight from Xano by ID
-    const xanoRes = await fetch(
-      `https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/insights/${insight_id}`
-    );
-    if (!xanoRes.ok) {
-      const err = await xanoRes.text();
-      throw new Error(`Failed to fetch insight: ${err}`);
-    }
-    const insightObj = await xanoRes.json();
+    // insight arrives as an object (no quotes in Klaviyo template)
+    const insightObj = insight && typeof insight === "object" ? insight : null;
 
     if (!insightObj?.deep_text) {
       return Response.json({ success: true, skipped: "no deep_text" });

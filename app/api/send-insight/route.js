@@ -22,7 +22,11 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
             child_name: childName,
             parent_name: parentName,
             real_email: email,
-            insight_id: insight?.id,
+            insight: {
+              deep_text: insight?.deep_text,
+              summary_text: insight?.summary_text,
+              insights_api_payload: insight?.insights_api_payload,
+            },
           },
         },
       },
