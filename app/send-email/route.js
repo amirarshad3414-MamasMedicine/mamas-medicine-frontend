@@ -102,50 +102,38 @@ function buildDeepEmailHTML(insight) {
 
 export async function POST(req) {
   try {
-    // Read raw body first — Klaviyo may send malformed JSON if insight has special chars
-    const rawBody = await req.text();
-    console.log("Klaviyo webhook raw body:", rawBody.slice(0, 500));
+    const body = await req.json();
 
-    // DEBUG: remove this after inspecting
-    return Response.json({ debug: true, rawBody });
+    // Klaviyo sends: { email, insight_id, deep }
+    const { email, insight_id, deep } = body;
 
-    let body;
-    try {
-      body = JSON.parse(rawBody);
-    } catch (parseErr) {
-      console.error("Failed to parse webhook body:", parseErr.message);
-      return Response.json({ success: false, error: "Invalid JSON body" }, { status: 400 });
-    }
-
-    console.log("Klaviyo webhook parsed body keys:", Object.keys(body));
-
-    // Klaviyo sends: { childName, parentName, email, insight, deep }
-    const { email, insight, deep } = body;
-
-    if (!email) {
-      return Response.json({ success: false, error: "Email is required" }, { status: 400 });
+    if (!email || !email.includes("@")) {
+      // Klaviyo preview sends literal "{{ person.real_email }}" — skip silently
+      return Response.json({ success: true, skipped: "preview mode" });
     }
 
     if (!deep) {
       return Response.json({ success: false, error: "No email type specified" }, { status: 400 });
     }
 
-    // insight may come as a stringified object from Klaviyo
-    let insightObj;
-    try {
-      insightObj = typeof insight === "string" ? JSON.parse(insight) : insight;
-    } catch (e) {
-      // Klaviyo preview sends literal "{{ person.insight }}" — not real data, skip silently
-      console.log("Preview mode or invalid insight, skipping:", e.message);
-      return Response.json({ success: true, skipped: "no valid insight" });
+    if (!insight_id || insight_id.toString().startsWith("{{")) {
+      // Klaviyo preview — no real insight_id yet
+      return Response.json({ success: true, skipped: "preview mode" });
     }
+
+    // Fetch the insight from Xano by ID
+    const xanoRes = await fetch(
+      `https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/insights/${insight_id}`
+    );
+    if (!xanoRes.ok) {
+      const err = await xanoRes.text();
+      throw new Error(`Failed to fetch insight: ${err}`);
+    }
+    const insightObj = await xanoRes.json();
 
     if (!insightObj?.deep_text) {
-      console.log("No deep_text in insight, skipping.");
       return Response.json({ success: true, skipped: "no deep_text" });
     }
-
-    console.log("insight keys:", Object.keys(insightObj));
 
     const html = buildDeepEmailHTML(insightObj);
 

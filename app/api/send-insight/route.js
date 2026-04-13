@@ -1,5 +1,5 @@
-const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY;
-const KLAVIYO_LIST_ID = process.env.KLAVIYO_LIST_ID;
+
+
 
 async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
   const headers = {
@@ -22,11 +22,7 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
             child_name: childName,
             parent_name: parentName,
             real_email: email,
-            insight: {
-              deep_text: insight?.deep_text,
-              summary_text: insight?.summary_text,
-              insights_api_payload: insight?.insights_api_payload,
-            },
+            insight_id: insight?.id,
           },
         },
       },
