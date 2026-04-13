@@ -45,9 +45,41 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
   });
 
   const profileJson = await profileRes.json();
-  if (!profileRes.ok) throw new Error(JSON.stringify(profileJson));
 
-  const profileId = profileJson.data.id;
+  let profileId;
+  if (profileRes.status === 409) {
+    // Profile already exists — extract its ID from the error and update it
+    profileId = profileJson.errors?.[0]?.meta?.duplicate_profile_id;
+    if (!profileId) throw new Error("Duplicate profile but no ID returned");
+
+    await fetch(`https://a.klaviyo.com/api/profiles/${profileId}/`, {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify({
+        data: {
+          type: "profile",
+          id: profileId,
+          attributes: {
+            first_name: parentName,
+            properties: {
+              child_name: childName,
+              parent_name: parentName,
+              real_email: email,
+              insight: {
+                deep_text: cleanForJSON(insight?.deep_text || ""),
+                summary_text: cleanForJSON(insight?.summary_text || ""),
+                insights_api_payload: insight?.insights_api_payload,
+              },
+            },
+          },
+        },
+      }),
+    });
+  } else if (!profileRes.ok) {
+    throw new Error(JSON.stringify(profileJson));
+  } else {
+    profileId = profileJson.data.id;
+  }
 
   // 2. Add to list — this fires the Klaviyo Flow
   const listRes = await fetch(
