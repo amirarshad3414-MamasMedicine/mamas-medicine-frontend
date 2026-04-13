@@ -106,6 +106,9 @@ export async function POST(req) {
     const rawBody = await req.text();
     console.log("Klaviyo webhook raw body:", rawBody.slice(0, 500));
 
+    // DEBUG: remove this after inspecting
+    return Response.json({ debug: true, rawBody });
+
     let body;
     try {
       body = JSON.parse(rawBody);
