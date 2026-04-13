@@ -132,11 +132,17 @@ export async function POST(req) {
     try {
       insightObj = typeof insight === "string" ? JSON.parse(insight) : insight;
     } catch (e) {
-      console.error("Failed to parse insight:", e.message);
-      return Response.json({ success: false, error: "Invalid insight data" }, { status: 400 });
+      // Klaviyo preview sends literal "{{ person.insight }}" — not real data, skip silently
+      console.log("Preview mode or invalid insight, skipping:", e.message);
+      return Response.json({ success: true, skipped: "no valid insight" });
     }
 
-    console.log("insight keys:", insightObj ? Object.keys(insightObj) : "null");
+    if (!insightObj?.deep_text) {
+      console.log("No deep_text in insight, skipping.");
+      return Response.json({ success: true, skipped: "no deep_text" });
+    }
+
+    console.log("insight keys:", Object.keys(insightObj));
 
     const html = buildDeepEmailHTML(insightObj);
 
