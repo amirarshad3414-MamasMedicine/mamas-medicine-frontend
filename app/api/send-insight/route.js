@@ -1,6 +1,17 @@
 
 
 
+function cleanForJSON(str = "") {
+  return str
+    .normalize("NFC")
+    .replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/g, "")
+    .replace(/(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, "")
+    .replace(/[\u2010-\u2015]/g, "-")
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u200B-\u200D\uFEFF]/g, "");
+}
+
 async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
   const headers = {
     Authorization: `Klaviyo-API-Key pk_ab8d15bcfa308fb2790a4ea13c34b277e2`,
@@ -23,8 +34,8 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
             parent_name: parentName,
             real_email: email,
             insight: {
-              deep_text: insight?.deep_text,
-              summary_text: insight?.summary_text,
+              deep_text: cleanForJSON(insight?.deep_text || ""),
+              summary_text: cleanForJSON(insight?.summary_text || ""),
               insights_api_payload: insight?.insights_api_payload,
             },
           },
