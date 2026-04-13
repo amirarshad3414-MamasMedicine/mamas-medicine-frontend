@@ -102,7 +102,19 @@ function buildDeepEmailHTML(insight) {
 
 export async function POST(req) {
   try {
-    const body = await req.json();
+    // Read raw body first — Klaviyo may send malformed JSON if insight has special chars
+    const rawBody = await req.text();
+    console.log("Klaviyo webhook raw body:", rawBody.slice(0, 500));
+
+    let body;
+    try {
+      body = JSON.parse(rawBody);
+    } catch (parseErr) {
+      console.error("Failed to parse webhook body:", parseErr.message);
+      return Response.json({ success: false, error: "Invalid JSON body" }, { status: 400 });
+    }
+
+    console.log("Klaviyo webhook parsed body keys:", Object.keys(body));
 
     // Klaviyo sends: { childName, parentName, email, insight, deep }
     const { email, insight, deep } = body;
@@ -111,13 +123,20 @@ export async function POST(req) {
       return Response.json({ success: false, error: "Email is required" }, { status: 400 });
     }
 
-    // Only handle the deep email for now (deep: true in Klaviyo webhook)
     if (!deep) {
       return Response.json({ success: false, error: "No email type specified" }, { status: 400 });
     }
 
     // insight may come as a stringified object from Klaviyo
-    const insightObj = typeof insight === "string" ? JSON.parse(insight) : insight;
+    let insightObj;
+    try {
+      insightObj = typeof insight === "string" ? JSON.parse(insight) : insight;
+    } catch (e) {
+      console.error("Failed to parse insight:", e.message);
+      return Response.json({ success: false, error: "Invalid insight data" }, { status: 400 });
+    }
+
+    console.log("insight keys:", insightObj ? Object.keys(insightObj) : "null");
 
     const html = buildDeepEmailHTML(insightObj);
 
