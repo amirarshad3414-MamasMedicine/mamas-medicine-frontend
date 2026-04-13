@@ -655,10 +655,10 @@ export default function deepFormat(html) {
                                                                                                                         <p>Warmly,</p>
                                                                                                                         <img
                                                                                                                             src="https://mamas-medicine-frontend.vercel.app/email-logo.png"
-                                                                                                                            alt="Mama's Medicine"
+                                                                                                                            alt="Soul Sighted"
                                                                                                                             style="display:block;outline:none;text-decoration:none;height:auto;width:160px;margin:10px 0;"
                                                                                                                             width="160" />
-                                                                                                                        <p>Founder, Mama's Medicine</p>
+                                                                                                                        <p>Soul Sighted</p>
                                                                                                                         <p style="color:#888;font-size:13px;">
                                                                                                                             P.S. This work spreads quietly, from one conversation to the next. If
                                                                                                                             it felt meaningful, passing it on helps another family find a little

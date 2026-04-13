@@ -487,7 +487,7 @@ export const getFirstEmail =
                                                                                                                                                     <a href="http://www.mamasmedicine.co"
                                                                                                                                                         style="color:#000; text-decoration:underline"
                                                                                                                                                         target="_blank">
-                                                                                                                                                        <img alt="Mamas Medicine Logo"
+                                                                                                                                                        <img alt="Soul Sighted Logo"
                                                                                                                                                             src="https://d3k81ch9hvuctc.cloudfront.net/company/UDW68g/images/a05508d0-f048-4a7a-8c7b-7304239307bd.png"
                                                                                                                                                             style="display:block;outline:none;text-decoration:none;height:auto;width:100%;background-color:transparent;"
                                                                                                                                                             width="160" />
@@ -854,8 +854,7 @@ export const getFirstEmail =
                                                                                                                         style="font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:16px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.5;text-align:left;color:#333333;">
                                                                                                                         <div>
                                                                                                                             Founder,
-                                                                                                                            Mama's
-                                                                                                                            Medicine
+                                                                                                                            Soul Sighted
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </td>

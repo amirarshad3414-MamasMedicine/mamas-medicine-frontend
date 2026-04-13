@@ -25,7 +25,7 @@ function buildOtpEmailHtml(otp, email) {
             <tr>
               <td style="background:#1F1A17;padding:32px 40px;border-radius:12px 12px 0 0;">
                 <div style="font-size:26px;font-weight:700;color:#FABD96;letter-spacing:-0.5px;">
-                  Mama's Medicine
+                  Soul Sighted
                 </div>
                 <div style="font-size:14px;color:#a0948a;margin-top:4px;">
                   Password Reset
@@ -144,7 +144,7 @@ export async function POST(req) {
     const transporter = createTransporter();
     console.log("env", process.env.SMTP_USER);
     await transporter.sendMail({
-      from: `"Mama's Medicine" <${process.env.SMTP_USER}>`,
+      from: `"Soul Sighted" <${process.env.SMTP_USER}>`,
       to: email,
       subject: "🔐 Your Password Reset OTP",
       html: buildOtpEmailHtml(otp, email),

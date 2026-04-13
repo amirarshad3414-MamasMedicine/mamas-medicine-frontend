@@ -401,7 +401,7 @@ export default function summaryFormat(childName, html) {
                                                                                                                                                     <a href="http://www.mamasmedicine.co"
                                                                                                                                                         style="color:#000; text-decoration:underline"
                                                                                                                                                         target="_blank">
-                                                                                                                                                        <img alt="Mamas Medicine Logo"
+                                                                                                                                                        <img alt="Soul Sighted Logo"
                                                                                                                                                             src="https://d3k81ch9hvuctc.cloudfront.net/company/UDW68g/images/a05508d0-f048-4a7a-8c7b-7304239307bd.png"
                                                                                                                                                             style="display:block;outline:none;text-decoration:none;height:auto;width:100%;background-color:transparent;"
                                                                                                                                                             width="160" />
@@ -655,10 +655,10 @@ export default function summaryFormat(childName, html) {
                                                                                                                         <p>Warmly,</p>
                                                                                                                         <img
                                                                                                                             src="https://mamas-medicine-frontend.vercel.app/email-logo.png"
-                                                                                                                            alt="Mama's Medicine"
+                                                                                                                            alt="Soul Sighted's Medicine"
                                                                                                                             style="display:block;outline:none;text-decoration:none;height:auto;width:160px;margin:10px 0;"
                                                                                                                             width="160" />
-                                                                                                                        <p>Founder, Mama's Medicine</p>
+                                                                                                                        <p>Founder, Soul Sighted</p>
                                                                                                                         <p style="color:#888;font-size:13px;">
                                                                                                                             P.S. This work spreads quietly, from one conversation to the next. If
                                                                                                                             it felt meaningful, passing it on helps another family find a little

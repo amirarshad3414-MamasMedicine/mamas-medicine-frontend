@@ -90,7 +90,7 @@ async function sendPendingEmails() {
 
       try {
         await transporter.sendMail({
-          from: `"Mama's Medicine" <${MAIL_USER}>`,
+          from: `"Soul-Sighted" <${MAIL_USER}>`,
           to,
           subject,
           html,
