@@ -106,7 +106,7 @@ export async function POST(req) {
 
     // Klaviyo sends: { childName, parentName, email, insight, deep }
     const { email, insight, deep } = body;
-
+    console.log({ email, insight, deep })
     // Klaviyo preview sends literal "{{ person.real_email }}" — skip silently
     if (!email || !email.includes("@")) {
       return Response.json({ success: true, skipped: "preview mode" });
@@ -130,13 +130,14 @@ export async function POST(req) {
       auth: { user: MAIL_USER, pass: MAIL_PASS },
     });
 
+    console.log({deepSummary:html})
     await transporter.sendMail({
       from: `"Soul-Sighted" <${MAIL_USER}>`,
       to: email,
       subject: "Deep summary",
       html,
     });
-
+    
     return Response.json({ success: true });
   } catch (error) {
     console.error("Send Email Webhook Error:", error);
