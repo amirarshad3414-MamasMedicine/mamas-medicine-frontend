@@ -1,4 +1,4 @@
-function cleanForJSON(str = "") {
+function cleanAndEscape(str = "") {
   return str
     .normalize("NFC")
     .replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/g, "")
@@ -7,6 +7,11 @@ function cleanForJSON(str = "") {
     .replace(/[\u2018\u2019]/g, "'")
     .replace(/[\u201C\u201D]/g, '"')
     .replace(/[\u200B-\u200D\uFEFF]/g, "")
+    .replace(/\\/g, "\\\\")  // escape backslashes first
+    .replace(/"/g, '\\"')    // escape double quotes
+    .replace(/\n/g, "\\n")  // newlines → \n
+    .replace(/\r/g, "\\r")  // carriage returns → \r
+    .replace(/\t/g, "\\t"); // tabs → \t
 }
 
 const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY || "pk_ab8d15bcfa308fb2790a4ea13c34b277e2";
@@ -45,8 +50,8 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
           },
           properties: {
             child_name: childName,
-            deep_text: cleanForJSON(insight?.deep_text || ""),
-            summary_text: cleanForJSON(insight?.summary_text || ""),
+            deep_text: cleanAndEscape(insight?.deep_text || ""),
+            summary_text: cleanAndEscape(insight?.summary_text || ""),
           },
           value: 1,
         },
