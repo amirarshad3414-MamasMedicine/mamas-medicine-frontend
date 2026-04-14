@@ -1,6 +1,3 @@
-
-
-
 function cleanForJSON(str = "") {
   return str
     .normalize("NFC")
@@ -81,20 +78,35 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
     profileId = profileJson.data.id;
   }
 
-  // 2. Add to list — this fires the Klaviyo Flow
-  const listRes = await fetch(
-    `https://a.klaviyo.com/api/lists/R3qHaV/relationships/profiles/`,
-    {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        data: [{ type: "profile", id: profileId }],
-      }),
-    }
-  );
+  // 2. Track event — this fires the Klaviyo Flow
+  const eventRes = await fetch("https://a.klaviyo.com/api/events/", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      data: {
+        type: "event",
+        attributes: {
+          profile: {
+            data: {
+              type: "profile",
+              attributes: { email },
+            },
+          },
+          metric: {
+            data: {
+              type: "metric",
+              attributes: { name: "Insight Ready" },
+            },
+          },
+          properties: {},
+          value: 1,
+        },
+      },
+    }),
+  });
 
-  if (!listRes.ok) {
-    const err = await listRes.text();
+  if (!eventRes.ok) {
+    const err = await eventRes.text();
     throw new Error(err);
   }
 
