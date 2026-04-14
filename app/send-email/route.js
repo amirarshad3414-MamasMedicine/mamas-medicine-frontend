@@ -147,20 +147,21 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    // Klaviyo sends: { childName, parentName, email, insight, deep }
-    const { email, insight, deep } = body;
-    console.log({ email, insight, deep })
-    // Klaviyo preview sends literal "{{ person.real_email }}" — skip silently
+    // Klaviyo sends: { email, deep_text, summary_text, child_name, deep }
+    const { email, deep_text, summary_text, child_name, deep } = body;
+    console.log({ email, deep_text: !!deep_text, summary_text: !!summary_text, child_name, deep });
+
+    // Klaviyo preview sends literal "{{ person.email }}" — skip silently
     if (!email || !email.includes("@")) {
       return Response.json({ success: true, skipped: "preview mode" });
     }
 
-    // insight arrives as an object (no quotes in Klaviyo template)
-    const insightObj = insight && typeof insight === "object" ? insight : null;
-
-    if (!insightObj) {
-      return Response.json({ success: true, skipped: "no insight" });
-    }
+    // Reconstruct insight shape expected by builders
+    const insightObj = {
+      deep_text: deep_text || "",
+      summary_text: summary_text || "",
+      insights_api_payload: { childName: child_name || "" },
+    };
 
     const html = deep ? buildDeepEmailHTML(insightObj) : buildSummaryEmailHTML(insightObj);
     const subject = deep ? "Deep summary" : "Summary";

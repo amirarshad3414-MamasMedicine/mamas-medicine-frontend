@@ -9,76 +9,18 @@ function cleanForJSON(str = "") {
     .replace(/[\u200B-\u200D\uFEFF]/g, "");
 }
 
+const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY || "pk_ab8d15bcfa308fb2790a4ea13c34b277e2";
+
 async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
   const headers = {
-    Authorization: `Klaviyo-API-Key pk_ab8d15bcfa308fb2790a4ea13c34b277e2`,
+    Authorization: `Klaviyo-API-Key ${KLAVIYO_API_KEY}`,
     "Content-Type": "application/json",
     Revision: "2024-02-15",
   };
 
-  // 1. Create/update profile — store everything the webhook will need
-  const profileRes = await fetch("https://a.klaviyo.com/api/profiles/", {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
-      data: {
-        type: "profile",
-        attributes: {
-          email,
-          first_name: parentName,
-          properties: {
-            child_name: childName,
-            parent_name: parentName,
-            real_email: email,
-            insight: {
-              deep_text: cleanForJSON(insight?.deep_text || ""),
-              summary_text: cleanForJSON(insight?.summary_text || ""),
-              insights_api_payload: insight?.insights_api_payload,
-            },
-          },
-        },
-      },
-    }),
-  });
-
-  const profileJson = await profileRes.json();
-
-  let profileId;
-  if (profileRes.status === 409) {
-    // Profile already exists — extract its ID from the error and update it
-    profileId = profileJson.errors?.[0]?.meta?.duplicate_profile_id;
-    if (!profileId) throw new Error("Duplicate profile but no ID returned");
-
-    await fetch(`https://a.klaviyo.com/api/profiles/${profileId}/`, {
-      method: "PATCH",
-      headers,
-      body: JSON.stringify({
-        data: {
-          type: "profile",
-          id: profileId,
-          attributes: {
-            first_name: parentName,
-            properties: {
-              child_name: childName,
-              parent_name: parentName,
-              real_email: email,
-              insight: {
-                deep_text: cleanForJSON(insight?.deep_text || ""),
-                summary_text: cleanForJSON(insight?.summary_text || ""),
-                insights_api_payload: insight?.insights_api_payload,
-              },
-            },
-          },
-        },
-      }),
-    });
-  } else if (!profileRes.ok) {
-    throw new Error(JSON.stringify(profileJson));
-  } else {
-    profileId = profileJson.data.id;
-  }
-
-  // 2. Track event — this fires the Klaviyo Flow
+  // Single call — track event with insight data in event properties (not profile).
+  // Event properties are immutable per event, so two children onboarding at the same
+  // time will never overwrite each other's data.
   const eventRes = await fetch("https://a.klaviyo.com/api/events/", {
     method: "POST",
     headers,
@@ -89,7 +31,10 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
           profile: {
             data: {
               type: "profile",
-              attributes: { email },
+              attributes: {
+                email,
+                first_name: parentName,
+              },
             },
           },
           metric: {
@@ -98,7 +43,11 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
               attributes: { name: "Insight Ready" },
             },
           },
-          properties: {},
+          properties: {
+            child_name: childName,
+            deep_text: cleanForJSON(insight?.deep_text || ""),
+            summary_text: cleanForJSON(insight?.summary_text || ""),
+          },
           value: 1,
         },
       },
@@ -110,7 +59,7 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
     throw new Error(err);
   }
 
-  return { success: true, profileId };
+  return { success: true };
 }
 
 export async function POST(req) {
