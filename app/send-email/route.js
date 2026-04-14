@@ -145,14 +145,24 @@ function buildDeepEmailHTML(insight) {
 
 export async function POST(req) {
   try {
+    console.log("[send-email] Webhook received");
     const body = await req.json();
+    console.log("[send-email] Body parsed:", {
+      email: body.email,
+      deep: body.deep,
+      child_name: body.child_name,
+      has_deep_text: !!body.deep_text,
+      has_summary_text: !!body.summary_text,
+      deep_text_length: body.deep_text?.length ?? 0,
+      summary_text_length: body.summary_text?.length ?? 0,
+    });
 
     // Klaviyo sends: { email, deep_text, summary_text, child_name, deep }
     const { email, deep_text, summary_text, child_name, deep } = body;
-    console.log({ email, deep_text: !!deep_text, summary_text: !!summary_text, child_name, deep });
 
     // Klaviyo preview sends literal "{{ person.email }}" — skip silently
     if (!email || !email.includes("@")) {
+      console.log("[send-email] Skipping — preview mode, email:", email);
       return Response.json({ success: true, skipped: "preview mode" });
     }
 
@@ -163,9 +173,11 @@ export async function POST(req) {
       insights_api_payload: { childName: child_name || "" },
     };
 
+    console.log("[send-email] Building HTML, type:", deep ? "deep" : "summary");
     const html = deep ? buildDeepEmailHTML(insightObj) : buildSummaryEmailHTML(insightObj);
     const subject = deep ? "Deep summary" : "Summary";
 
+    console.log("[send-email] Sending email to:", email, "subject:", subject);
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: { user: MAIL_USER, pass: MAIL_PASS },
@@ -177,10 +189,11 @@ export async function POST(req) {
       subject,
       html,
     });
-    
+
+    console.log("[send-email] Email sent successfully to:", email);
     return Response.json({ success: true });
   } catch (error) {
-    console.error("Send Email Webhook Error:", error);
+    console.error("[send-email] Error:", error.message, error.stack);
     return Response.json({ success: false, error: error.message }, { status: 500 });
   }
 }
