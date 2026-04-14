@@ -60,15 +60,27 @@ function renderKeyTip(block) {
 
 function renderBlock(block) {
   if (isKeyTip(block)) return renderKeyTip(block);
+
   if (isSectionHeader(block)) {
-    return `<tr><td style="font-size:24px;font-weight:bold;color:#1F1A17;padding:30px 0 10px;">${block}</td></tr>`;
+    const lines = block.split("\n");
+    const header = lines[0];
+    const rest = lines.slice(1).join("\n").trim();
+    const headerHtml = `<tr><td style="font-size:24px;font-weight:bold;color:#1F1A17;padding:30px 0 10px;">${header}</td></tr>`;
+    return rest ? headerHtml + renderBlock(rest) : headerHtml;
   }
+
   if (isClusterHeader(block)) {
-    return `<tr><td style="font-size:20px;font-weight:bold;color:#1F1A17;padding:20px 0 8px;">${block}</td></tr>`;
+    const lines = block.split("\n");
+    const header = lines[0];
+    const rest = lines.slice(1).join("\n").trim();
+    const headerHtml = `<tr><td style="font-size:20px;font-weight:bold;color:#1F1A17;padding:20px 0 8px;">${header}</td></tr>`;
+    return rest ? headerHtml + renderBlock(rest) : headerHtml;
   }
+
   if (isList(block)) {
     return `<tr><td>${renderList(block)}</td></tr>`;
   }
+
   return `<tr><td style="font-size:16px;line-height:1.7;color:#2F2A26;padding:8px 0;">${block}</td></tr>`;
 }
 

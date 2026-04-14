@@ -1,12 +1,10 @@
 function cleanAndEscape(str = "") {
   return str
     .normalize("NFC")
-    .replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/g, "")
-    .replace(/(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, "")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "")
     .replace(/[\u2010-\u2015]/g, "-")
     .replace(/[\u2018\u2019]/g, "'")
     .replace(/[\u201C\u201D]/g, '"')
-    .replace(/[\u200B-\u200D\uFEFF]/g, "")
     .replace(/\\/g, "\\\\")  // escape backslashes first
     .replace(/"/g, '\\"')    // escape double quotes
     .replace(/\n/g, "\\n")  // newlines → \n
