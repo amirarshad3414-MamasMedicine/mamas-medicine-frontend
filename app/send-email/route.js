@@ -91,7 +91,13 @@ function buildSummaryEmailHTML(insight) {
   const summaryItems = summaryContent
     ? summaryContent
         .split("\n")
-        .map((line) => line.replace(/^[-•]\s*/, "").trim())
+        .map((line) =>
+          line
+            .replace(/^[-•]\s*/, "")
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+            .replace(/\*(.*?)\*/g, "<em>$1</em>")
+            .trim()
+        )
         .filter(Boolean)
     : [];
 
