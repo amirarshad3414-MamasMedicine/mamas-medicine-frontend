@@ -175,8 +175,8 @@ export async function POST(req) {
       summary_text_length: body.summary_text?.length ?? 0,
     });
 
-    // Klaviyo sends: { email, deep_text, summary_text, child_name, deep }
-    const { email, deep_text, summary_text, child_name, deep } = body;
+    // Klaviyo sends: { email, deep_text, summary_text, child_name, parent_name, deep }
+    const { email, deep_text, summary_text, child_name, parent_name, deep } = body;
 
     // Klaviyo preview sends literal "{{ person.email }}" — skip silently
     if (!email || !email.includes("@")) {
@@ -193,7 +193,9 @@ export async function POST(req) {
 
     console.log("[send-email] Building HTML, type:", deep ? "deep" : "summary");
     const html = deep ? buildDeepEmailHTML(insightObj) : buildSummaryEmailHTML(insightObj);
-    const subject = deep ? "Deep summary" : "Summary";
+    const subject = deep
+      ? `The Living energy between ${parent_name} and ${child_name}`
+      : `The snap shot of ${parent_name} and ${child_name}`;
 
     console.log("[send-email] Sending email to:", email, "subject:", subject);
     const transporter = nodemailer.createTransport({

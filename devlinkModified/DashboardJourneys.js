@@ -167,11 +167,8 @@ export function DashboardJourneys({
                               },
                               body: {
                                 client_reference_id: `${item.child?.id}`,
-                                success_url:
-                                  "https://mamas-medicine-frontend.vercel.app/onboardingMain?child_id=" +
-                                  item.child?.id,
-                                cancel_url:
-                                  "https://mamas-medicine-frontend.vercel.app?payment_failed",
+                                success_url: `${window.location.origin}/onboardingMain?child_id=${item.child?.id}`,
+                                cancel_url: `${window.location.origin}?payment_failed`,
                                 line_items: [
                                   {
                                     price: "price_1TJpsTBpexBWLlCZSca5AXtq",
