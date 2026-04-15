@@ -650,7 +650,7 @@ export default function summaryFormat(childName, html) {
                                                                                                                     style="font-size:0px;padding:0px;word-break:break-word;">
                                                                                                                     <div
                                                                                                                         style="font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.5;text-align:left;color:#555555;">
-                                                                                                                        <p>Your reading is also saved in your private portal here &rarr; [link]</p>
+                                                                                                                        <p>Your reading is also saved in your private portal here &rarr; <a href="https://soul-sighted.com" style="color:#000;text-decoration:underline;" target="_blank">soul-sighted.com</a></p>
                                                                                                                         <p>I've loved mapping this with you.</p>
                                                                                                                         <p>Warmly,</p>
                                                                                                                         <img
