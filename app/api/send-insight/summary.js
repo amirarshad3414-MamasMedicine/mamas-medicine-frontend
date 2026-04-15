@@ -398,14 +398,6 @@ export default function summaryFormat(childName, html) {
                                                                                                                                             <tr>
                                                                                                                                                 <td
                                                                                                                                                     style="width:160px;">
-                                                                                                                                                    <a href="http://www.mamasmedicine.co"
-                                                                                                                                                        style="color:#000; text-decoration:underline"
-                                                                                                                                                        target="_blank">
-                                                                                                                                                        <img alt="Soul Sighted Logo"
-                                                                                                                                                            src="https://d3k81ch9hvuctc.cloudfront.net/company/UDW68g/images/a05508d0-f048-4a7a-8c7b-7304239307bd.png"
-                                                                                                                                                            style="display:block;outline:none;text-decoration:none;height:auto;width:100%;background-color:transparent;"
-                                                                                                                                                            width="160" />
-                                                                                                                                                    </a>
                                                                                                                                                 </td>
                                                                                                                                             </tr>
                                                                                                                                         </tbody>
