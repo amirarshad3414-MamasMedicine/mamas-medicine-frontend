@@ -4,6 +4,7 @@ import getSummary from "../api/send-insight/summary";
 
 const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
 const MAIL_PASS = process.env.MAIL_PASS || "denl xlhu orci ydcm";
+const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY || "pk_ab8d15bcfa308fb2790a4ea13c34b277e2";
 
 // --- HTML rendering ---
 
@@ -211,6 +212,30 @@ export async function POST(req) {
     });
 
     console.log("[send-email] Email sent successfully to:", email);
+
+    // Fire Klaviyo tracking event after email is sent
+    const eventName = deep ? "parenting_dynamic_deep_ready" : "parenting_dynamic_summary_ready";
+    await fetch("https://a.klaviyo.com/api/events/", {
+      method: "POST",
+      headers: {
+        Authorization: `Klaviyo-API-Key ${KLAVIYO_API_KEY}`,
+        "Content-Type": "application/json",
+        Revision: "2024-02-15",
+      },
+      body: JSON.stringify({
+        data: {
+          type: "event",
+          attributes: {
+            metric: { data: { type: "metric", attributes: { name: eventName } } },
+            profile: { data: { type: "profile", attributes: { email } } },
+            properties: {},
+            value: 1,
+          },
+        },
+      }),
+    });
+    console.log("[send-email] Klaviyo event fired:", eventName);
+
     return Response.json({ success: true });
   } catch (error) {
     console.error("[send-email] Error:", error.message, error.stack);
