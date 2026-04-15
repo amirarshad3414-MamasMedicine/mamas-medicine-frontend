@@ -204,12 +204,23 @@ export async function POST(req) {
       auth: { user: MAIL_USER, pass: MAIL_PASS },
     });
 
-    await transporter.sendMail({
-      from: `"Soul-Sighted" <${MAIL_USER}>`,
-      to: email,
-      subject,
-      html,
-    });
+    let lastError;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        await transporter.sendMail({
+          from: `"Soul-Sighted" <${MAIL_USER}>`,
+          to: email,
+          subject,
+          html,
+        });
+        lastError = null;
+        break;
+      } catch (err) {
+        lastError = err;
+        console.warn(`[send-email] Attempt ${attempt} failed:`, err.message);
+      }
+    }
+    if (lastError) throw lastError;
 
     console.log("[send-email] Email sent successfully to:", email);
 
