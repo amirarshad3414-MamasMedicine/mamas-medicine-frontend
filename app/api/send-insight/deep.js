@@ -366,7 +366,7 @@ export default function deepFormat(html) {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td class="hlb-block-settings-content"
-                                                                                                    style="background-color:#FFFFFF;vertical-align:top;padding-top:32px;padding-right:20px;padding-bottom:8px;padding-left:20px;">
+                                                                                                    style="background-color:#FFFFFF;vertical-align:top;padding-top:32px;padding-right:12px;padding-bottom:8px;padding-left:12px;">
                                                                                                     <table border="0"
                                                                                                         cellpadding="0"
                                                                                                         cellspacing="0"
@@ -509,7 +509,7 @@ export default function deepFormat(html) {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td class=""
-                                                                                                    style="vertical-align:top;padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;">
+                                                                                                    style="vertical-align:top;padding-top:9px;padding-right:12px;padding-bottom:9px;padding-left:12px;">
                                                                                                     <table border="0"
                                                                                                         cellpadding="0"
                                                                                                         cellspacing="0"
@@ -628,7 +628,7 @@ export default function deepFormat(html) {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td class=""
-                                                                                                    style="vertical-align:top;padding-top:20px;padding-right:18px;padding-bottom:9px;padding-left:18px;">
+                                                                                                    style="vertical-align:top;padding-top:20px;padding-right:12px;padding-bottom:9px;padding-left:12px;">
                                                                                                     <table border="0"
                                                                                                         cellpadding="0"
                                                                                                         cellspacing="0"
@@ -642,7 +642,7 @@ export default function deepFormat(html) {
                                                                                                                     style="font-size:0px;padding:0px;word-break:break-word;">
                                                                                                                     <div
                                                                                                                         style="font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.5;text-align:left;color:#555555;">
-                                                                                                                        <p>Your reading is also saved in your private portal here &rarr; <a href="https://soul-sighted.com" style="color:#000;text-decoration:underline;" target="_blank">soul-sighted.com</a></p>
+                                                                                                                        <p>Your reading is also saved in your private portal here &rarr; <a href="https://soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">Log In</a></p>
                                                                                                                         <p>I've loved mapping this with you.</p>
                                                                                                                         <p>Warmly,</p>
                                                                                                                         <img
@@ -652,9 +652,9 @@ export default function deepFormat(html) {
                                                                                                                             width="160" />
                                                                                                                         <p>Soul Sighted</p>
                                                                                                                         <p style="color:#888;font-size:13px;">
-                                                                                                                            P.S. This work spreads quietly, from one conversation to the next. If
-                                                                                                                            it felt meaningful, passing it on helps another family find a little
-                                                                                                                            more ease.
+                                                                                                                            P.S. This work spreads quietly, from one conversation to the next.
+                                                                                                                            If it felt meaningful, please tell a friend - it might also help her
+                                                                                                                            find a little more ease.
                                                                                                                         </p>
                                                                                                                     </div>
                                                                                                                 </td>
@@ -705,7 +705,7 @@ export default function deepFormat(html) {
                                                             <tr>
                                                                 <td style="padding:9px;text-align:center;">
                                                                     <div style="display:inline-block;padding-right:10px;">
-                                                                        <a href="https://www.facebook.com/MamasMedicine.co/"
+                                                                        <a href="https://www.facebook.com/soulsighted.mama"
                                                                             style="color:#000; text-decoration:underline"
                                                                             target="_blank">
                                                                             <img alt="facebook"
@@ -715,7 +715,7 @@ export default function deepFormat(html) {
                                                                         </a>
                                                                     </div>
                                                                     <div style="display:inline-block;padding-right:10px;">
-                                                                        <a href="https://www.instagram.com/mamasmedicine.co/"
+                                                                        <a href="https://www.instagram.com/soulsighted.mama/"
                                                                             style="color:#000; text-decoration:underline"
                                                                             target="_blank">
                                                                             <img alt="instagram"

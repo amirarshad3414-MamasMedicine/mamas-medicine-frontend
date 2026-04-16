@@ -201,7 +201,14 @@
 @media screen and (max-width: 479px) {
   .login_img-wrap {
     max-width: none;
-    padding: 1rem 2rem;
+    padding: 2rem 1.5rem;
+    row-gap: 1.25rem;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .login_img-wrap .margin-bottom.margin-huge {
+    margin: 0;
   }
 }
 
@@ -596,7 +603,7 @@
 
   border-radius: 2rem;
 
-  background-color: hsla(0, 0.00%, 100.00%, 1.00);
+  background-color: hsla(0, 0%, 100%, 1);
 }
 
 @media screen and (max-width: 991px) {
@@ -715,7 +722,7 @@
   grid-column-gap: 24px;
   grid-row-gap: 24px;
 
-  filter: drop-shadow(0px 1px 4px hsla(0, 0.00%, 0.00%, 0.08));
+  filter: drop-shadow(0px 1px 4px hsla(0, 0%, 0%, 0.08));
 }
 
 .login_input-wrap {
@@ -806,15 +813,15 @@
   display: flex;
   padding: 0px;
 
-  background-color: hsla(0, 0.00%, 0.00%, 0.00);
+  background-color: hsla(0, 0%, 0%, 0);
 
-  color: hsla(224.85714285714286, 0.00%, 100.00%, 1.00);
+  color: hsla(224.85714285714286, 0%, 100%, 1);
   font-size: 13.5px;
 }
 
 .show-password:global(.w--current) {
   display: none;
-  background-color: hsla(0, 0.00%, 0.00%, 0.00);
+  background-color: hsla(0, 0%, 0%, 0);
 }
 
 .eye-svg {
@@ -846,7 +853,7 @@
 
 .login_forgot-link {
   font-family: Quicksand;
-  color: hsla(0, 0.00%, 20.00%, 1.00);
+  color: hsla(0, 0%, 20%, 1);
   font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 0.03em;

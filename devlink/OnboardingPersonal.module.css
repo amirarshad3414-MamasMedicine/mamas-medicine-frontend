@@ -599,7 +599,8 @@
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary.personal {
     margin-left: 1rem;
-    font-size: 1.5rem;
+    font-size: 1.9rem;
+    line-height: 1.6;
     text-align: left;
   }
 }

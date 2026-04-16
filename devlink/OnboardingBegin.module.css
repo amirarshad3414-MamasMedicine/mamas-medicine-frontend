@@ -655,7 +655,8 @@
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary.onbord {
     margin-left: 0rem;
-    font-size: 1.2rem;
+    font-size: 2rem;
+    line-height: 1.55;
   }
 }
 

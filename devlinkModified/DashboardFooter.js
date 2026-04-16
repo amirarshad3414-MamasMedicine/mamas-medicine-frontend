@@ -36,24 +36,6 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
               )}
               tag="div"
             >
-              <_Builtin.Link
-                className={_utils.cx(_styles, "footer_logo-link")}
-                button={false}
-                aria-label="Mama’s Medicine Home"
-                block="inline"
-                options={{
-                  href: "/",
-                }}
-              >
-                <_Builtin.Image
-                  className={_utils.cx(_styles, "footer_img")}
-                  loading="lazy"
-                  width="auto"
-                  height="auto"
-                  alt="soul sighted logo"
-                  src="https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/69b9355119877eff4553c6d8_Soul%20Sighted%20(6).png"
-                />
-              </_Builtin.Link>
               <_Builtin.Block
                 className={_utils.cx(
                   _styles,
@@ -81,7 +63,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block="inline"
                 options={{
-                  href: "https://soul-sighted.com/parent-child-dynamic",
+                  href: "https://storyprompt.com/reply/iRasvtZzSmWjOGBKEzUW",
                   target: "_blank",
                 }}
               >
@@ -128,7 +110,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                   e.preventDefault(); // Stop the immediate redirect
                   localStorage.clear();
                   window.location.href = "/signin"; // Redirect manually
-              }}
+                }}
               >
                 {"Log Out"}
               </_Builtin.Link>
@@ -162,7 +144,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "https://soul-sighted.com/parent-child-dynamic",
+                  href: "https://app.storyprompt.com/wall/editor/93Ze0sfEW4pTwjAAWmHR",
                 }}
               >
                 {"Wall of Love"}
@@ -238,7 +220,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
               className={_utils.cx(_styles, "footer_text", "bottom", "last")}
               tag="div"
             >
-              {"Copyright Mamas Medicine 2026"}
+              {"Copyright Soul Sighted 2026"}
             </_Builtin.Block>
           </_Builtin.Block>
         </_Builtin.Block>

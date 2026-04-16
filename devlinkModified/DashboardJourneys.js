@@ -65,14 +65,14 @@ export function DashboardJourneys({
   },
 
   text3 = "EXPLORE",
-  text4 = "Your Emotional Flavor",
+  text4 = "Your Emotions",
 
   link3 = {
     href: "#",
   },
 
   text5 = "EXPLORE",
-  text6 = "Your Core Ingredients",
+  text6 = "Your Core",
 
   link4 = {
     href: "#",
@@ -81,13 +81,16 @@ export function DashboardJourneys({
   text7 = "EXPLORE",
   text8 = "Ask Me Anything!",
 }) {
-  console.log("child_id",item.child.id);
+  console.log("child_id", item.child.id);
   const [insightModal, setInsightModal] = useState(null);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const [marketingConsent, setMarketingConsent] = useState(false);
 
   const handleCheckout = async () => {
-    localStorage.setItem("marketing_consent", marketingConsent ? "true" : "false");
+    localStorage.setItem(
+      "marketing_consent",
+      marketingConsent ? "true" : "false"
+    );
     setShowConsentModal(false);
     setLoading(true);
     try {
@@ -112,7 +115,11 @@ export function DashboardJourneys({
       window.location.href = url;
     } catch (e) {
       setLoading(false);
-      swal({ title: "Error", text: e?.message || "Something went wrong", icon: "error" });
+      swal({
+        title: "Error",
+        text: e?.message || "Something went wrong",
+        icon: "error",
+      });
     }
   };
 
@@ -126,9 +133,25 @@ export function DashboardJourneys({
       )}
       {showConsentModal && (
         <div className="modal-overlay">
-          <div className="modal-container" style={{ maxWidth: 420, padding: 32 }} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ marginBottom: 12, color: "#1F1A17" }}>Before you continue</h3>
-            <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer", margin: "16px 0 24px", fontSize: 14, color: "#2F2A26" }}>
+          <div
+            className="modal-container"
+            style={{ maxWidth: 420, padding: 32 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 style={{ marginBottom: 12, color: "#1F1A17" }}>
+              Before you continue
+            </h3>
+            <label
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 10,
+                cursor: "pointer",
+                margin: "16px 0 24px",
+                fontSize: 14,
+                color: "#2F2A26",
+              }}
+            >
               <input
                 type="checkbox"
                 checked={marketingConsent}
@@ -139,13 +162,31 @@ export function DashboardJourneys({
             </label>
             <button
               onClick={handleCheckout}
-              style={{ width: "100%", padding: "12px", background: "#1F1A17", color: "white", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 16, marginBottom: 8 }}
+              style={{
+                width: "100%",
+                padding: "12px",
+                background: "#1F1A17",
+                color: "white",
+                border: "none",
+                borderRadius: 8,
+                cursor: "pointer",
+                fontSize: 16,
+                marginBottom: 8,
+              }}
             >
               Continue to Payment
             </button>
             <button
               onClick={() => setShowConsentModal(false)}
-              style={{ width: "100%", padding: "12px", background: "transparent", border: "none", cursor: "pointer", color: "#888", fontSize: 14 }}
+              style={{
+                width: "100%",
+                padding: "12px",
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                color: "#888",
+                fontSize: 14,
+              }}
             >
               Cancel
             </button>

@@ -59,6 +59,3 @@ export async function POST(req) {
     return Response.json({ success: false, error: error.message }, { status: 500 });
   }
 }
-
-
-// https://xnrw-fohw-scw8.a2.xano.io/api:UQuTJ3vx/webhooks
