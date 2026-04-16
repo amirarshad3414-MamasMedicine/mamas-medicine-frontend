@@ -20,14 +20,14 @@ export async function POST(req) {
         Revision: "2024-02-15",
       },
     });
-
+ 
     if (!res.ok) {
       return Response.json({ subscribed: false });
     }
 
     const data = await res.json();
     const subscribed = data?.data?.length > 0;
-
+    console.log({data,subscribed});
     return Response.json({ subscribed });
   } catch (error) {
     console.error("[check-marketing] Error:", error.message);
