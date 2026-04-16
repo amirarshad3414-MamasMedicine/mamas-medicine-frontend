@@ -509,7 +509,7 @@ export default function deepFormat(html) {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td class=""
-                                                                                                    style="vertical-align:top;padding-top:9px;padding-right:12px;padding-bottom:9px;padding-left:12px;">
+                                                                                                    style="vertical-align:top;padding-top:9px;padding-right:0px;padding-bottom:9px;padding-left:0px;">
                                                                                                     <table border="0"
                                                                                                         cellpadding="0"
                                                                                                         cellspacing="0"
@@ -628,7 +628,7 @@ export default function deepFormat(html) {
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td class=""
-                                                                                                    style="vertical-align:top;padding-top:20px;padding-right:12px;padding-bottom:9px;padding-left:12px;">
+                                                                                                    style="vertical-align:top;padding-top:20px;padding-right:0px;padding-bottom:9px;padding-left:0px;">
                                                                                                     <table border="0"
                                                                                                         cellpadding="0"
                                                                                                         cellspacing="0"
