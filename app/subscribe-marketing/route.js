@@ -34,7 +34,6 @@ export async function POST(req) {
                 },
               ],
             },
-            historical_import: false,
           },
           relationships: {
             list: {
