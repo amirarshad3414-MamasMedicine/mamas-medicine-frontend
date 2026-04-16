@@ -454,7 +454,7 @@ export default function deepFormat(html) {
                                                             <tr>
                                                                 <td style="padding:0px;">
                                                                     <img
-                                                                        src="https://mamas-medicine-frontend.vercel.app/email-deep-header.png"
+                                                                        src="https://parenting-insights.soul-sighted.com/email-deep-header.png"
                                                                         alt=""
                                                                         style="display:block;outline:none;text-decoration:none;height:auto;width:100%;"
                                                                         width="600" />
@@ -573,7 +573,7 @@ export default function deepFormat(html) {
                                                             <tr>
                                                                 <td style="padding:20px 18px;">
                                                                     <img
-                                                                        src="https://mamas-medicine-frontend.vercel.app/email-deep-body.png"
+                                                                        src="https://parenting-insights.soul-sighted.com/email-deep-body.png"
                                                                         alt=""
                                                                         style="display:block;outline:none;text-decoration:none;height:auto;width:100%;border-radius:8px;"
                                                                         width="564" />
@@ -646,7 +646,7 @@ export default function deepFormat(html) {
                                                                                                                         <p>I've loved mapping this with you.</p>
                                                                                                                         <p>Warmly,</p>
                                                                                                                         <img
-                                                                                                                            src="https://mamas-medicine-frontend.vercel.app/email-logo.png"
+                                                                                                                            src="https://parenting-insights.soul-sighted.com/email-logo.png"
                                                                                                                             alt="Soul Sighted"
                                                                                                                             style="display:block;outline:none;text-decoration:none;height:auto;width:160px;margin:10px 0;"
                                                                                                                             width="160" />
