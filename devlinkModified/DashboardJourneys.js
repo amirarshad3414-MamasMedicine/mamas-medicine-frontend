@@ -206,7 +206,7 @@ export function DashboardJourneys({
                             ? "white"
                             : undefined,
                       }}
-                      onClick={() => {
+                      onClick={async () => {
                         console.log(item);
                         if (item?.insights?.length) {
                           if (item?.insights?.[0]?.status == "ready")
@@ -216,7 +216,24 @@ export function DashboardJourneys({
                               ...(item?.insights?.[0] ?? {}),
                             });
                         } else if (!item?.purchases?.length) {
-                          setShowConsentModal(true);
+                          try {
+                            const email = localStorage.getItem("email") || (() => {
+                              try { return JSON.parse(localStorage.getItem("user"))?.email; } catch { return null; }
+                            })();
+                            const res = await fetch("/check-marketing", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ email }),
+                            });
+                            const { subscribed } = await res.json();
+                            if (subscribed) {
+                              await handleCheckout();
+                            } else {
+                              setShowConsentModal(true);
+                            }
+                          } catch {
+                            await handleCheckout();
+                          }
                         } else {
                           window.location.href = `/onboardingMain?child_id=${item.child?.id}`;
                         }
