@@ -30,10 +30,6 @@ export async function POST(req) {
                   type: "profile",
                   attributes: {
                     email,
-                    properties: {
-                      marketing_opt_in: true,
-                      signup_source: "stripe_checkout",
-                    },
                   },
                 },
               ],
