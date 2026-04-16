@@ -551,8 +551,7 @@
   padding-right: 1rem;
 }
 
-@media screen and (max-width: 479px) {
-}
+@media screen and (max-width: 479px) {}
 
 .paragraph {
   max-width: 80.2rem;
@@ -636,7 +635,8 @@
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary {
     margin-left: 0rem;
-    font-size: 1.8rem;
+    font-size: 1.5rem !important;
+    line-height: 1;
   }
 }
 
@@ -671,7 +671,7 @@
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary.text-align-center {
     margin-left: 0rem;
-    line-height: 140%;
+    line-height: 150%;
     text-align: left;
   }
 }
@@ -728,7 +728,9 @@
 @media screen and (max-width: 479px) {
   .paragraph.text-color-primary {
     margin-left: 2rem;
-    font-size: 1.2rem;
+    font-size: 1.3rem !important;
+    line-height: 1;
+    ;
   }
 }
 
@@ -761,11 +763,9 @@
   margin-right: -20%;
   margin-left: -20%;
 
-  background-image: linear-gradient(
-    180deg,
-    hsla(306.42857142857144, 45.16%, 87.84%, 0.6),
-    hsla(211.24999999999997, 100%, 90.59%, 0.6)
-  );
+  background-image: linear-gradient(180deg,
+      hsla(306.42857142857144, 45.16%, 87.84%, 0.6),
+      hsla(211.24999999999997, 100%, 90.59%, 0.6));
 }
 
 .onbording_names-navigation {
