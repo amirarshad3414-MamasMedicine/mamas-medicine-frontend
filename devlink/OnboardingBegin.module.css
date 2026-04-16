@@ -473,6 +473,7 @@
 .onbording_heading {
   line-height: 140%;
   font-weight: 700;
+  padding: 0;
 }
 
 @media screen and (max-width: 479px) {
