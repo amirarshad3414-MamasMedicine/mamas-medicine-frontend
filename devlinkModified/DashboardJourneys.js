@@ -81,7 +81,40 @@ export function DashboardJourneys({
   text7 = "EXPLORE",
   text8 = "Ask Me Anything!",
 }) {
+  console.log("child_id",item.child.id);
   const [insightModal, setInsightModal] = useState(null);
+  const [showConsentModal, setShowConsentModal] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
+
+  const handleCheckout = async () => {
+    localStorage.setItem("marketing_consent", marketingConsent ? "true" : "false");
+    setShowConsentModal(false);
+    setLoading(true);
+    try {
+      const { url } = await request({
+        method: "POST",
+        endpoint: "create_checkout_session",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: {
+          client_reference_id: `${item.child?.id}`,
+          success_url: `${window.location.origin}/onboardingMain?child_id=${item.child?.id}`,
+          cancel_url: `${window.location.origin}?payment_failed`,
+          line_items: [
+            {
+              price: "price_1TJpsTBpexBWLlCZSca5AXtq",
+              quantity: 1,
+            },
+          ],
+        },
+      });
+      window.location.href = url;
+    } catch (e) {
+      setLoading(false);
+      swal({ title: "Error", text: e?.message || "Something went wrong", icon: "error" });
+    }
+  };
 
   return (
     <>
@@ -90,6 +123,34 @@ export function DashboardJourneys({
           insight={insightModal}
           onClose={() => setInsightModal(null)}
         />
+      )}
+      {showConsentModal && (
+        <div className="modal-overlay">
+          <div className="modal-container" style={{ maxWidth: 420, padding: 32 }} onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ marginBottom: 12, color: "#1F1A17" }}>Before you continue</h3>
+            <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer", margin: "16px 0 24px", fontSize: 14, color: "#2F2A26" }}>
+              <input
+                type="checkbox"
+                checked={marketingConsent}
+                onChange={(e) => setMarketingConsent(e.target.checked)}
+                style={{ marginTop: 3, flexShrink: 0 }}
+              />
+              I'd like to receive tips, updates and exclusive offers by email
+            </label>
+            <button
+              onClick={handleCheckout}
+              style={{ width: "100%", padding: "12px", background: "#1F1A17", color: "white", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 16, marginBottom: 8 }}
+            >
+              Continue to Payment
+            </button>
+            <button
+              onClick={() => setShowConsentModal(false)}
+              style={{ width: "100%", padding: "12px", background: "transparent", border: "none", cursor: "pointer", color: "#888", fontSize: 14 }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
       )}
       <_Component
         className={_utils.cx(
@@ -145,48 +206,19 @@ export function DashboardJourneys({
                             ? "white"
                             : undefined,
                       }}
-                      onClick={async () => {
-                        try {
-                          console.log(item);
-                          if (item?.insights?.length) {
-                            if (item?.insights?.[0]?.status == "ready")
-                              setInsightModal({
-                                childName: console.log(item),
-                                child_name: item.child?.name || "Your Child",
-                                ...(item?.insights?.[0] ?? {}),
-                              });
-                          } else if (!item?.purchases?.length) {
-                            setLoading(true);
-                            const { url } = await request({
-                              method: "POST",
-                              endpoint: "create_checkout_session",
-                              headers: {
-                                authorization: `Bearer ${localStorage.getItem(
-                                  "authToken"
-                                )}`,
-                              },
-                              body: {
-                                client_reference_id: `${item.child?.id}`,
-                                success_url: `${window.location.origin}/onboardingMain?child_id=${item.child?.id}`,
-                                cancel_url: `${window.location.origin}?payment_failed`,
-                                line_items: [
-                                  {
-                                    price: "price_1TJpsTBpexBWLlCZSca5AXtq",
-                                    quantity: 1,
-                                  },
-                                ],
-                              },
+                      onClick={() => {
+                        console.log(item);
+                        if (item?.insights?.length) {
+                          if (item?.insights?.[0]?.status == "ready")
+                            setInsightModal({
+                              childName: console.log(item),
+                              child_name: item.child?.name || "Your Child",
+                              ...(item?.insights?.[0] ?? {}),
                             });
-                            window.location.href = url;
-                          } else
-                            window.location.href = `/onboardingMain?child_id=${item.child?.id}`;
-                        } catch (e) {
-                          setLoading(false);
-                          swal({
-                            title: "Error",
-                            text: e?.message || "Something went wrong",
-                            icon: "error",
-                          });
+                        } else if (!item?.purchases?.length) {
+                          setShowConsentModal(true);
+                        } else {
+                          window.location.href = `/onboardingMain?child_id=${item.child?.id}`;
                         }
                       }}
                     >

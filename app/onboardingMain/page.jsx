@@ -188,6 +188,23 @@ const App = () => {
     sendInsightAndEmail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, results]);
+
+  useEffect(() => {
+    const consent = localStorage.getItem("marketing_consent");
+    if (consent !== "true") return;
+    localStorage.removeItem("marketing_consent");
+
+    const email = localStorage.getItem("email") || (() => {
+      try { return JSON.parse(localStorage.getItem("user"))?.email; } catch { return null; }
+    })();
+    if (!email) return;
+
+    fetch("/subscribe-marketing", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    }).catch(() => {});
+  }, []);
   // f()
     // sendInsightAndEmail();
 
