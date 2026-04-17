@@ -572,11 +572,13 @@ export default function deepFormat(html) {
                                                         <tbody>
                                                             <tr>
                                                                 <td style="padding:20px 18px;">
-                                                                    <img
-                                                                        src="https://parenting-insights.soul-sighted.com/email-deep-body.png"
-                                                                        alt=""
-                                                                        style="display:block;outline:none;text-decoration:none;height:auto;width:100%;border-radius:8px;"
-                                                                        width="564" />
+                                                                    <a href="https://soul-sighted.com/signin" target="_blank" style="text-decoration:none;display:block;">
+                                                                        <img
+                                                                            src="https://parenting-insights.soul-sighted.com/email-deep-body.png"
+                                                                            alt=""
+                                                                            style="display:block;outline:none;text-decoration:none;height:auto;width:100%;border-radius:8px;"
+                                                                            width="564" />
+                                                                    </a>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -642,7 +644,7 @@ export default function deepFormat(html) {
                                                                                                                     style="font-size:0px;padding:0px;word-break:break-word;">
                                                                                                                     <div
                                                                                                                         style="font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.5;text-align:left;color:#555555;">
-                                                                                                                        <p>Your reading is also saved in your private portal here &rarr; <a href="https://soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">Log In</a></p>
+                                                                                                                        <p>Your reading is also saved in your private portal here &rarr; <a href="https://parenting-insights.soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">Log In</a></p>
                                                                                                                         <p>I've loved mapping this with you.</p>
                                                                                                                         <p>Warmly,</p>
                                                                                                                         <img

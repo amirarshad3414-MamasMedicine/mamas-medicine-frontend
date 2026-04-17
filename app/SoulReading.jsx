@@ -52,19 +52,38 @@ export default function SoulReading({ summary, deep, childName = "Child" }) {
   };
 
   const renderBlock = (block, idx) => {
-    if (isKeyTip(block)) return renderKeyTip(block, idx); // <-- first
-    if (isSectionHeader(block))
-      return (
-        <h2 key={idx} className="reading-section-title">
-          {block}
-        </h2>
-      );
-    if (isClusterHeader(block))
-      return (
-        <h3 key={idx} className="reading-cluster-title">
-          {block}
-        </h3>
-      );
+    if (isKeyTip(block)) return renderKeyTip(block, idx);
+
+    if (isSectionHeader(block)) {
+      const lines = block.split("\n");
+      const headerLine = lines[0];
+      const rest = lines.slice(1).filter(Boolean).join("\n");
+      if (rest) {
+        return (
+          <React.Fragment key={idx}>
+            <h2 className="reading-section-title">{headerLine}</h2>
+            {isList(rest) ? renderList(rest, `${idx}_list`) : <p className="reading-p">{rest}</p>}
+          </React.Fragment>
+        );
+      }
+      return <h2 key={idx} className="reading-section-title">{headerLine}</h2>;
+    }
+
+    if (isClusterHeader(block)) {
+      const lines = block.split("\n");
+      const headerLine = lines[0];
+      const rest = lines.slice(1).filter(Boolean).join("\n");
+      if (rest) {
+        return (
+          <React.Fragment key={idx}>
+            <h3 className="reading-cluster-title">{headerLine}</h3>
+            {isList(rest) ? renderList(rest, `${idx}_list`) : <p className="reading-p">{rest}</p>}
+          </React.Fragment>
+        );
+      }
+      return <h3 key={idx} className="reading-cluster-title">{headerLine}</h3>;
+    }
+
     if (isList(block)) return renderList(block, idx);
     return (
       <p key={idx} className="reading-p">

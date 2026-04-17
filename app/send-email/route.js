@@ -110,10 +110,9 @@ function buildSummaryEmailHTML(insight) {
       <table width="100%" cellpadding="0" cellspacing="0" style="background:#FFF9F6;border-radius:16px;">
         <tr>
           <td style="padding:24px;">
-            <div style="font-size:26px;font-weight:bold;color:#1F1A17;margin-bottom:10px;">
+            <div style="font-size:26px;font-weight:bold;color:#1F1A17;margin-bottom:18px;">
               🌟 Soul Snapshot — You + ${childName}
             </div>
-            <div style="width:50px;height:4px;background:#FABD96;margin-bottom:18px;"></div>
             <table width="100%" cellpadding="0" cellspacing="0">
               ${summaryItems.map((item) => `
               <tr>
