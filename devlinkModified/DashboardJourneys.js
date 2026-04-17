@@ -99,7 +99,8 @@ export function DashboardJourneys({
           cancel_url: `${window.location.origin}?payment_failed`,
           line_items: [
             {
-              price: "price_1TJpsTBpexBWLlCZSca5AXtq",
+              // price: "price_1TJpsTBpexBWLlCZSca5AXtq",
+              price:"price_1TJk4pBpexBWLlCZ4U9PiHMZ",
               quantity: 1,
             },
           ],
