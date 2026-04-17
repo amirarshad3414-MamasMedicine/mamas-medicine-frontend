@@ -11,9 +11,13 @@ export function OnboardingFinal({
   title = "You’re all set",
   text1 = "Thank you for sharing.",
   text2 = "Your insight will be prepared with care, using the details you’ve provided.",
+  link2 = {
+    href: "#",
+  },
   image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png",
   text3 = "Back",
-  text4 = "Send it",
+  text4 = "Finish",
+  hideBack = false,
 }) {
   return (
     <_Component
@@ -74,37 +78,39 @@ export function OnboardingFinal({
             className={_utils.cx(_styles, "onbording_navigation", "confirm")}
             tag="div"
           >
-            <_Builtin.Block
-              className={_utils.cx(_styles, "back_bnt")}
-              tag="div"
-              id="onboarding_confirmtion_back_btn"
-            >
+            {!hideBack ? (
               <_Builtin.Block
-                className={_utils.cx(_styles, "back_bnt-icon")}
+                className={_utils.cx(_styles, "back_bnt")}
                 tag="div"
+                id="onboarding_confirmtion_back_btn"
               >
-                <_Builtin.Image
-                  className={_utils.cx(_styles, "icon_img")}
-                  width="auto"
-                  height="auto"
-                  loading="lazy"
-                  alt=""
-                  src={image}
-                />
+                <_Builtin.Block
+                  className={_utils.cx(_styles, "back_bnt-icon")}
+                  tag="div"
+                >
+                  <_Builtin.Image
+                    className={_utils.cx(_styles, "icon_img")}
+                    width="auto"
+                    height="auto"
+                    loading="lazy"
+                    alt=""
+                    src={image}
+                  />
+                </_Builtin.Block>
+                <_Builtin.Block
+                  className={_utils.cx(_styles, "back_text")}
+                  tag="div"
+                >
+                  {text3}
+                </_Builtin.Block>
               </_Builtin.Block>
-              <_Builtin.Block
-                className={_utils.cx(_styles, "back_text")}
-                tag="div"
-              >
-                {text3}
-              </_Builtin.Block>
-            </_Builtin.Block>
+            ) : null}
             <_Builtin.Link
               className={_utils.cx(_styles_other, "btn-onboarding", "onbord")}
               button={true}
-              id="onboarding_names_btn"
+              id="onboarding_final_btn"
               block=""
-              // options={link2}
+              options={link2}
             >
               {text4}
             </_Builtin.Link>

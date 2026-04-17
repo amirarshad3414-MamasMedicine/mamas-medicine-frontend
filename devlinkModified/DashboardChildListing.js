@@ -165,7 +165,7 @@ export function DashboardChildListing({
     href: "#",
   },
 
-  text3 = "+ Add another child",
+  text3 = "+ Add Another Child",
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -240,25 +240,47 @@ export function DashboardChildListing({
                 .map((child) => (
                   <div
                     key={child?.id}
-                    onClick={() => {
-                      console.log("setSelectedChild(child?.id)", child);
-                      setSelectedChild(child?.id);
-                      localStorage.setItem("selectedChild", child?.id);
-                    }}
-                    className={_utils.cx(
-                      _styles,
-                      "family_child",
-                      selectedChild == child?.id ? "is-active" : ""
-                    )}
-                    tag="div"
+                    className={_utils.cx(_styles, "family_child-item")}
                   >
+                    <div
+                      onClick={() => {
+                        setSelectedChild(child?.id);
+                        localStorage.setItem("selectedChild", child?.id);
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          setSelectedChild(child?.id);
+                          localStorage.setItem("selectedChild", child?.id);
+                        }
+                      }}
+                      className={_utils.cx(
+                        _styles,
+                        "family_child",
+                        selectedChild == child?.id ? "is-active" : ""
+                      )}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`View ${child?.name || "child"}`}
+                    >
+                      <_Builtin.Block
+                        className={_utils.cx(_styles, "child_name")}
+                        tag="div"
+                      >
+                        {child?.name.length > 7
+                          ? child.name.slice(0, 6) + "..."
+                          : child?.name || "Unnamed Child"}
+                      </_Builtin.Block>
+                    </div>
                     <_Builtin.Block
-                      className={_utils.cx(_styles, "child_name")}
+                      className={_utils.cx(
+                        _styles,
+                        "child_action-label",
+                        selectedChild == child?.id ? "is-active" : ""
+                      )}
                       tag="div"
                     >
-                      {child?.name.length > 7
-                        ? child.name.slice(0, 6) + "..."
-                        : child?.name || "Unnamed Child"}
+                      {selectedChild == child?.id ? "Viewing child" : "View child"}
                     </_Builtin.Block>
                   </div>
                 ))}

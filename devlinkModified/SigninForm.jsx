@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import * as _Builtin from "../devlink/_Builtin";
 import * as _utils from "../devlink/utils";
 import _styles from "../devlink/LoginFormContent.module.css";
@@ -26,6 +26,20 @@ export function LoginFormContent({
     </>
   ),
 }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const clearError = (field) => {
+    setErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  };
+
+  const validateEmail = (value) => /\S+@\S+\.\S+/.test(value);
+
   return (
     <_Component
       className={_utils.cx(_styles, "padding-global", "padding-section-medium")}
@@ -157,7 +171,14 @@ export function LoginFormContent({
                     autoFocus={false}
                     data-ms-member="email"
                     id="Email"
+                    style={errors.email ? { borderColor: "#dc2626" } : undefined}
+                    onInput={() => clearError("email")}
                   />
+                  {errors.email ? (
+                    <_Builtin.Block className={_utils.cx(_styles, "field_error")} tag="div">
+                      {errors.email}
+                    </_Builtin.Block>
+                  ) : null}
                 </_Builtin.Block>
                 <_Builtin.Block
                   className={_utils.cx(_styles, "login_input-wrap", "password")}
@@ -180,57 +201,43 @@ export function LoginFormContent({
                       data-name="Password"
                       placeholder="Enter your password "
                       disabled={false}
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       required={true}
                       autoFocus={false}
                       data-ms-member="password"
-                      autoComplete="new-password"
-                      id="Password"
+                      autoComplete="current-password"
+                      id="signin-password"
+                      style={errors.password ? { borderColor: "#dc2626" } : undefined}
+                      onInput={() => clearError("password")}
                     />
-                    <_Builtin.TabsWrapper
-                      className={_utils.cx(_styles, "show-password-wrap")}
-                      current="Show"
-                      easing="ease"
-                      fadeIn={300}
-                      fadeOut={100}
+                    <button
+                      type="button"
+                      className={_utils.cx(_styles, "password_toggle")}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      onClick={() => setShowPassword((prev) => !prev)}
                     >
-                      <_Builtin.TabsMenu
-                        tag="div"
-                        ms-code-password="transform"
-                        id="transformButton"
-                      >
-                        <_Builtin.TabsLink
-                          className={_utils.cx(_styles, "show-password")}
-                          data-w-tab="Show"
-                          block="inline"
-                        >
-                          <_Builtin.HtmlEmbed
-                            className={_utils.cx(_styles, "eye-svg")}
-                            content=""
-                            value="%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20enable-background%3D%22new%200%200%2024%2024%22%20height%3D%2224px%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224px%22%20fill%3D%22currentColor%22%3E%0A%3Crect%20fill%3D%22none%22%20height%3D%2224%22%20width%3D%2224%22%2F%3E%0A%0A%3Cpath%20d%3D%22M0%200h24v24H0V0z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M12%204.5C7%204.5%202.73%207.61%201%2012c1.73%204.39%206%207.5%2011%207.5s9.27-3.11%2011-7.5c-1.73-4.39-6-7.5-11-7.5zM12%2017c-2.76%200-5-2.24-5-5s2.24-5%205-5%205%202.24%205%205-2.24%205-5%205zm0-8c-1.66%200-3%201.34-3%203s1.34%203%203%203%203-1.34%203-3-1.34-3-3-3z%22%2F%3E%3C%2Fsvg%3E"
+                      {showPassword ? (
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <path
+                            fill="currentColor"
+                            d="M12 6.5c2.76 0 5 2.24 5 5 0 .51-.1 1-.24 1.46l3.06 3.06c1.39-1.23 2.49-2.77 3.18-4.52C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l2.17 2.17c.47-.15.96-.24 1.47-.24zm-9.29-3.34a.996.996 0 0 0 0 1.41l1.97 1.97C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.97-.3 4.31-.82l2.72 2.72a.996.996 0 1 0 1.41-1.41L4.13 3.16a.996.996 0 0 0-1.42 0zM12 16.5c-2.76 0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57 1.57a2.94 2.94 0 0 0-.06.57c0 1.66 1.34 3 3 3 .2 0 .38-.03.57-.07L14.14 16c-.65.32-1.37.5-2.14.5z"
                           />
-                        </_Builtin.TabsLink>
-                        <_Builtin.TabsLink
-                          className={_utils.cx(_styles, "show-password")}
-                          data-w-tab="Hide"
-                          block="inline"
-                        >
-                          <_Builtin.HtmlEmbed
-                            className={_utils.cx(_styles, "eye-svg")}
-                            content=""
-                            value="%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20enable-background%3D%22new%200%200%2024%2024%22%20height%3D%2224px%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224px%22%20fill%3D%22currentColor%22%3E%0A%3Crect%20fill%3D%22none%22%20height%3D%2224%22%20width%3D%2224%22%2F%3E%0A%0A%3Cpath%20d%3D%22M12%206.5c2.76%200%205%202.24%205%205%200%20.51-.1%201-.24%201.46l3.06%203.06c1.39-1.23%202.49-2.77%203.18-4.53C21.27%207.11%2017%204%2012%204c-1.27%200-2.49.2-3.64.57l2.17%202.17c.47-.14.96-.24%201.47-.24zM2.71%203.16c-.39.39-.39%201.02%200%201.41l1.97%201.97C3.06%207.83%201.77%209.53%201%2011.5%202.73%2015.89%207%2019%2012%2019c1.52%200%202.97-.3%204.31-.82l2.72%202.72c.39.39%201.02.39%201.41%200%20.39-.39.39-1.02%200-1.41L4.13%203.16c-.39-.39-1.03-.39-1.42%200zM12%2016.5c-2.76%200-5-2.24-5-5%200-.77.18-1.5.49-2.14l1.57%201.57c-.03.18-.06.37-.06.57%200%201.66%201.34%203%203%203%20.2%200%20.38-.03.57-.07L14.14%2016c-.65.32-1.37.5-2.14.5zm2.97-5.33c-.15-1.4-1.25-2.49-2.64-2.64l2.64%202.64z%22%2F%3E%3C%2Fsvg%3E"
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <path
+                            fill="currentColor"
+                            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
                           />
-                        </_Builtin.TabsLink>
-                      </_Builtin.TabsMenu>
-                      <_Builtin.TabsContent
-                        className={_utils.cx(_styles, "hide")}
-                        tag="div"
-                      >
-                        <_Builtin.TabsPane tag="div" data-w-tab="Show" />
-                        <_Builtin.TabsPane tag="div" data-w-tab="Hide" />
-                      </_Builtin.TabsContent>
-                    </_Builtin.TabsWrapper>
+                        </svg>
+                      )}
+                    </button>
                   </_Builtin.Block>
+                  {errors.password ? (
+                    <_Builtin.Block className={_utils.cx(_styles, "field_error")} tag="div">
+                      {errors.password}
+                    </_Builtin.Block>
+                  ) : null}
                   <_Builtin.Block
                     className={_utils.cx(_styles, "login_link-wrap")}
                     tag="div"
@@ -253,24 +260,22 @@ export function LoginFormContent({
                   style={{ display: "none" }}
                   onClick={async (ev) => {
                     ev.preventDefault();
-                    const email = document.querySelector(
-                      "[data-ms-member=email"
-                    ).value;
-                    const password = document.querySelector(
-                      "[data-ms-member=password]"
-                    ).value;
-                    if (!email)
-                      return swal({
-                        title: "Error",
-                        text: "Email is required",
-                        icon: "error",
-                      });
-                    if (!password)
-                      return swal({
-                        title: "Error",
-                        text: "Password is required",
-                        icon: "error",
-                      });
+                    const emailInput = document.querySelector('[data-ms-member="email"]');
+                    const passwordInput = document.querySelector('[data-ms-member="password"]');
+                    const email = emailInput?.value?.trim() || "";
+                    const password = passwordInput?.value || "";
+
+                    const nextErrors = {};
+                    if (!email) nextErrors.email = "Email is required";
+                    else if (!validateEmail(email)) nextErrors.email = "Enter a valid email address";
+                    if (!password) nextErrors.password = "Password is required";
+
+                    if (Object.keys(nextErrors).length > 0) {
+                      setErrors(nextErrors);
+                      return;
+                    }
+
+                    setErrors({});
 
                     try {
                       const { authToken } = await request({
@@ -295,9 +300,16 @@ export function LoginFormContent({
                       window.location.href = "/dashboard";
                     } catch (e) {
                       const err = e;
+                      const message = err?.message || "Unable to sign in. Please try again.";
+                      if (message.toLowerCase().includes("email")) {
+                        setErrors({ email: message });
+                        emailInput?.focus();
+                      } else {
+                        setErrors({ form: message });
+                      }
                       return swal({
                         title: "Error",
-                        text: err?.message,
+                        text: message,
                         icon: "error",
                       });
                     }
@@ -312,6 +324,11 @@ export function LoginFormContent({
                 >
                   <div>Sign In</div>
                 </div>
+                {errors.form ? (
+                  <_Builtin.Block className={_utils.cx(_styles, "field_error", "form_error")} tag="div">
+                    {errors.form}
+                  </_Builtin.Block>
+                ) : null}
               </_Builtin.FormForm>
               <_Builtin.FormSuccessMessage>
                 <_Builtin.Block tag="div">

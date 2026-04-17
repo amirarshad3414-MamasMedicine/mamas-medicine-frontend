@@ -54,12 +54,12 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                   tag="div"
                 >
                   {
-                    "Soul Sighted helps parents understand their child’s inner world - so they can respond with more clarity, compassion, and trust."
+                    "Soul Sighted helps parents understand their child’s inner world so they can respond with clarity, compassion, and confidence."
                   }
                 </_Builtin.Block>
               </_Builtin.Block>
               <_Builtin.Link
-                className={_utils.cx(_styles, "bnt", "footer")}
+                className={_utils.cx(_styles, "bnt", "footer", "white-text")}
                 button={false}
                 block="inline"
                 options={{
@@ -71,7 +71,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                   className={_utils.cx(_styles, "bnt_text")}
                   tag="div"
                 >
-                  {"Let us know your thoughts"}
+                  {"Share your feedback"}
                 </_Builtin.Block>
               </_Builtin.Link>
             </_Builtin.Block>
@@ -94,7 +94,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "https://soul-sighted.com/contact",
+                  href: "/contact-us",
                 }}
               >
                 {"Contact Us"}
@@ -134,7 +134,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "https://soul-sighted.com/about",
+                  href: "/about-us",
                 }}
               >
                 {"About us"}
@@ -144,7 +144,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "https://app.storyprompt.com/wall/editor/93Ze0sfEW4pTwjAAWmHR",
+                  href: "/wall-of-love",
                 }}
               >
                 {"Wall of Love"}
@@ -154,7 +154,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "https://soul-sighted.com/faqs",
+                  href: "/faqs",
                 }}
               >
                 {"FAQ's"}

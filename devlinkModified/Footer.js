@@ -72,7 +72,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                   tag="div"
                 >
                   {
-                    "Mama’s Medicine helps mums reconnect with their own energy - and remember the calm, clarity, and wisdom that’s been within them all along."
+                    "Mama’s Medicine helps mums reconnect with their own energy and respond with more calm, clarity, and trust."
                   }
                 </_Builtin.Block>
               </_Builtin.Block>
@@ -81,7 +81,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block="inline"
                 options={{
-                  href: "https://soul-sighted.com/parent-child-relationship",
+                  href: "/get-personalized-insights",
                 }}
               >
                 <_Builtin.Block
@@ -112,7 +112,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "https://soul-sighted.com/contact",
+                  href: "/contact-us",
                 }}
               >
                 {"Contact Us"}
@@ -148,7 +148,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "/about",
+                  href: "/about-us",
                 }}
               >
                 {"About us"}
@@ -158,7 +158,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "#",
+                  href: "/wall-of-love",
                 }}
               >
                 {"Wall of Love"}
@@ -168,7 +168,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "https://soul-sighted.com/faqs",
+                  href: "/faqs",
                 }}
               >
                 {"FAQ's"}
@@ -194,7 +194,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "#https://www.facebook.com/MamasMedicine.co",
+                  href: "https://www.facebook.com/MamasMedicine.co",
                   target: "_blank",
                   preload: "none",
                 }}
@@ -206,7 +206,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "#https://www.youtube.com/@soulsighted",
+                  href: "https://www.youtube.com/@soulsighted",
                   target: "_blank",
                 }}
               >
@@ -217,7 +217,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "#https://www.instagram.com/mamasmedicine.co/",
+                  href: "https://www.instagram.com/mamasmedicine.co/",
                 }}
               >
                 {"Instagram"}

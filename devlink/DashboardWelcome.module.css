@@ -69,8 +69,8 @@
 }
 
 .padding-section-small {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.5rem;
 }
 
 @media screen and (max-width: 767px) {
@@ -156,7 +156,7 @@
 }
 
 .margin-custom3 {
-  margin: 3.5rem;
+  margin: 1rem;
 }
 
 .margin-bottom.margin-custom3.desc {
@@ -442,8 +442,8 @@
 }
 
 .paragraph.big {
-  font-size: 2.5rem;
-  line-height: 160%;
+  font-size: 2rem;
+  line-height: 1.3;
 }
 
 @media screen and (max-width: 479px) {
@@ -486,6 +486,40 @@
 
 .paragraph.big.text-color-primary {
   text-align: center;
+}
+
+.welcome_subline {
+  max-width: 44rem;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 600;
+  color: #4b3f37;
+}
+
+.welcome_summary {
+  width: min(100%, 52rem);
+  margin-top: 0.6rem;
+  padding: 1rem 1.1rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(51, 51, 51, 0.16);
+  background-color: rgba(255, 255, 255, 0.72);
+}
+
+.welcome_summary-title {
+  margin-bottom: 0.4rem;
+  font-family: Poppins;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #2b2521;
+}
+
+.welcome_summary-text {
+  margin: 0;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.45;
 }
 
 @media screen and (max-width: 479px) {

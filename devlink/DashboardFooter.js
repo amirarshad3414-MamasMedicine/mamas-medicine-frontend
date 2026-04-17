@@ -77,19 +77,18 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                 </_Builtin.Block>
               </_Builtin.Block>
               <_Builtin.Link
-                className={_utils.cx(_styles, "bnt", "footer")}
+                className={_utils.cx(_styles, "bnt", "footer", "white-text")}
                 button={false}
                 block="inline"
                 options={{
-                  href: "#https://storyprompt.com/reply/Lslk87m8djFPHZANnIV8",
-                  target: "_blank",
+                  href: "/get-personalized-insights",
                 }}
               >
                 <_Builtin.Block
                   className={_utils.cx(_styles, "bnt_text")}
                   tag="div"
                 >
-                  {"Let us know your thoughts"}
+                  {"Get Your Personalised Insights"}
                 </_Builtin.Block>
               </_Builtin.Link>
             </_Builtin.Block>
