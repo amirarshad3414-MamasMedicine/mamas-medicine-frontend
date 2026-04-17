@@ -61,21 +61,21 @@ export function DashboardJourneys({
   text2 = "Your Parenting Dynamic",
 
   link2 = {
-    href: "#",
+    href: "https://soul-sighted.com/your-emotions",
   },
 
   text3 = "EXPLORE",
   text4 = "Your Emotions",
 
   link3 = {
-    href: "#",
+    href: "https://soul-sighted.com/your-core",
   },
 
   text5 = "EXPLORE",
   text6 = "Your Core",
 
   link4 = {
-    href: "#",
+    href: "https://soul-sighted.com/ask-me-anything",
   },
 
   text7 = "EXPLORE",

@@ -298,7 +298,7 @@ export function OnboardingPersonal({
               <_Builtin.FormTextarea
                 className={_utils.cx(_styles, "personal_text-area")}
                 name="raw_parent_message"
-                maxLength="500"
+                maxLength="1800"
                 data-name="raw_parent_message"
                 placeholder="What it feels like to parent this child…"
                 required={false}
@@ -309,8 +309,7 @@ export function OnboardingPersonal({
                 className={_utils.cx(_styles, "_500ch_max", "text-align-right")}
                 tag="div"
               >
-                {/* {"300 words max."}  */}
-                {"500 words max."}
+                {"300 words max."}
               </_Builtin.Block>
             </_Builtin.Block>
             <_Builtin.FormButton

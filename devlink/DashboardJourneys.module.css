@@ -299,7 +299,7 @@
   right: 0%;
   bottom: 0%;
 
-  background-color: hsla(0, 0%, 100%, 0.3);
+  background-color: transparent;
 }
 
 @media screen and (max-width: 479px) {
@@ -310,7 +310,7 @@
     right: 0%;
     bottom: 0%;
 
-    background-color: hsla(0, 0%, 100%, 0.35);
+    background-color: transparent;
   }
 }
 
