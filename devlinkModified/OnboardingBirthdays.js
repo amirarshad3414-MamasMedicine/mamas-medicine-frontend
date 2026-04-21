@@ -6,6 +6,7 @@ import * as _utils from "../devlink/utils";
 import _styles from "../devlink/OnboardingBirthdays.module.css";
 import { useState, useEffect, useRef } from "react";
 import { request } from "./env";
+import { useFormDataFill } from "./useFormDataFill";
 import "../app/autocomplete.css";
 
 const _interactionsData = JSON.parse(
@@ -97,8 +98,10 @@ export function OnboardingBirthdays({
   link2 = {
     href: "#",
   },
+  formData = {},
 }) {
   _interactions.useInteractions(_interactionsData, _styles);
+  useFormDataFill(formData);
 
   return (
     <_Component
