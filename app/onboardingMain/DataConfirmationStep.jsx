@@ -23,7 +23,7 @@ const DataSection = ({ title, onEdit, children }) => (
     <div className="dc-section-header">
       <h3 className="dc-section-title">{title}</h3>
       <button type="button" className="dc-edit-btn" onClick={onEdit}>
-        Edit
+        Update
       </button>
     </div>
     <div className="dc-section-body">{children}</div>
@@ -40,13 +40,10 @@ export function DataConfirmationStep({
   return (
     <div className="dc-wrap">
       <div className="dc-card">
-        <h2 className="dc-title">
-          Please double check your details before continuing
-        </h2>
+        <h2 className="dc-title">Before we continue, let’s double-check…</h2>
         <p className="dc-supporting">
-          Small errors in birth time or location can affect your results. Take
-          a moment to confirm everything is correct, or update anything that
-          needs adjusting.
+          Small details help us create a more accurate reading. Take a moment to
+          make sure everything looks right.
         </p>
 
         <div className="dc-grid">
@@ -82,7 +79,7 @@ export function DataConfirmationStep({
             className="dc-continue-btn-new"
             onClick={onContinue}
           >
-            Continue to Context
+            Continue your journey
           </button>
         </div>
       </div>

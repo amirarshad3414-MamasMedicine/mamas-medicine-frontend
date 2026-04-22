@@ -81,7 +81,7 @@ export function DashboardJourneys({
   text7 = "EXPLORE",
   text8 = "Ask Me Anything!",
 }) {
-  console.log("child_id", item.child.id);
+  if (!item) return null;
   const [insightModal, setInsightModal] = useState(null);
 
   const handleCheckout = async () => {
@@ -100,7 +100,7 @@ export function DashboardJourneys({
           line_items: [
             {
               // price: "price_1TJpsTBpexBWLlCZSca5AXtq",
-              price:"price_1TJk4pBpexBWLlCZ4U9PiHMZ",
+              price: "price_1TJk4pBpexBWLlCZ4U9PiHMZ",
               quantity: 1,
             },
           ],
@@ -125,7 +125,7 @@ export function DashboardJourneys({
           onClose={() => setInsightModal(null)}
         />
       )}
-<_Component
+      <_Component
         className={_utils.cx(
           _styles,
           "padding-global-4",

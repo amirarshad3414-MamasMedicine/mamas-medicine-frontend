@@ -70,7 +70,6 @@ const App = () => {
           localStorage.removeItem("user");
           window.location.href = "/signin";
         } else {
-          console.error("Dashboard failed to load children:", err);
           setLoading(false);
         }
       }
