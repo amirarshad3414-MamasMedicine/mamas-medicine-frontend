@@ -44,8 +44,9 @@ export function DataConfirmationStep({
           Please double check your details before continuing
         </h2>
         <p className="dc-supporting">
-          Small errors in birth time or place can affect your results. Please
-          review and confirm these details before moving forward.
+          Small errors in birth time or location can affect your results. Take
+          a moment to confirm everything is correct, or update anything that
+          needs adjusting.
         </p>
 
         <div className="dc-grid">
