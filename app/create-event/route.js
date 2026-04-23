@@ -3,7 +3,10 @@ const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY || "pk_ab8d15bcfa308fb2790a4
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { email, event_name, parent_name, child_name, journey_type } = body;
+    const { email, event_name } = body;
+    const parent_name = body.parent_name || body.parentName;
+    const child_name = body.child_name || body.childName;
+    const journey_type = body.journey_type || body.journeyType;
 
     console.log("[create-event] Received:", { email, event_name, parent_name, child_name });
 

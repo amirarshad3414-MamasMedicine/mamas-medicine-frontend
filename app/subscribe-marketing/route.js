@@ -4,7 +4,10 @@ const MARKETING_LIST_ID = "XPSdCW";
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { email, parent_name, child_name } = body;
+    const { email } = body;
+    const parent_name = body.parent_name || body.parentName;
+    const child_name = body.child_name || body.childName;
+    const journey_type = body.journey_type || body.journeyType;
 
     console.log("[subscribe-marketing] Received:", { email, parent_name, child_name });
 
@@ -33,7 +36,7 @@ export async function POST(req) {
                     properties: {
                       parent_name,
                       child_name,
-                      Journey_type: "parenting_dynamic",
+                      Journey_type: journey_type || "parenting_dynamic",
                     },
                   },
                 },

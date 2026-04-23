@@ -91,15 +91,15 @@ function buildSummaryEmailHTML(insight) {
 
   const summaryItems = summaryContent
     ? summaryContent
-        .split("\n")
-        .map((line) =>
-          line
-            .replace(/^[-•]\s*/, "")
-            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-            .replace(/\*(.*?)\*/g, "<em>$1</em>")
-            .trim()
-        )
-        .filter(Boolean)
+      .split("\n")
+      .map((line) =>
+        line
+          .replace(/^[-•]\s*/, "")
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+          .replace(/\*(.*?)\*/g, "<em>$1</em>")
+          .trim()
+      )
+      .filter(Boolean)
     : [];
 
   const summaryHTML = summaryItems.length > 0
@@ -176,7 +176,10 @@ export async function POST(req) {
     });
 
     // Klaviyo sends: { email, deep_text, summary_text, child_name, parent_name, deep }
-    const { email, deep_text, summary_text, child_name, parent_name, deep } = body;
+    const { email, deep_text, summary_text, deep } = body;
+    const parent_name = body.parent_name || body.parentName;
+    const child_name = body.child_name || body.childName;
+    const journey_type = body.journey_type || body.journeyType;
 
     // Klaviyo preview sends literal "{{ person.email }}" — skip silently
     if (!email || !email.includes("@")) {
@@ -245,7 +248,7 @@ export async function POST(req) {
                   properties: {
                     parent_name,
                     child_name,
-                    Journey_type: "parenting_dynamic",
+                    Journey_type: journey_type || "parenting_dynamic",
                   },
                 },
               },

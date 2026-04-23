@@ -14,7 +14,7 @@ function cleanAndEscape(str = "") {
 
 const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY || "pk_ab8d15bcfa308fb2790a4ea13c34b277e2";
 
-async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
+async function triggerKlaviyoFlow({ email, childName, parentName, insight, journey_type }) {
   const headers = {
     Authorization: `Klaviyo-API-Key ${KLAVIYO_API_KEY}`,
     "Content-Type": "application/json",
@@ -39,7 +39,7 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
                 properties: {
                   parent_name: parentName,
                   child_name: childName,
-                  Journey_type: "parenting_dynamic",
+                  Journey_type: journey_type || "parenting_dynamic",
                 },
               },
             },
@@ -71,7 +71,11 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
 
 export async function POST(req) {
   try {
-    const { email, insight, childName, parentName } = await req.json();
+    const body = await req.json();
+    const { email, insight } = body;
+    const childName = body.childName || body.child_name;
+    const parentName = body.parentName || body.parent_name;
+    const journey_type = body.journey_type || body.journeyType;
 
     if (!email) {
       return Response.json(
@@ -80,7 +84,7 @@ export async function POST(req) {
       );
     }
 
-    await triggerKlaviyoFlow({ email, childName, parentName, insight });
+    await triggerKlaviyoFlow({ email, childName, parentName, insight, journey_type });
 
     return Response.json({ success: true });
   } catch (error) {
