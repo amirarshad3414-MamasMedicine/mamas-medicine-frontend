@@ -152,7 +152,6 @@
   margin-left: auto;
   align-items: stretch;
   box-shadow: 0 18px 42px rgba(11, 23, 48, 0.1);
-
   border-style: none;
   border-width: 1px;
   border-color: rgba(0, 0, 0, 0.1);
@@ -188,9 +187,7 @@
   justify-content: center;
   flex-wrap: nowrap;
   align-items: center;
-
   border-radius: 2rem;
-
   background: linear-gradient(165deg, #e5eaff 0%, #d8e1ff 100%);
 }
 
@@ -562,38 +559,74 @@
   max-width: 32rem;
 }
 
+/* ============================================
+   SIGN UP BUTTON (Left Panel) - MORE PROMINENT
+   ============================================ */
 .signup_link {
-  color: #333;
   text-decoration: none;
+  display: inline-block;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 280px;
 }
 
-.sign_bnt {
-  padding: 2rem 2.5rem;
-  border: 1.4px solid black;
-  border-radius: 2rem;
+.signup_link .sign_bnt {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-@media screen and (max-width: 479px) {
-  .sign_bnt {
-    padding: 0.5rem 1.5rem;
-    border-radius: 0.8rem;
-  }
-}
-
-.sign_bnt-text {
-  font-family: Quicksand;
-  font-size: 2rem;
-  line-height: 100%;
+.signup_link .sign_bnt-text {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 4.25rem;
+  padding: 0.9rem 1rem;
+  background-color: #fcbd97;
+  color: #111827;
+  font-family: Poppins, system-ui, sans-serif;
+  font-size: 1.6rem;
   font-weight: 600;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.8rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+    transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 18px rgba(252, 189, 151, 0.35);
 }
 
-@media screen and (max-width: 479px) {
-  .sign_bnt-text {
-    font-family: Quicksand;
-    font-size: 1.2rem;
-  }
+.signup_link .sign_bnt-text:hover {
+  border-color: #111827;
+  background-color: #ffffff;
+  color: #111827;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.14);
 }
 
+.signup_link .sign_bnt-text:active {
+  transform: translateY(0);
+}
+
+.signup_link .sign_bnt-text:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  border-color: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+.sign_bnt-text:hover {
+  background-color: #dadada;
+}
+
+/* ============================================
+   LOGIN CONTENT (Right Panel)
+   ============================================ */
 .login_content {
   display: flex;
   width: 100%;
@@ -605,10 +638,8 @@
   align-items: stretch;
   grid-column-gap: 24px;
   grid-row-gap: 24px;
-
   border-radius: 2rem;
   box-shadow: inset 0 0 0 1px rgba(11, 23, 48, 0.06);
-
   background-color: hsla(0, 0%, 100%, 1);
 }
 
@@ -727,7 +758,6 @@
   align-items: stretch;
   grid-column-gap: 16px;
   grid-row-gap: 16px;
-
   filter: drop-shadow(0px 1px 4px hsla(0, 0%, 0%, 0.08));
 }
 
@@ -766,12 +796,10 @@
   height: 5rem;
   margin-bottom: 0px;
   padding: 1rem 2rem 1rem 1.25rem;
-
   border-style: solid;
   border-width: 1px;
   border-color: rgba(11, 23, 48, 0.2);
   border-radius: 0.8rem;
-
   font-family: Quicksand;
   color: #111827;
   font-size: 1.5rem;
@@ -863,12 +891,9 @@
 
 .show-password {
   bottom: 0px;
-
   display: flex;
   padding: 0px;
-
   background-color: hsla(0, 0%, 0%, 0);
-
   color: hsla(224.85714285714286, 0%, 100%, 1);
   font-size: 13.5px;
 }
@@ -884,9 +909,7 @@
   margin-right: 0px;
   justify-content: center;
   align-items: center;
-
   filter: invert(50%);
-
   color: rgba(11, 23, 48, 0.4);
 }
 
@@ -924,33 +947,62 @@
   }
 }
 
-.login_button {
-  height: 5rem;
-  padding-top: 0px;
-  padding-bottom: 0px;
-
-  border: 1px solid transparent;
-  border-radius: 0.8rem;
-
-  background-color: var(--coral);
-
-  font-family: Poppins;
-  color: #333;
-  font-size: 2.5rem;
-  line-height: 1.575rem;
-  font-weight: 400;
+/* ============================================
+   SIGN IN BUTTON (Right Panel)
+   ============================================ */
+.form-button {
+  background-color: #8B5A3C;
+  border: none;
+  border-radius: 50px;
+  padding: 1rem 2rem;
+  transition: all 0.25s ease;
+  cursor: pointer;
   text-align: center;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(139, 90, 60, 0.2);
 }
 
-.login_button:hover {
-  border-color: rgba(11, 23, 48, 0.8);
-  background-color: transparent;
-  color: rgba(11, 23, 48, 0.8);
+.form-button:hover {
+  background-color: #6d452e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 90, 60, 0.3);
 }
 
+.form-button div {
+  font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
 @media screen and (max-width: 479px) {
-  .login_button {
-    height: 4rem;
-    font-size: 1.8rem;
+  .signup_link {
+    max-width: 100%;
+    margin-top: 1.5rem;
   }
+  
+  .sign_bnt {
+    padding: 0.9rem 1.5rem;
+  }
+  
+  .sign_bnt-text {
+    font-size: 1rem;
+  }
+  
+  .form-button {
+    padding: 0.7rem 1.5rem;
+  }
+  
+  .form-button div {
+    font-size: 0.9rem;
+  }
+}
+
+/* Remove old conflicting styles */
+.login_button {
+  display: none;
 }

@@ -11,10 +11,9 @@ export default function ContactUsPage() {
       <main className="footer-page-shell">
         <section className="footer-section footer-grid-2">
           <div>
-            <span className="footer-eyebrow">Contact Us</span>
-            <h1 className="footer-title">Need support? We are here.</h1>
+            <h3 className="footer-title">Need support? We are here.</h3>
             <p className="footer-subtitle">
-              Send us a quick message and we will help you with onboarding, insights, or your account.
+              Reach out anytime support is just a message away.
             </p>
             <div className="footer-actions">
               <a className="footer-button-primary" href="mailto:hello@soul-sighted.com">Contact us</a>

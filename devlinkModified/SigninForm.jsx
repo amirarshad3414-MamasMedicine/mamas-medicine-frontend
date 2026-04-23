@@ -9,22 +9,15 @@ import swal from "sweetalert";
 export function LoginFormContent({
   as: _Component = _Builtin.Block,
   text1 = "New Here?",
-  text2 = "Sign up for personalised parenting insights...",
-
+  text2 = "Join us for personalized parenting insights and guidance",
   link = {
     href: "/signup",
   },
-
   text3 = "Sign Up",
   image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/69677bed6a46cda22d043cac_sign-img-removebg1.png",
-  text4 = "Welcome Back",
-  text5 = "to",
-  text6 = (
-    <>
-      {"Your Parenting Insights"}
-      <br />
-    </>
-  ),
+  text4 = "Welcome Back to Your Parenting Insights",
+  text5 = "",
+  text6 = "",
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
@@ -69,7 +62,7 @@ export function LoginFormContent({
             </_Builtin.Block>
             <_Builtin.Block
               className={_utils.cx(_styles, "margin-bottom", "margin-huge")}
-              style={{ marginTop: 0 }}
+              style={{ marginTop: 0, marginBottom: "2rem" }}
               tag="div"
             >
               <_Builtin.Block
@@ -89,10 +82,12 @@ export function LoginFormContent({
               button={false}
               block="inline"
               options={link}
+              style={{ display: "flex", justifyContent: "center" }}
             >
               <_Builtin.Block
                 className={_utils.cx(_styles, "sign_bnt")}
                 tag="div"
+                style={{ borderRadius: "8px" }}
               >
                 <_Builtin.Block
                   className={_utils.cx(_styles, "sign_bnt-text")}
@@ -112,31 +107,46 @@ export function LoginFormContent({
               width="auto"
               height="auto"
               loading="lazy"
-              alt=""
+              alt="Soul Sighted Logo"
               src={image}
+              style={{ margin: "0 auto" }}
             />
             <_Builtin.Block
               className={_utils.cx(_styles, "sign_heading-wrapper", "login")}
               tag="div"
+              style={{ gap: "0", marginBottom: "2rem" }}
             >
               <_Builtin.Block
                 className={_utils.cx(_styles, "sign_heading")}
                 tag="div"
+                style={{ 
+                  fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
+                  fontWeight: "700",
+                  lineHeight: "1.3",
+                  textAlign: "center",
+                  color: "#2c1810"
+                }}
               >
                 {text4}
               </_Builtin.Block>
-              <_Builtin.Block
-                className={_utils.cx(_styles, "toyour_text")}
-                tag="div"
-              >
-                {text5}
-              </_Builtin.Block>
-              <_Builtin.Block
-                className={_utils.cx(_styles, "sign_name", "text-align-center")}
-                tag="div"
-              >
-                {text6}
-              </_Builtin.Block>
+              {text5 && (
+                <_Builtin.Block
+                  className={_utils.cx(_styles, "toyour_text")}
+                  tag="div"
+                  style={{ display: "none" }}
+                >
+                  {text5}
+                </_Builtin.Block>
+              )}
+              {text6 && (
+                <_Builtin.Block
+                  className={_utils.cx(_styles, "sign_name", "text-align-center")}
+                  tag="div"
+                  style={{ display: "none" }}
+                >
+                  {text6}
+                </_Builtin.Block>
+              )}
             </_Builtin.Block>
             <_Builtin.FormWrapper
               className={_utils.cx(_styles, "login_form-block")}

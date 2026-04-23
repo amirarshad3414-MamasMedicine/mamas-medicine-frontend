@@ -11,11 +11,9 @@ export function SignupForm({
   email = "",
   text1 = "Welcome",
   text2 = "Here you'll find all your personalised parenting insights in one place.",
-
   link = {
     href: "/signin",
   },
-
   text3 = "Sign In",
   image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/69677bed6a46cda22d043cac_sign-img-removebg1.png",
   text4 = "Create Account",
@@ -203,6 +201,7 @@ export function SignupForm({
               <_Builtin.Block
                 className={_utils.cx(_styles, "sign_heading")}
                 tag="div"
+                style={{ fontWeight: "bold" }}
               >
                 {text1}
               </_Builtin.Block>
@@ -218,6 +217,7 @@ export function SignupForm({
                   "text-align-center"
                 )}
                 tag="div"
+                style={{ fontWeight: "600" }}
               >
                 {text2}
               </_Builtin.Block>
@@ -227,14 +227,52 @@ export function SignupForm({
               button={false}
               block="inline"
               options={link}
+              style={{ 
+                display: "flex", 
+                justifyContent: "center", 
+                outline: "none", 
+                textDecoration: "none",
+                border: "none"
+              }}
             >
               <_Builtin.Block
                 className={_utils.cx(_styles, "sign_bnt")}
                 tag="div"
+                style={{ 
+                  borderRadius: "8px",
+                  backgroundColor: "#FCBD97",
+                  padding: "1.2rem 2.5rem",
+                  transition: "all 0.25s ease",
+                  cursor: "pointer",
+                  textAlign: "center",
+                  boxShadow: "0 4px 12px rgba(252, 189, 151, 0.25)",
+                  outline: "none",
+                  border: "none"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "#ffffff";
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.1)";
+                  e.currentTarget.style.outline = "2px solid black";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "#FCBD97";
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(252, 189, 151, 0.25)";
+                  e.currentTarget.style.outline = "none";
+                }}
               >
                 <_Builtin.Block
                   className={_utils.cx(_styles, "sign_bnt-text")}
                   tag="div"
+                  style={{
+                    fontFamily: "'Quicksand', system-ui, sans-serif",
+                    fontSize: "1.2rem",
+                    fontWeight: "800",
+                    color: "#000000",
+                    letterSpacing: "0.5px",
+                    textTransform: "uppercase"
+                  }}
                 >
                   {text3}
                 </_Builtin.Block>
@@ -250,12 +288,19 @@ export function SignupForm({
               width="auto"
               height="auto"
               loading="lazy"
-              alt=""
+              alt="Soul Sighted Logo"
               src={image}
+              style={{ margin: "0 auto", display: "block" }}
             />
             <_Builtin.Block
               className={_utils.cx(_styles, "sign_heading")}
               tag="div"
+              style={{ 
+                fontWeight: "bold",
+                textAlign: "center",
+                fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
+                marginBottom: "2rem"
+              }}
             >
               {text4}
             </_Builtin.Block>
@@ -266,7 +311,7 @@ export function SignupForm({
                 className={_utils.cx(_styles, "signup_form")}
                 name="email-form"
                 data-name="Email Form"
-                method="get"
+                method="post"
                 data-ms-form="signup"
                 id="email-form"
                 onSubmit={handleSubmit}
@@ -278,6 +323,7 @@ export function SignupForm({
                   <_Builtin.FormBlockLabel
                     className={_utils.cx(_styles, "signup_field-label")}
                     htmlFor="Email"
+                    style={{ fontWeight: "600" }}
                   >
                     {"Email"}
                   </_Builtin.FormBlockLabel>
@@ -310,6 +356,7 @@ export function SignupForm({
                   <_Builtin.FormBlockLabel
                     className={_utils.cx(_styles, "signup_field-label")}
                     htmlFor="full-name"
+                    style={{ fontWeight: "600" }}
                   >
                     {"Your Name"}
                   </_Builtin.FormBlockLabel>
@@ -346,12 +393,14 @@ export function SignupForm({
                     <_Builtin.FormBlockLabel
                       className={_utils.cx(_styles, "signup_field-label")}
                       htmlFor="signup-password"
+                      style={{ fontWeight: "600" }}
                     >
                       {"Password"}
                     </_Builtin.FormBlockLabel>
                     <_Builtin.Block
                       className={_utils.cx(_styles, "password_input_wrap")}
                       tag="div"
+                      style={{ position: "relative" }}
                     >
                       <_Builtin.FormTextInput
                         className={_utils.cx(_styles, "signup_input")}
@@ -364,9 +413,6 @@ export function SignupForm({
                         required={true}
                         autoFocus={false}
                         data-ms-member="password"
-                        data-show-1="true"
-                      //   pattern="(?=.*[0-9](?=.*[a-z])(?=.*[A-Z]).{8,}"
-                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                         autoComplete="new-password"
                         id="signup-password"
                         value={formValues.password}
@@ -378,16 +424,28 @@ export function SignupForm({
                         className={_utils.cx(_styles, "password_toggle")}
                         aria-label={showPassword ? "Hide password" : "Show password"}
                         onClick={() => setShowPassword((prev) => !prev)}
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          right: "12px",
+                          transform: "translateY(-50%)",
+                          background: "transparent",
+                          border: "none",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
                       >
                         {showPassword ? (
-                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style={{ width: "20px", height: "20px" }}>
                             <path
                               fill="currentColor"
                               d="M12 6.5c2.76 0 5 2.24 5 5 0 .51-.1 1-.24 1.46l3.06 3.06c1.39-1.23 2.49-2.77 3.18-4.52C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l2.17 2.17c.47-.15.96-.24 1.47-.24zm-9.29-3.34a.996.996 0 0 0 0 1.41l1.97 1.97C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.97-.3 4.31-.82l2.72 2.72a.996.996 0 1 0 1.41-1.41L4.13 3.16a.996.996 0 0 0-1.42 0zM12 16.5c-2.76 0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57 1.57a2.94 2.94 0 0 0-.06.57c0 1.66 1.34 3 3 3 .2 0 .38-.03.57-.07L14.14 16c-.65.32-1.37.5-2.14.5z"
                             />
                           </svg>
                         ) : (
-                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style={{ width: "20px", height: "20px" }}>
                             <path
                               fill="currentColor"
                               d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
@@ -413,12 +471,14 @@ export function SignupForm({
                     <_Builtin.FormBlockLabel
                       className={_utils.cx(_styles, "signup_field-label")}
                       htmlFor="signup-confirm-password"
+                      style={{ fontWeight: "600" }}
                     >
                       {"Confirm password"}
                     </_Builtin.FormBlockLabel>
                     <_Builtin.Block
                       className={_utils.cx(_styles, "password_input_wrap")}
                       tag="div"
+                      style={{ position: "relative" }}
                     >
                       <_Builtin.FormTextInput
                         className={_utils.cx(_styles, "signup_input")}
@@ -430,7 +490,6 @@ export function SignupForm({
                         type={showConfirmPassword ? "text" : "password"}
                         required={true}
                         autoFocus={false}
-                        data-show-2="true"
                         data-ms-member="confirm-password"
                         ms-code-password="confirm"
                         id="signup-confirm-password"
@@ -443,16 +502,28 @@ export function SignupForm({
                         className={_utils.cx(_styles, "password_toggle")}
                         aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
                         onClick={() => setShowConfirmPassword((prev) => !prev)}
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          right: "12px",
+                          transform: "translateY(-50%)",
+                          background: "transparent",
+                          border: "none",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
                       >
                         {showConfirmPassword ? (
-                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style={{ width: "20px", height: "20px" }}>
                             <path
                               fill="currentColor"
                               d="M12 6.5c2.76 0 5 2.24 5 5 0 .51-.1 1-.24 1.46l3.06 3.06c1.39-1.23 2.49-2.77 3.18-4.52C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l2.17 2.17c.47-.15.96-.24 1.47-.24zm-9.29-3.34a.996.996 0 0 0 0 1.41l1.97 1.97C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.97-.3 4.31-.82l2.72 2.72a.996.996 0 1 0 1.41-1.41L4.13 3.16a.996.996 0 0 0-1.42 0zM12 16.5c-2.76 0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57 1.57a2.94 2.94 0 0 0-.06.57c0 1.66 1.34 3 3 3 .2 0 .38-.03.57-.07L14.14 16c-.65.32-1.37.5-2.14.5z"
                             />
                           </svg>
                         ) : (
-                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style={{ width: "20px", height: "20px" }}>
                             <path
                               fill="currentColor"
                               d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
@@ -468,21 +539,80 @@ export function SignupForm({
                     ) : null}
                   </_Builtin.Block>
                 </_Builtin.Block>
-                <button
-                  type="button"
-                  className={`form-button ${(!isFormValid || isSubmitting) ? "is-disabled" : ""}`}
-                  disabled={!isFormValid || isSubmitting}
-                  onClick={handleSubmit}
+                
+                {/* SIGN UP BUTTON - MATCHES CONFIRM PASSWORD FIELD SIZE */}
+                <_Builtin.Block
+                  className={_utils.cx(_styles, "form-button-wrapper")}
+                  tag="div"
+                  style={{ 
+                    display: "flex", 
+                    justifyContent: "center", 
+                    marginTop: "1rem",
+                    width: "100%"
+                  }}
                 >
-                  {isSubmitting ? (
-                    <span className="form-button-content">
-                      <span className="button-loader" aria-hidden="true" />
-                      Creating account...
-                    </span>
-                  ) : (
-                    <span className="form-button-content">Sign Up</span>
-                  )}
-                </button>
+                  <button
+                    type="submit"
+                    className="form-button"
+                    disabled={!isFormValid || isSubmitting}
+                    style={{
+                      backgroundColor: "#FCBD97",
+                      border: "none",
+                      borderRadius: "8px",
+                      padding: "0.75rem 1rem",
+                      transition: "all 0.25s ease",
+                      cursor: (!isFormValid || isSubmitting) ? "not-allowed" : "pointer",
+                      textAlign: "center",
+                      width: "100%",
+                      maxWidth: "none",
+                      boxShadow: "0 4px 12px rgba(252, 189, 151, 0.25)",
+                      opacity: (!isFormValid || isSubmitting) ? 0.6 : 1,
+                      display: "block",
+                      outline: "none"
+                    }}
+                    onMouseEnter={(e) => {
+                      if (isFormValid && !isSubmitting) {
+                        e.currentTarget.style.backgroundColor = "#ffffff";
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.1)";
+                        e.currentTarget.style.outline = "2px solid black";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (isFormValid && !isSubmitting) {
+                        e.currentTarget.style.backgroundColor = "#FCBD97";
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow = "0 4px 12px rgba(252, 189, 151, 0.25)";
+                        e.currentTarget.style.outline = "none";
+                      }
+                    }}
+                  >
+                    {isSubmitting ? (
+                      <span style={{
+                        fontFamily: "'Quicksand', system-ui, sans-serif",
+                        fontSize: "1.2rem",
+                        fontWeight: "800",
+                        color: "#000000",
+                        letterSpacing: "0.5px",
+                        textTransform: "uppercase"
+                      }}>
+                        Creating account...
+                      </span>
+                    ) : (
+                      <span style={{
+                        fontFamily: "'Quicksand', system-ui, sans-serif",
+                        fontSize: "1.2rem",
+                        fontWeight: "800",
+                        color: "#000000",
+                        letterSpacing: "0.5px",
+                        textTransform: "uppercase"
+                      }}>
+                        Sign Up
+                      </span>
+                    )}
+                  </button>
+                </_Builtin.Block>
+                
                 {formFeedback ? (
                   <_Builtin.Block
                     className={_utils.cx(
@@ -491,6 +621,7 @@ export function SignupForm({
                       "form_error"
                     )}
                     tag="div"
+                    style={{ textAlign: "center", marginTop: "1rem" }}
                   >
                     {formFeedback.message}
                   </_Builtin.Block>
