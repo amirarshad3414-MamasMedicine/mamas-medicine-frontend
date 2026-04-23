@@ -41,6 +41,8 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight, journ
                   parent_name: parentName,
                   child_name: childName,
                   Journey_type: journey_type || "parenting_dynamic",
+                  marketing_opt_in: "soft",
+                  signup_source: "purchase",
                 },
               },
             },

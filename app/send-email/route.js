@@ -250,6 +250,8 @@ export async function POST(req) {
                     parent_name,
                     child_name,
                     Journey_type: journey_type || "parenting_dynamic",
+                    marketing_opt_in: "soft",
+                    signup_source: "purchase",
                   },
                 },
               },
