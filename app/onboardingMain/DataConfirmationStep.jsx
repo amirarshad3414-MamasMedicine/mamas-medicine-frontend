@@ -42,8 +42,7 @@ export function DataConfirmationStep({
       <div className="dc-card">
         <h2 className="dc-title">Before we continue, let’s double-check…</h2>
         <p className="dc-supporting">
-          Small details help us create a more accurate reading. Take a moment to
-          make sure everything looks right.
+          Details matter. Take a moment to make sure everything looks right.
         </p>
 
         <div className="dc-grid">
