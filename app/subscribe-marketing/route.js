@@ -4,9 +4,9 @@ const MARKETING_LIST_ID = "XPSdCW";
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { email } = body;
+    const { email, parent_name, child_name } = body;
 
-    console.log("[subscribe-marketing] Received:", { email });
+    console.log("[subscribe-marketing] Received:", { email, parent_name, child_name });
 
     if (!email || !email.includes("@")) {
       return Response.json({ success: false, error: "Valid email is required" }, { status: 400 });
@@ -30,6 +30,11 @@ export async function POST(req) {
                   type: "profile",
                   attributes: {
                     email,
+                    properties: {
+                      parent_name,
+                      child_name,
+                      Journey_type: "parenting_dynamic",
+                    },
                   },
                 },
               ],

@@ -36,7 +36,11 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight }) {
               type: "profile",
               attributes: {
                 email,
-                first_name: parentName,
+                properties: {
+                  parent_name: parentName,
+                  child_name: childName,
+                  Journey_type: "parenting_dynamic",
+                },
               },
             },
           },

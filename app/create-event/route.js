@@ -3,9 +3,9 @@ const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY || "pk_ab8d15bcfa308fb2790a4
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { email, event_name } = body;
+    const { email, event_name, parent_name, child_name, journey_type } = body;
 
-    console.log("[create-event] Received:", { email, event_name });
+    console.log("[create-event] Received:", { email, event_name, parent_name, child_name });
 
     if (!email || !email.includes("@")) {
       console.log("[create-event] Skipping — preview mode, email:", email);
@@ -28,7 +28,19 @@ export async function POST(req) {
           type: "event",
           attributes: {
             metric: { data: { type: "metric", attributes: { name: event_name } } },
-            profile: { data: { type: "profile", attributes: { email } } },
+            profile: {
+              data: {
+                type: "profile",
+                attributes: {
+                  email,
+                  properties: {
+                    parent_name,
+                    child_name,
+                    Journey_type: journey_type || "parenting_dynamic",
+                  },
+                },
+              },
+            },
             properties: {},
             value: 1,
           },

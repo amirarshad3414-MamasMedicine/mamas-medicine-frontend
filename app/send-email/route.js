@@ -237,7 +237,19 @@ export async function POST(req) {
           type: "event",
           attributes: {
             metric: { data: { type: "metric", attributes: { name: eventName } } },
-            profile: { data: { type: "profile", attributes: { email } } },
+            profile: {
+              data: {
+                type: "profile",
+                attributes: {
+                  email,
+                  properties: {
+                    parent_name,
+                    child_name,
+                    Journey_type: "parenting_dynamic",
+                  },
+                },
+              },
+            },
             properties: {},
             value: 1,
           },
