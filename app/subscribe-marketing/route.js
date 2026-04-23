@@ -34,7 +34,7 @@ export async function POST(req) {
                   attributes: {
                     email,
                     properties: {
-                      email,
+                      Email: email,
                       parent_name,
                       child_name,
                       Journey_type: journey_type || "parenting_dynamic",
