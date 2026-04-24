@@ -42,6 +42,7 @@ export function LoginFormContent({
           >
             <_Builtin.Block
               className={_utils.cx(_styles, "margin-bottom", "margin-huge")}
+              style={{ margin: "0 0 1rem 0" }}
               tag="div"
             >
               <_Builtin.Block
@@ -54,6 +55,7 @@ export function LoginFormContent({
             </_Builtin.Block>
             <_Builtin.Block
               className={_utils.cx(_styles, "margin-bottom", "margin-huge")}
+              style={{ marginTop: 0 }}
               tag="div"
             >
               <_Builtin.Block

@@ -115,7 +115,7 @@ const App = () => {
     try {
       const token = localStorage.getItem("authToken");
       const mapped = mapToOnboardingPayload(results);
-      let child_id = window.location.href.split("?child_id=")[1];
+      let child_id = new URLSearchParams(window.location.search).get("child_id");
 
       if (!child_id) {
         const data = await request({
@@ -188,6 +188,7 @@ const App = () => {
     sendInsightAndEmail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, results]);
+
   // f()
     // sendInsightAndEmail();
 

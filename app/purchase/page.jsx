@@ -64,9 +64,8 @@ const App = () => {
           authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
         body: {
-          success_url: "https://mamas-medicine-frontend.vercel.app/signup",
-          cancel_url:
-            "https://mamas-medicine-frontend.vercel.app?payment_failed",
+          success_url: `${window.location.origin}/signup`,
+          cancel_url: `${window.location.origin}?payment_failed`,
           line_items: [
             {
               price: "price_1TJpsTBpexBWLlCZSca5AXtq",

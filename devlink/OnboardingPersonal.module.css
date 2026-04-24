@@ -363,21 +363,17 @@
 
 .first_part {
   margin-bottom: 2rem;
-  background-image: linear-gradient(
-    180deg,
-    hsla(0, 0%, 100%, 1) 42%,
-    hsla(22.574257425742577, 94.39%, 79.02%, 0.05)
-  );
+  background-image: linear-gradient(180deg,
+      hsla(0, 0%, 100%, 1) 42%,
+      hsla(22.574257425742577, 94.39%, 79.02%, 0.05));
 }
 
 @media screen and (max-width: 479px) {
   .first_part {
     margin-bottom: 1rem;
-    background-image: linear-gradient(
-      180deg,
-      hsla(0, 0%, 100%, 1) 61%,
-      hsla(22.574257425742577, 94.39%, 79.02%, 0.05)
-    );
+    background-image: linear-gradient(180deg,
+        hsla(0, 0%, 100%, 1) 61%,
+        hsla(22.574257425742577, 94.39%, 79.02%, 0.05));
   }
 }
 
@@ -592,14 +588,15 @@
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary {
     margin-left: 0rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
 }
 
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary.personal {
     margin-left: 1rem;
-    font-size: 1.5rem;
+    font-size: 2rem !important;
+    line-height: 1.2;
     text-align: left;
   }
 }
@@ -714,21 +711,17 @@
 
 .second_part {
   margin-bottom: 2rem;
-  background-image: linear-gradient(
-    180deg,
-    hsla(22.574257425742577, 94.39%, 79.02%, 0.6),
-    hsla(229.65517241379308, 100%, 94.31%, 0.6)
-  );
+  background-image: linear-gradient(180deg,
+      hsla(22.574257425742577, 94.39%, 79.02%, 0.6),
+      hsla(229.65517241379308, 100%, 94.31%, 0.6));
 }
 
 @media screen and (max-width: 479px) {
   .second_part {
     margin-bottom: 1rem;
-    background-image: linear-gradient(
-      180deg,
-      hsla(22.574257425742577, 94.39%, 79.02%, 0.6),
-      hsla(229.65517241379308, 100%, 94.31%, 0.6)
-    );
+    background-image: linear-gradient(180deg,
+        hsla(22.574257425742577, 94.39%, 79.02%, 0.6),
+        hsla(229.65517241379308, 100%, 94.31%, 0.6));
   }
 }
 
@@ -811,11 +804,9 @@
 }
 
 .third_part {
-  background-image: linear-gradient(
-    180deg,
-    hsla(229.65517241379308, 100%, 94.31%, 0.6),
-    #f6f4f2 77%
-  );
+  background-image: linear-gradient(180deg,
+      hsla(229.65517241379308, 100%, 94.31%, 0.6),
+      #f6f4f2 77%);
 }
 
 .personal_form-wrapper {

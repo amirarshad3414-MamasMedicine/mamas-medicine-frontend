@@ -61,27 +61,61 @@ export function DashboardJourneys({
   text2 = "Your Parenting Dynamic",
 
   link2 = {
-    href: "#",
+    href: "https://soul-sighted.com/your-emotions",
   },
 
   text3 = "EXPLORE",
-  text4 = "Your Emotional Flavor",
+  text4 = "Your Emotions",
 
   link3 = {
-    href: "#",
+    href: "https://soul-sighted.com/your-core",
   },
 
   text5 = "EXPLORE",
-  text6 = "Your Core Ingredients",
+  text6 = "Your Core",
 
   link4 = {
-    href: "#",
+    href: "https://soul-sighted.com/ask-me-anything",
   },
 
   text7 = "EXPLORE",
   text8 = "Ask Me Anything!",
 }) {
+  console.log("child_id", item.child.id);
   const [insightModal, setInsightModal] = useState(null);
+
+  const handleCheckout = async () => {
+    setLoading(true);
+    try {
+      const { url } = await request({
+        method: "POST",
+        endpoint: "create_checkout_session",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: {
+          client_reference_id: `${item.child?.id}`,
+          success_url: `${window.location.origin}/onboardingMain?child_id=${item.child?.id}`,
+          cancel_url: `${window.location.origin}?payment_failed`,
+          line_items: [
+            {
+              // price: "price_1TJpsTBpexBWLlCZSca5AXtq",
+              price:"price_1TJk4pBpexBWLlCZ4U9PiHMZ",
+              quantity: 1,
+            },
+          ],
+        },
+      });
+      window.location.href = url;
+    } catch (e) {
+      setLoading(false);
+      swal({
+        title: "Error",
+        text: e?.message || "Something went wrong",
+        icon: "error",
+      });
+    }
+  };
 
   return (
     <>
@@ -91,7 +125,7 @@ export function DashboardJourneys({
           onClose={() => setInsightModal(null)}
         />
       )}
-      <_Component
+<_Component
         className={_utils.cx(
           _styles,
           "padding-global-4",
@@ -146,50 +180,18 @@ export function DashboardJourneys({
                             : undefined,
                       }}
                       onClick={async () => {
-                        try {
-                          console.log(item);
-                          if (item?.insights?.length) {
-                            if (item?.insights?.[0]?.status == "ready")
-                              setInsightModal({
-                                childName: console.log(item),
-                                child_name: item.child?.name || "Your Child",
-                                ...(item?.insights?.[0] ?? {}),
-                              });
-                          } else if (!item?.purchases?.length) {
-                            setLoading(true);
-                            const { url } = await request({
-                              method: "POST",
-                              endpoint: "create_checkout_session",
-                              headers: {
-                                authorization: `Bearer ${localStorage.getItem(
-                                  "authToken"
-                                )}`,
-                              },
-                              body: {
-                                client_reference_id: `${item.child?.id}`,
-                                success_url:
-                                  "https://mamas-medicine-frontend.vercel.app/onboardingMain?child_id=" +
-                                  item.child?.id,
-                                cancel_url:
-                                  "https://mamas-medicine-frontend.vercel.app?payment_failed",
-                                line_items: [
-                                  {
-                                    price: "price_1TJpsTBpexBWLlCZSca5AXtq",
-                                    quantity: 1,
-                                  },
-                                ],
-                              },
+                        console.log(item);
+                        if (item?.insights?.length) {
+                          if (item?.insights?.[0]?.status == "ready")
+                            setInsightModal({
+                              childName: console.log(item),
+                              child_name: item.child?.name || "Your Child",
+                              ...(item?.insights?.[0] ?? {}),
                             });
-                            window.location.href = url;
-                          } else
-                            window.location.href = `/onboardingMain?child_id=${item.child?.id}`;
-                        } catch (e) {
-                          setLoading(false);
-                          swal({
-                            title: "Error",
-                            text: e?.message || "Something went wrong",
-                            icon: "error",
-                          });
+                        } else if (!item?.purchases?.length) {
+                          await handleCheckout();
+                        } else {
+                          window.location.href = `/onboardingMain?child_id=${item.child?.id}`;
                         }
                       }}
                     >

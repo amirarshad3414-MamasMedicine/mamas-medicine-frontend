@@ -157,7 +157,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "#",
+                  href: "https://storyprompt.com/wall/93Ze0sfEW4pTwjAAWmHR",
                 }}
               >
                 {"Wall of Love"}

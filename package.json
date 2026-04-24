@@ -22,6 +22,12 @@
     "react-spinners": "^0.17.0",
     "sweetalert": "^2.1.2"
   },
+  "overrides": {
+    "react-google-places-autocomplete": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",

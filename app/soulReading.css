@@ -151,6 +151,11 @@
 
 .reading-list li {
     margin-bottom: 10px;
+    color: #2F2A26;
+    font-size: 17px;
+    line-height: 1.75;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
 }
 
 /* =========================
