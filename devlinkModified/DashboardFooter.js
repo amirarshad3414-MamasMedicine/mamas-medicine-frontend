@@ -54,7 +54,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                   tag="div"
                 >
                   {
-                    "Soul Sighted helps parents understand their child’s inner world - so they can respond with more clarity, compassion, and trust."
+                    "Parenting Insights helps parents understand their child’s inner world - so they can respond with more clarity, compassion, and trust."
                   }
                 </_Builtin.Block>
               </_Builtin.Block>
@@ -144,7 +144,7 @@ export function DashboardFooter({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "https://storyprompt.com/wall/93Ze0sfEW4pTwjAAWmHR",
+                  href: "https://soul-sighted.com/wall-of-love",
                 }}
               >
                 {"Wall of Love"}
