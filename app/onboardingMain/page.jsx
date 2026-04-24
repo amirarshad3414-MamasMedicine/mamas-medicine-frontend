@@ -282,25 +282,25 @@ const App = () => {
       case 3:
         return <OnboardingPersonal formData={results} />;
       case 4:
-        return <OnboardingQuestion1 formData={results} />;
-      case 5:
-        return <OnboardingQuestion2 formData={results} />;
-      case 6:
-        return <OnboardingQuestion3 formData={results} />;
-      case 7:
-        return <OnboardingQuestion4 formData={results} />;
-      case 8:
-        return <OnboardingQuestion5 formData={results} />;
-      case 9:
         return (
           <DataConfirmationStep
             values={results}
-            onBack={() => setStep(8)}
-            onContinue={() => setStep(10)}
+            onBack={() => setStep(3)}
+            onContinue={() => setStep(5)}
             onEditParent={() => setStep(1)}
             onEditChild={() => setStep(2)}
           />
         );
+      case 5:
+        return <OnboardingQuestion1 formData={results} />;
+      case 6:
+        return <OnboardingQuestion2 formData={results} />;
+      case 7:
+        return <OnboardingQuestion3 formData={results} />;
+      case 8:
+        return <OnboardingQuestion4 formData={results} />;
+      case 9:
+        return <OnboardingQuestion5 formData={results} />;
       case 10:
         return (
           <OnboardingFinal
