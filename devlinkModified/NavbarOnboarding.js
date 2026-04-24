@@ -103,7 +103,7 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                       href: "https://soul-sighted.com/parent-child-dynamic",
                     }}
                   >
-                    {"Your Vibes"}
+                    {"Your Parenting Dynamic"}
                   </_Builtin.DropdownLink>
                   <_Builtin.DropdownLink
                     className={_utils.cx(_styles, "soul_link")}
@@ -165,7 +165,7 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                       href: "https://soul-sighted.com/parent-child-dynamic",
                     }}
                   >
-                    {"Your Vibes"}
+                    {"Your Parenting Dynamic"}
                   </_Builtin.DropdownLink>
                   <_Builtin.DropdownLink
                     className={_utils.cx(_styles, "soul_link")}
