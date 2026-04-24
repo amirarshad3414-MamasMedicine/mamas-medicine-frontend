@@ -41,9 +41,60 @@ function buildHtml({ customer, productPurchase, childName, purchaseId }) {
 `;
 }
 
+function setDeep(obj, keys, value) {
+  let cur = obj;
+  for (let i = 0; i < keys.length - 1; i++) {
+    const k = keys[i] === "" ? cur.length : keys[i];
+    if (cur[k] == null || typeof cur[k] !== "object") {
+      cur[k] = keys[i + 1] === "" || /^\d+$/.test(keys[i + 1]) ? [] : {};
+    }
+    cur = cur[k];
+  }
+  const last = keys[keys.length - 1] === "" ? cur.length : keys[keys.length - 1];
+  cur[last] = value;
+}
+
+function parseBracketedForm(params) {
+  const out = {};
+  for (const [rawKey, value] of params.entries()) {
+    const match = rawKey.match(/^([^\[]+)((?:\[[^\]]*\])*)$/);
+    if (!match) {
+      out[rawKey] = value;
+      continue;
+    }
+    const head = match[1];
+    const rest = match[2]
+      ? [...match[2].matchAll(/\[([^\]]*)\]/g)].map((m) => m[1])
+      : [];
+    setDeep(out, [head, ...rest], value);
+  }
+  return out;
+}
+
+async function readBody(req) {
+  const ctype = (req.headers.get("content-type") || "").toLowerCase();
+  if (ctype.includes("application/json")) {
+    return req.json();
+  }
+  if (
+    ctype.includes("application/x-www-form-urlencoded") ||
+    ctype.includes("multipart/form-data")
+  ) {
+    const form = await req.formData();
+    return parseBracketedForm(form);
+  }
+  // Fallback: try JSON, then form-encoded.
+  const text = await req.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    return parseBracketedForm(new URLSearchParams(text));
+  }
+}
+
 export async function POST(req) {
   try {
-    const raw = await req.json();
+    const raw = await readBody(req);
     // Xano wraps the body under `data`; support flat payloads too.
     const payload = raw?.data ?? raw;
 
