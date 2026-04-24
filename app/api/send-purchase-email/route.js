@@ -24,16 +24,43 @@ function row(label, value) {
     </tr>`;
 }
 
-function buildHtml({ customer, productPurchase, childName, purchaseId }) {
+function pickCustomerName(customer) {
+  return (
+    customer?.name ||
+    customer?.individual_name ||
+    customer?.business_name ||
+    ""
+  );
+}
+
+function formatPrice(amount, currency) {
+  if (amount == null || amount === "") return "";
+  const num = Number(amount);
+  if (!Number.isFinite(num)) return "";
+  const code = (currency || "USD").toString().toUpperCase();
+  // Stripe sends the smallest currency unit (e.g. cents) — convert to major units.
+  const major = num / 100;
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: code,
+    }).format(major);
+  } catch {
+    return `${major.toFixed(2)} ${code}`;
+  }
+}
+
+function buildHtml({ customer, customerName, pricePaid, productPurchase, childName, purchaseId }) {
   return `
 <div style="font-family:Arial, Helvetica, sans-serif;font-size:14px;color:#333;line-height:1.6;">
   <h2 style="margin:0 0 16px;">New Purchase</h2>
   <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-    ${row("Customer name", customer?.name)}
+    ${row("Customer name", customerName)}
     ${row("Customer email", customer?.email)}
     ${row("Customer phone", customer?.phone)}
     ${row("Billing address", formatAddress(customer?.address))}
     ${row("Product purchased", productPurchase)}
+    ${row("Amount paid", pricePaid)}
     ${row("Child name", childName)}
     ${row("Purchase ID", purchaseId)}
   </table>
@@ -102,9 +129,16 @@ export async function POST(req) {
     const customer = payload?.customer || payload?.customer_details || {};
 
     const customerEmail = customer?.email || "";
+    const customerName = pickCustomerName(customer);
     const productPurchase = payload?.product_purchase || "";
     const purchaseId = payload?.purchase_id || "";
     const childName = payload?.child_name || "—";
+
+    // Accept either a pre-formatted price string or Stripe's amount_total (+ currency).
+    const pricePaid =
+      payload?.price_paid ||
+      payload?.amount_display ||
+      formatPrice(payload?.amount_total, payload?.currency);
 
     if (!customerEmail) {
       return Response.json(
@@ -122,7 +156,7 @@ export async function POST(req) {
       from: `"Soul-Sighted" <${MAIL_USER}>`,
       to: NOTIFY_TO,
       subject: `New purchase: ${productPurchase} (${customerEmail})`,
-      html: buildHtml({ customer, productPurchase, childName, purchaseId }),
+      html: buildHtml({ customer, customerName, pricePaid, productPurchase, childName, purchaseId }),
     });
 
     return Response.json({ success: true, messageId: info.messageId });
