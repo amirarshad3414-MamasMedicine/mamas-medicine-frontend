@@ -1,7 +1,7 @@
-const BASE_URL = "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/"
+const BASE_URL = "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/";
 
 export async function request({ method, endpoint, body = null, headers = {} }) {
-  console.log(method, endpoint)
+  console.log(method, endpoint);
   try {
     const res = await fetch(BASE_URL + endpoint, {
       method,
@@ -31,7 +31,6 @@ export async function request({ method, endpoint, body = null, headers = {} }) {
 
     return data;
   } catch (error) {
-    console.error("API Error:", error);
     throw error;
   }
 }

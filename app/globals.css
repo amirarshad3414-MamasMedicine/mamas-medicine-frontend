@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  zoom: 0.8;
+  /* Removed zoom: 0.8 to increase overall font size on web screen */
 }
 
 :root {

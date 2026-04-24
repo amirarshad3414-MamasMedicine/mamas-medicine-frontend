@@ -17,6 +17,7 @@ import { OnboardingQuestion4 } from "../../devlinkModified/OnboardingQuestion4";
 import { OnboardingQuestion5 } from "../../devlinkModified/OnboardingQuestion5";
 import { OnboardingFinal } from "../../devlinkModified/OnboardingFinal";
 import { OnboardingComplete } from "../../devlinkModified/OnboardingComplete";
+import { DataConfirmationStep } from "./DataConfirmationStep";
 
 import { request } from "../../devlinkModified/env";
 import swal from "sweetalert";
@@ -115,7 +116,9 @@ const App = () => {
     try {
       const token = localStorage.getItem("authToken");
       const mapped = mapToOnboardingPayload(results);
-      let child_id = new URLSearchParams(window.location.search).get("child_id");
+      let child_id = new URLSearchParams(window.location.search).get(
+        "child_id"
+      );
 
       if (!child_id) {
         const data = await request({
@@ -183,15 +186,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (step !== 10) return;
+    if (step !== 11) return;
 
     sendInsightAndEmail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, results]);
 
   // f()
-    // sendInsightAndEmail();
-
+  // sendInsightAndEmail();
 
   useEffect(() => {
     setTimeout(() => {
@@ -254,7 +256,7 @@ const App = () => {
             }
             setResults(newResults);
             console.log(newResults);
-            setStep((prev) => (prev == 10 ? prev : prev + 1));
+            setStep((prev) => (prev == 11 ? prev : prev + 1));
             document.firstElementChild.scrollIntoView();
           };
         } else {
@@ -265,7 +267,7 @@ const App = () => {
           };
         }
       });
-    }, 1000);
+    }, 100);
   }, [step]);
   console.log(step);
 
@@ -274,24 +276,39 @@ const App = () => {
       case 0:
         return <OnboardingBegin />;
       case 1:
-        return <OnboardingNames />;
+        return <OnboardingNames formData={results} />;
       case 2:
-        return <OnboardingBirthdays />;
+        return <OnboardingBirthdays formData={results} />;
       case 3:
-        return <OnboardingPersonal />;
+        return <OnboardingPersonal formData={results} />;
       case 4:
-        return <OnboardingQuestion1 />;
+        return <OnboardingQuestion1 formData={results} />;
       case 5:
-        return <OnboardingQuestion2 />;
+        return <OnboardingQuestion2 formData={results} />;
       case 6:
-        return <OnboardingQuestion3 />;
+        return <OnboardingQuestion3 formData={results} />;
       case 7:
-        return <OnboardingQuestion4 />;
+        return <OnboardingQuestion4 formData={results} />;
       case 8:
-        return <OnboardingQuestion5 />;
+        return <OnboardingQuestion5 formData={results} />;
       case 9:
-        return <OnboardingFinal />;
+        return (
+          <DataConfirmationStep
+            values={results}
+            onBack={() => setStep(8)}
+            onContinue={() => setStep(10)}
+            onEditParent={() => setStep(1)}
+            onEditChild={() => setStep(2)}
+          />
+        );
       case 10:
+        return (
+          <OnboardingFinal
+            onBack={() => setStep(9)}
+            onNext={() => setStep(11)}
+          />
+        );
+      case 11:
         return <OnboardingComplete />;
       default:
         return <OnboardingBegin />;
