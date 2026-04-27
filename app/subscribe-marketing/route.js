@@ -1,5 +1,5 @@
 const KLAVIYO_API_KEY =
-  process.env.KLAVIYO_API_KEY || "pk_ab8d15bcfa308fb2790a4ea13c34b277e2";
+  process.env.KLAVIYO_API_KEY || "pk_b161288f56f3898d3b017a1d36528b1ded";
 const MARKETING_LIST_ID = "XPSdCW";
 
 export async function POST(req) {
