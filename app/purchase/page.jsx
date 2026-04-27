@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { request } from "../../devlinkModified/env";
+import { trackPixelEvent } from "../../lib/metaPixel";
 import "./purchase.css";
 import "../loader.css";
 import "../swal.css";
@@ -57,6 +58,9 @@ const App = () => {
   const onPurchase = async ({}) => {
     setLoading(true);
     try {
+      // Track Meta Pixel InitiateCheckout event
+      trackPixelEvent('InitiateCheckout');
+
       const { url } = await request({
         method: "POST",
         endpoint: "create_checkout_session",

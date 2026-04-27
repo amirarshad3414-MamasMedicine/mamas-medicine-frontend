@@ -204,24 +204,21 @@ const App = () => {
           el.onclick = (e) => {
             e.preventDefault();
             const inputs = Object.fromEntries(
-              [...document.getElementsByTagName("input")].map((x) => [
-                x?.name,
-                x?.type == "radio" && x?.parentElement?.nodeName == "LABEL"
-                  ? x?.parentElement?.querySelector("span")?.innerText
-                  : x?.value,
-              ])
+              [...document.getElementsByTagName("input")]
+                .filter((x) => x?.type !== "radio" && x?.type !== "checkbox")
+                .map((x) => [x?.name, x?.value])
             );
             const radios = Object.fromEntries(
               [...document.querySelectorAll('input[type="radio"]:checked')]
-                .filter(
-                  (x) =>
-                    x.parentElement.querySelector("div > div")?.style
-                      ?.opacity == "1"
-                )
+                .filter((x) => {
+                  const indicator = x.parentElement.querySelector("div > div");
+                  return indicator ? indicator.style?.opacity == "1" : true;
+                })
                 .map((x) => [
                   x?.name,
-                  x?.type == "radio" && x?.parentElement?.nodeName == "LABEL"
-                    ? x?.parentElement?.querySelector("span")?.innerText
+                  x?.parentElement?.nodeName == "LABEL"
+                    ? x?.parentElement?.querySelector("span")?.innerText ||
+                    x?.value
                     : x?.value,
                 ])
             );
@@ -280,17 +277,17 @@ const App = () => {
       case 2:
         return <OnboardingBirthdays formData={results} />;
       case 3:
-        return <OnboardingPersonal formData={results} />;
-      case 4:
         return (
           <DataConfirmationStep
             values={results}
-            onBack={() => setStep(3)}
-            onContinue={() => setStep(5)}
+            onBack={() => setStep(2)}
+            onContinue={() => setStep(4)}
             onEditParent={() => setStep(1)}
             onEditChild={() => setStep(2)}
           />
         );
+      case 4:
+        return <OnboardingPersonal formData={results} />;
       case 5:
         return <OnboardingQuestion1 formData={results} />;
       case 6:
