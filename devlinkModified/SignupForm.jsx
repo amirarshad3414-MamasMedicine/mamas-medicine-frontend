@@ -5,6 +5,7 @@ import * as _utils from "../devlink/utils";
 import _styles from "../devlink/SignupForm.module.css";
 import "../app/styles.css";
 import { request } from "./env"
+import { trackPixelEvent } from "../lib/metaPixel";
 
 export function SignupForm({
   as: _Component = _Builtin.Block,
@@ -357,6 +358,9 @@ export function SignupForm({
                                 }
                             })
                             localStorage.setItem("user", JSON.stringify(data))
+
+                            // Track Meta Pixel CompleteRegistration event
+                            trackPixelEvent('CompleteRegistration');
 
                             window.location.href = "/dashboard"
                         } catch(e) {

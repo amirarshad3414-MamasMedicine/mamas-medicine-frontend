@@ -41,7 +41,7 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
           >
             <_Builtin.NavbarBrand
               className={_utils.cx(_styles, "brand")}
-              aria-label="Soul Sighted — home page"
+              aria-label="Parenting Insights — home page"
               options={{
                 href: "https://soul-sighted.com/",
                 preload: "none",
@@ -52,7 +52,7 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                 width="auto"
                 height="auto"
                 loading="eager"
-                alt="Soul Sighted logo"
+                alt="Parenting Insights logo"
                 src="https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/69c3574a5d3c4ba5242f542b_Soul%20Sighted%20Web%20Logo%20(2).png"
               />
             </_Builtin.NavbarBrand>
@@ -90,7 +90,7 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                     className={_utils.cx(_styles, "text-block-2")}
                     tag="div"
                   >
-                    {"Soul Sighted"}
+                    {"Parenting Insights"}
                   </_Builtin.Block>
                 </_Builtin.DropdownToggle>
                 <_Builtin.DropdownList
@@ -100,18 +100,10 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                   <_Builtin.DropdownLink
                     className={_utils.cx(_styles, "soul_link")}
                     options={{
-                      href: "https://soul-sighted.com/soul-sighted",
-                    }}
-                  >
-                    {"What is Soul Sighted?"}
-                  </_Builtin.DropdownLink>
-                  <_Builtin.DropdownLink
-                    className={_utils.cx(_styles, "soul_link")}
-                    options={{
                       href: "https://soul-sighted.com/parent-child-dynamic",
                     }}
                   >
-                    {"Your Vibes"}
+                    {"Your Parenting Dynamic"}
                   </_Builtin.DropdownLink>
                   <_Builtin.DropdownLink
                     className={_utils.cx(_styles, "soul_link")}
@@ -160,7 +152,7 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                     className={_utils.cx(_styles, "text-block-2")}
                     tag="div"
                   >
-                    {"Soul Sighted"}
+                    {"Parenting Insights"}
                   </_Builtin.Block>
                 </_Builtin.DropdownToggle>
                 <_Builtin.DropdownList
@@ -170,18 +162,10 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                   <_Builtin.DropdownLink
                     className={_utils.cx(_styles, "soul_link")}
                     options={{
-                      href: "https://soul-sighted.com/soul-sighted",
-                    }}
-                  >
-                    {"What is Soul Sighted?"}
-                  </_Builtin.DropdownLink>
-                  <_Builtin.DropdownLink
-                    className={_utils.cx(_styles, "soul_link")}
-                    options={{
                       href: "https://soul-sighted.com/parent-child-dynamic",
                     }}
                   >
-                    {"Your Vibes"}
+                    {"Your Parenting Dynamic"}
                   </_Builtin.DropdownLink>
                   <_Builtin.DropdownLink
                     className={_utils.cx(_styles, "soul_link")}
@@ -217,6 +201,10 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
               >
                 {"FAQ's"}
               </_Builtin.NavbarLink>
+              <_Builtin.Block
+                className={_utils.cx(_styles, "nav-divider")}
+                tag="div"
+              />
               <_Builtin.Link
                 className={_utils.cx(
                   _styles,

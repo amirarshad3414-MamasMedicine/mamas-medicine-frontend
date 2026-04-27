@@ -158,7 +158,7 @@ export function Footer({ as: _Component = _Builtin.Block }) {
                 button={false}
                 block=""
                 options={{
-                  href: "#",
+                  href: "https://soul-sighted.com/wall-of-love",
                 }}
               >
                 {"Wall of Love"}

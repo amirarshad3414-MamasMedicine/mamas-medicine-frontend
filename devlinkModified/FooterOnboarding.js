@@ -89,7 +89,7 @@ export function FooterOnboarding({ as: _Component = _Builtin.Block }) {
                 )}
                 tag="div"
               >
-                {"Soul Sighted"}
+                {"Parenting Insights"}
               </_Builtin.Block>
             </_Builtin.Block>
           </_Builtin.Block>

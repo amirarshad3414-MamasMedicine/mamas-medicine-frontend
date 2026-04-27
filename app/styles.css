@@ -51,7 +51,7 @@
 .nav a {
   text-decoration: none;
   color: #ddd;
-  font-size: 16px;
+  font-size: 18px;
   transition: color 0.2s ease;
 }
 
@@ -125,6 +125,17 @@
 .onboarding-patch {
   background-color: #f6f4f2;
 }
+
+.onboarding-patch p,
+.onboarding-patch .paragraph {
+  font-size: 20px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.onboarding-patch h2 {
+  font-size: 42px;
+}
+
 
 .onboarding-patch div:has(> p) {
   margin: 0 !important;
@@ -287,7 +298,7 @@
   .onboarding-patch p,
   .onboarding-patch .paragraph,
   .onboarding-patch .names_form-subtitle {
-    font-size: 16px !important;
+    font-size: 1.5rem !important;
   }
 
   /* 4. Pull form higher on page & shrink scale so Next fits above the fold */

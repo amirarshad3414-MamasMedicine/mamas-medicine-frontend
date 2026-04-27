@@ -99,7 +99,7 @@ export function Navbar({ as: _Component = _Builtin.NavbarWrapper }) {
                     className={_utils.cx(_styles, "text-block-2")}
                     tag="div"
                   >
-                    {"Soul Sighted"}
+                    {"Parenting Insights"}
                   </_Builtin.Block>
                 </_Builtin.DropdownToggle>
                 <_Builtin.DropdownList
@@ -112,7 +112,7 @@ export function Navbar({ as: _Component = _Builtin.NavbarWrapper }) {
                       href: "/soul-sighted",
                     }}
                   >
-                    {"What is Soul Sighted?"}
+                    {"What is Parenting Insights?"}
                   </_Builtin.DropdownLink>
                   <_Builtin.DropdownLink
                     className={_utils.cx(_styles, "soul_link")}

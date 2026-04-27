@@ -3,6 +3,7 @@ import React from "react";
 import * as _Builtin from "../devlink/_Builtin";
 import * as _utils from "../devlink/utils";
 import _styles from "../devlink/OnboardingNames.module.css";
+import { useFormDataFill } from "./useFormDataFill";
 
 export function OnboardingNames({
   as: _Component = _Builtin.Block,
@@ -20,7 +21,9 @@ export function OnboardingNames({
   },
 
   text3 = "Next",
+  formData = {},
 }) {
+  useFormDataFill(formData);
   return (
     <_Component
       className={_utils.cx(_styles, "padding-global", "padding-section-small")}

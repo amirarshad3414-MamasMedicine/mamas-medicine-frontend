@@ -53,7 +53,7 @@ const App = () => {
         const selectedChildId = localStorage.getItem("selectedChild");
         const firstChild = selectedChildId
           ? childrenObj[selectedChildId] ||
-            childrenObj[Object.keys(childrenObj)[0]]
+          childrenObj[Object.keys(childrenObj)[0]]
           : childrenObj[Object.keys(childrenObj)[0]];
         // @ts-ignore
         if (firstChild && selectedChild === null)
@@ -70,7 +70,6 @@ const App = () => {
           localStorage.removeItem("user");
           window.location.href = "/signin";
         } else {
-          console.error("Dashboard failed to load children:", err);
           setLoading(false);
         }
       }
