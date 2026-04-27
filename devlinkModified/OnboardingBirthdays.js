@@ -536,7 +536,7 @@ export function OnboardingBirthdays({
                         {"If you know your exact birth time - great! "}
                         <br />
                         {
-                          "If not, and you’re unsure within about 30 minutes either way, it’s better to tick the “I don’t know” box. The Moon sign changes roughly every couple of days, and the Rising sign every couple of hours, but everything else on your birthday stays the same. "
+                          "If not, and you’re unsure within about 30 minutes either way, it’s better to just leave it blank. The Moon sign changes roughly every couple of days, and the Rising sign every couple of hours, but everything else on your birthday stays the same. "
                         }
                         <br />
                         {

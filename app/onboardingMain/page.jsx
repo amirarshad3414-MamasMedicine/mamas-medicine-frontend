@@ -20,6 +20,7 @@ import { OnboardingComplete } from "../../devlinkModified/OnboardingComplete";
 import { DataConfirmationStep } from "./DataConfirmationStep";
 
 import { request } from "../../devlinkModified/env";
+import { trackPixelEvent } from "../../lib/metaPixel";
 import swal from "sweetalert";
 
 const convertStep = (step, key) => {
@@ -111,6 +112,20 @@ const validate = (step, values) => {
 const App = () => {
   const [step, setStep] = useState(0);
   const [results, setResults] = useState({});
+
+  // Fire Meta Pixel Purchase event when returning from a successful Stripe checkout.
+  // Stripe substitutes {CHECKOUT_SESSION_ID} into the success_url; its presence is the signal.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    if (!sessionId || sessionId === "{CHECKOUT_SESSION_ID}") return;
+    trackPixelEvent("Purchase", {
+      value: 21.00,
+      currency: "AUD",
+      session_id: sessionId,
+    });
+  }, []);
 
   const sendInsightAndEmail = async () => {
     try {

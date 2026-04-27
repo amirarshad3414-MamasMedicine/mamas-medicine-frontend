@@ -95,7 +95,7 @@ export function DashboardJourneys({
         },
         body: {
           client_reference_id: `${item.child?.id}`,
-          success_url: `${window.location.origin}/onboardingMain?child_id=${item.child?.id}`,
+          success_url: `${window.location.origin}/onboardingMain?child_id=${item.child?.id}&session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${window.location.origin}?payment_failed`,
           line_items: [
             {
