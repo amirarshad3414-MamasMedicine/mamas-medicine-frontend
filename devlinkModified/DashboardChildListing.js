@@ -80,11 +80,12 @@ function PlacesAutocomplete({ name, form, setForm }) {
   );
 }
 
-function AddChildModal({ isOpen, onClose, onSave }) {
+function AddChildModal({ isOpen, onClose, onSave, isParent }) {
   const [form, setForm] = useState({
     name: "",
   });
 
+  // console.log("isParent", isParent);
   if (!isOpen) return <></>;
 
   const handleChange = (e) => {
@@ -99,12 +100,12 @@ function AddChildModal({ isOpen, onClose, onSave }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>Add another child</h2>
+        <h2>{isParent ? "Add another child" : "Add another Parent"}</h2>
 
-        <label>Child's Name</label>
+        <label>{isParent ? "Child's Name" : "Parent's Name"}</label>
         <input
           name="name"
-          placeholder="Enter your child's name"
+          placeholder={`Enter your ${isParent ? "child" : "parent"}'s name`}
           value={form.name}
           onChange={handleChange}
         />
@@ -165,14 +166,22 @@ export function DashboardChildListing({
     href: "#",
   },
 
-  text3 = "+ Add another child",
+  
 }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const userData = JSON.parse(localStorage.getItem("user") || "{}");
+  const userRelation = userData?.relationship_focus || "parent";
+  const isParent = userRelation === "parent";
+  // console.log("userRelation", userRelation)
+
+  const text3 = isParent ? "+ Add another child" : "+ Add another Parent";
 
   return (
     <>
       <AddChildModal
         isOpen={isOpen}
+        isParent={isParent}
         onClose={() => setIsOpen(false)}
         onSave={async (childData) => {
           if (!childData.name) {
