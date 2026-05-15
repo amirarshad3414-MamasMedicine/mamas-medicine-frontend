@@ -67,11 +67,11 @@ function mapToOnboardingPayload(data) {
 
     user_dob: data["parent_birth_date"] || null,
     user_time_of_birth: data["parent_birth_time"] || null,
-    user_birth_place_id: data["parent_place_id"] || "",
+    user_birth_place_id: data["parent_place_id"] || "", 
 
     child_dob: data["child_birth_date"] || null,
     child_time_of_birth: data["child_birth_time"] || null,
-    child_birth_place_id: data["child_place_id"] || "",
+    child_birth_place_id: data["child_place_id"] || "", 
 
     raw_parent_message: data["raw_parent_message"] || null,
 
@@ -91,27 +91,34 @@ function mapToOnboardingPayload(data) {
   };
 }
 
-const validate = (step, values) => {
+const validate = (step, values, isParent) => {
   const data = mapToOnboardingPayload(values);
   if (step == 1) {
     if (!data?.username) return "Your name is required";
     if (!data?.parentPronouns) return "Your pronouns are required";
-    if (!data?.childname) return "Your child's name is required";
-    if (!data?.childPronouns) return "Your child's pronouns are required";
+    if (!data?.childname) return isParent ? "Your child's name is required" : "Your parent's name is required";
+    if (!data?.childPronouns) return isParent ? "Your child's pronouns are required" : "Your parent's pronouns are required";
   }
   if (step == 2) {
-    if (!data?.user_dob) return "Your date of birth are required";
-    if (!data?.child_birth_place_id) return "Your birthplace are required";
+    if (!data?.user_dob) return "Your date of birth is required";
+    if (!data?.user_birth_place_id) return "Your birthplace is required";
 
-    if (!data?.child_dob) return "Your child's date of birth are required";
+    if (!data?.child_dob) return  isParent ? "Your child's date of birth is required" : "Your parent's date of birth is required";
     if (!data?.child_birth_place_id)
-      return "Your child's birthplace are required";
+      return isParent ? "Your child's birthplace is required" : "Your parent's birthplace is required";
   }
+  
 };
 
 const App = () => {
   const [step, setStep] = useState(0);
   const [results, setResults] = useState({});
+
+  // Fetch user record once here and pass down role info, rather than hitting localStorage repeatedly in child components
+  const userData = JSON.parse(localStorage.getItem("user") || "{}");
+  const userRelation = userData?.relationship_focus || "parent";
+  // console.log(`User relationship: ${userRelation}`);
+  const isParent = userRelation === "parent";
 
   // Fire Meta Pixel Purchase event when returning from a successful Stripe checkout.
   // Stripe substitutes {CHECKOUT_SESSION_ID} into the success_url; its presence is the signal.
@@ -256,7 +263,7 @@ const App = () => {
               ...selects,
               ...radios,
             };
-            const error = validate(step, newResults);
+            const error = validate(step, newResults, isParent);
             if (error) {
               swal({
                 title: "Error",
@@ -288,9 +295,9 @@ const App = () => {
       case 0:
         return <OnboardingBegin />;
       case 1:
-        return <OnboardingNames formData={results} />;
+        return <OnboardingNames formData={results} isParent={isParent} />;
       case 2:
-        return <OnboardingBirthdays formData={results} />;
+        return <OnboardingBirthdays formData={results} isParent={isParent} />;
       case 3:
         return (
           <DataConfirmationStep
@@ -302,17 +309,17 @@ const App = () => {
           />
         );
       case 4:
-        return <OnboardingPersonal formData={results} />;
+        return <OnboardingPersonal formData={results} isParent={isParent} />;
       case 5:
         return <OnboardingQuestion1 formData={results} />;
       case 6:
-        return <OnboardingQuestion2 formData={results} />;
+        return <OnboardingQuestion2 formData={results} isParent={isParent} />;
       case 7:
-        return <OnboardingQuestion3 formData={results} />;
+        return <OnboardingQuestion3 formData={results} isParent={isParent} />;
       case 8:
-        return <OnboardingQuestion4 formData={results} />;
+        return <OnboardingQuestion4 formData={results} isParent={isParent} />;
       case 9:
-        return <OnboardingQuestion5 formData={results} />;
+        return <OnboardingQuestion5 formData={results} isParent={isParent} />;
       case 10:
         return (
           <OnboardingFinal
