@@ -26,8 +26,14 @@ export function OnboardingQuestion3({
   },
 
   text4 = "Next",
+  isParent,
 }) {
   _interactions.useInteractions(_interactionsData, _styles);
+
+  console.log("isParent:", isParent);
+  const dynamicQuestionText2 = isParent 
+    ? text2 
+    : "Does your parent tend to stir strong emotions in you?"
 
   return (
     <_Component
@@ -74,7 +80,7 @@ export function OnboardingQuestion3({
               )}
               tag="div"
             >
-              {text2}
+              {dynamicQuestionText2}
             </_Builtin.Block>
           </_Builtin.Block>
           <_Builtin.Block
