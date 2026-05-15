@@ -17,6 +17,7 @@ export function OnboardingPersonal({
   link2 = {
     href: "#",
   },
+  isParent,
 }) {
   return (
     <_Component
@@ -79,7 +80,7 @@ export function OnboardingPersonal({
                 )}
               >
                 {
-                  "Some parents like to share what’s alive right now – others prefer to skip it."
+                  `Some ${isParent ? 'parents' : 'children'} like to share what’s alive right now – others prefer to skip it.`
                 }
               </_Builtin.Paragraph>
             </_Builtin.Block>
@@ -300,7 +301,7 @@ export function OnboardingPersonal({
                 name="raw_parent_message"
                 maxLength="1800"
                 data-name="raw_parent_message"
-                placeholder="What it feels like to parent this child…"
+                placeholder={`${isParent ? 'What it feels like to parent this child…' : 'What it feels like growing up with this parent…'}`}
                 required={false}
                 autoFocus={false}
                 id="raw_parent_message"
