@@ -26,9 +26,15 @@ export function OnboardingQuestion2({
   },
 
   text4 = "Next",
+  isParent,
 }) {
   _interactions.useInteractions(_interactionsData, _styles);
 
+  const dynamicQuestionText2 = isParent 
+    ? text2 
+    : "When you think about your relationship with your parent overall, how does it feel most of the time?";
+
+  console.log("isParent:", isParent);
   return (
     <_Component
       className={_utils.cx(_styles, "padding-global", "padding-section-medium")}
@@ -74,7 +80,7 @@ export function OnboardingQuestion2({
               )}
               tag="div"
             >
-              {text2}
+              {dynamicQuestionText2}
             </_Builtin.Block>
           </_Builtin.Block>
           <_Builtin.Block
