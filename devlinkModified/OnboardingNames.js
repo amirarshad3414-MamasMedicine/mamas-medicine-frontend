@@ -22,7 +22,9 @@ export function OnboardingNames({
 
   text3 = "Next",
   formData = {},
+  isParent, // User Relationsship type to render appropriate pronouns/ labels options
 }) {
+  console.log(`isParent: ${isParent}`);
   useFormDataFill(formData);
   return (
     <_Component
@@ -60,8 +62,8 @@ export function OnboardingNames({
                   <_Builtin.FormBlockLabel
                     className={_utils.cx(_styles, "names_child-heading")}
                     htmlFor="parent-name"
-                  >
-                    {"1. Your name"}
+                  >                    
+                    {"Your Name"}
                   </_Builtin.FormBlockLabel>
                   <_Builtin.Block
                     className={_utils.cx(_styles, "names_form-subtitle")}
@@ -74,7 +76,7 @@ export function OnboardingNames({
                     name="parent-name"
                     maxLength={256}
                     data-name="parent name"
-                    placeholder="Your name"
+                    placeholder={"Your Name"}
                     disabled={false}
                     type="text"
                     required={true}
@@ -145,15 +147,15 @@ export function OnboardingNames({
                   <_Builtin.FormBlockLabel
                     className={_utils.cx(_styles, "names_child-heading")}
                     htmlFor="child-name"
-                  >
-                    {"2. Your child’s name"}
+                  >                    
+                    {`2.Your ${isParent ? "child’s name" : "parent's name"}`}
                   </_Builtin.FormBlockLabel>
                   <_Builtin.FormTextInput
                     className={_utils.cx(_styles, "text-field-2")}
                     name="child-name"
                     maxLength={256}
                     data-name="child name"
-                    placeholder="Your child’s name"
+                    placeholder={`Your ${isParent ? "child’s name" : "parent's name"}`}
                     disabled={false}
                     type="text"
                     required={true}
