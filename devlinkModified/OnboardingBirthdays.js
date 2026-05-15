@@ -99,10 +99,12 @@ export function OnboardingBirthdays({
     href: "#",
   },
   formData = {},
+  isParent, // User Relationsship type to render appropriate pronouns/ labels options
 }) {
   _interactions.useInteractions(_interactionsData, _styles);
   useFormDataFill(formData);
 
+  console.log(`Is Parent: ${isParent}`);
   return (
     <_Component
       className={_utils.cx(_styles, "padding-global", "padding-section-small")}
@@ -155,8 +157,8 @@ export function OnboardingBirthdays({
                   <_Builtin.Block
                     className={_utils.cx(_styles, "names_form-heading")}
                     tag="div"
-                  >
-                    {"Parent details"}
+                  >                    
+                    {isParent ? "Your details" : "Parent details"}  
                   </_Builtin.Block>
                 </_Builtin.Block>
                 <_Builtin.Block
@@ -321,7 +323,7 @@ export function OnboardingBirthdays({
                     className={_utils.cx(_styles, "names_form-heading")}
                     tag="div"
                   >
-                    {"Child details"}
+                    {`4. ${isParent ? "Child details" : "Parent details"}`}
                   </_Builtin.Block>
                 </_Builtin.Block>
                 <_Builtin.Block
@@ -340,7 +342,7 @@ export function OnboardingBirthdays({
                     <_Builtin.Span
                       className={_utils.cx(_styles, "span_italic")}
                     >
-                      {"Your child"}
+                      {`${isParent ? "Your child" : "You Parent"}`}
                     </_Builtin.Span>
                   </_Builtin.Block>
                 </_Builtin.Block>
@@ -357,7 +359,7 @@ export function OnboardingBirthdays({
                       className={_utils.cx(_styles, "text-block-5")}
                       tag="div"
                     >
-                      {"Enter child's date of birth"}
+                      {`Enter ${isParent ? "child's" : "parent's"} date of birth`}
                     </_Builtin.Block>
                     <_Builtin.Block
                       className={_utils.cx(_styles, "input_form-wrapper")}
