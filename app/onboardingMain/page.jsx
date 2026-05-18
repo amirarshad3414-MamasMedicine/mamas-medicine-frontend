@@ -138,6 +138,7 @@ const App = () => {
     try {
       const token = localStorage.getItem("authToken");
       const mapped = mapToOnboardingPayload(results);
+      const currentRelation = userRelation || "parent";
       let child_id = new URLSearchParams(window.location.search).get(
         "child_id"
       );
@@ -162,6 +163,7 @@ const App = () => {
         child_id,
         journey_id: "fff90478-924f-4ec7-95a1-68b5549a0ec9",
         onboarding_payload: mapped,
+        user_relation : currentRelation,
       };
 
       const response = await request({
