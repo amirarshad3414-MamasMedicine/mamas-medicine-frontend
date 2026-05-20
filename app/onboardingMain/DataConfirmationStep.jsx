@@ -36,6 +36,7 @@ export function DataConfirmationStep({
   onBack,
   onEditParent,
   onEditChild,
+  isParent,
 }) {
   return (
     <div className="dc-wrap">
@@ -46,14 +47,14 @@ export function DataConfirmationStep({
         </p>
 
         <div className="dc-grid">
-          <DataSection title="Parent Information" onEdit={onEditParent}>
+          <DataSection title="Your Information" onEdit={onEditParent}>
             <DataRow label="Name" value={values["parent-name"]} />
             <DataRow label="Date of Birth" value={values.parent_birth_date} />
             <DataRow label="Time of Birth" value={values.parent_birth_time} />
             <DataRow label="Place of Birth" value={values.parent} />
           </DataSection>
 
-          <DataSection title="Child Information" onEdit={onEditChild}>
+          <DataSection title={isParent ? "Child Information" : "Parent Information"} onEdit={onEditChild}>
             <DataRow label="Name" value={values["child-name"]} />
             <DataRow label="Date of Birth" value={values.child_birth_date} />
             <DataRow label="Time of Birth" value={values.child_birth_time} />

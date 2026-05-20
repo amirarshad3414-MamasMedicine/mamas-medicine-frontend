@@ -308,6 +308,7 @@ const App = () => {
             onContinue={() => setStep(4)}
             onEditParent={() => setStep(1)}
             onEditChild={() => setStep(2)}
+            isParent={isParent}
           />
         );
       case 4:

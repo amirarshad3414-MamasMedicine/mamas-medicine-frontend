@@ -158,7 +158,7 @@ export function OnboardingBirthdays({
                     className={_utils.cx(_styles, "names_form-heading")}
                     tag="div"
                   >                    
-                    {isParent ? "Your details" : "Parent details"}  
+                    {isParent ? "Your details" : "Child details"}  
                   </_Builtin.Block>
                 </_Builtin.Block>
                 <_Builtin.Block
@@ -342,7 +342,7 @@ export function OnboardingBirthdays({
                     <_Builtin.Span
                       className={_utils.cx(_styles, "span_italic")}
                     >
-                      {`${isParent ? "Your child" : "You Parent"}`}
+                      {`${isParent ? "Your child" : "Your Parent"}`}
                     </_Builtin.Span>
                   </_Builtin.Block>
                 </_Builtin.Block>
