@@ -4,7 +4,7 @@ import getSummary from "../api/send-insight/summary";
 
 const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
 const MAIL_PASS = process.env.MAIL_PASS || "denl xlhu orci ydcm";
-const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY || "pk_b161288f56f3898d3b017a1d36528b1ded";
+const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY;
 
 // --- HTML rendering ---
 

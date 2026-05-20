@@ -1,4 +1,4 @@
-const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY || "pk_b161288f56f3898d3b017a1d36528b1ded";
+const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY;
 const MARKETING_LIST_ID = "XPSdCW";
 
 export async function POST(req) {
@@ -9,7 +9,7 @@ export async function POST(req) {
     if (!email || !email.includes("@")) {
       return Response.json({ subscribed: false });
     }
-
+    
     const url = `https://a.klaviyo.com/api/lists/${MARKETING_LIST_ID}/profiles/?filter=equals(email,"${encodeURIComponent(email)}")`;
 
     const res = await fetch(url, {
