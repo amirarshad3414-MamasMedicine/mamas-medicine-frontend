@@ -187,7 +187,7 @@ export function DashboardChildListing({
           if (!childData.name) {
             swal({
               title: "Error",
-              text: "Please enter your child's name",
+              text: isParent ? "Child name is required" : "Parent name is required",
               icon: "error",
             });
             return;
