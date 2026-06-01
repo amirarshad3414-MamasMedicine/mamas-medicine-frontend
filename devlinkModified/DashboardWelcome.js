@@ -1,8 +1,9 @@
 "use client";
-import React, {useState, useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import * as _Builtin from "../devlink/_Builtin";
 import * as _utils from "../devlink/utils";
 import _styles from "../devlink/DashboardWelcome.module.css";
+import { useStoredUser } from "../lib/useStoredUser";
 
 export function DashboardWelcome({
   as: _Component = _Builtin.Block,
@@ -21,21 +22,12 @@ export function DashboardWelcome({
   ),
 }) {
 
-  // 2. Initialize state
   const [userName, setUserName] = useState("");
+  const [storedUser] = useStoredUser();
 
-  // 3. Fetch from localStorage on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem("user"); // Adjust key if needed (e.g., "userName")
-    if (storedUser) {
-      try {
-        const userObj = JSON.parse(storedUser);
-        setUserName(userObj .name || "");
-      } catch (e) {
-        setUserName(storedUser); // Fallback if it's a plain string
-      }
-    }
-  }, []);
+    setUserName(storedUser?.name || "");
+  }, [storedUser]);
 
   return (
     <_Component

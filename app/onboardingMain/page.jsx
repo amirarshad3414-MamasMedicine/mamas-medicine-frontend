@@ -21,6 +21,7 @@ import { DataConfirmationStep } from "./DataConfirmationStep";
 
 import { request } from "../../devlinkModified/env";
 import { trackPixelEvent } from "../../lib/metaPixel";
+import { useStoredUser } from "../../lib/useStoredUser";
 import swal from "sweetalert";
 
 const convertStep = (step, key) => {
@@ -115,7 +116,7 @@ const App = () => {
   const [results, setResults] = useState({});
 
   // Fetch user record once here and pass down role info, rather than hitting localStorage repeatedly in child components
-  const userData = JSON.parse(localStorage.getItem("user") || "{}");
+  const [userData] = useStoredUser();
   const userRelation = userData?.relationship_focus || "parent";
   // console.log(`User relationship: ${userRelation}`);
   const isParent = userRelation === "parent";

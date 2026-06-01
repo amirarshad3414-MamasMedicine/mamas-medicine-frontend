@@ -291,6 +291,7 @@ export function LoginFormContent({
                         },
                       });
                       localStorage.setItem("user", JSON.stringify(data));
+                      window.dispatchEvent(new Event("auth:user-changed"));
 
                       window.location.href = "/dashboard";
                     } catch (e) {

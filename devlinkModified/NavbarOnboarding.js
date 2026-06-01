@@ -1,16 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import * as _Builtin from "../devlink/_Builtin";
 import * as _utils from "../devlink/utils";
 import _styles from "../devlink/NavbarOnboarding.module.css";
+import { useStoredUser } from "../lib/useStoredUser";
 
 export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) setUser(JSON.parse(user));
-  }, []);
+  const [user] = useStoredUser();
 
   return (
     <_Component
@@ -225,6 +221,7 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                   className={_utils.cx(_styles, "nav-link-6", "logout_button")}
                   onClick={() => {
                     localStorage.clear();
+                    window.dispatchEvent(new Event("auth:user-changed"));
                     window.location.href = "/signin";
                   }}
                 >

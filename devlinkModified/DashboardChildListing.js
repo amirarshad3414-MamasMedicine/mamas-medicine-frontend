@@ -7,6 +7,7 @@ import "../app/addChild.css";
 import "../app/autocomplete.css";
 import { request } from "./env";
 import swal from "sweetalert";
+import { useStoredUser } from "../lib/useStoredUser";
 
 function PlacesAutocomplete({ name, form, setForm }) {
   const [query, setQuery] = useState("");
@@ -170,7 +171,7 @@ export function DashboardChildListing({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const userData = JSON.parse(localStorage.getItem("user") || "{}");
+  const [userData] = useStoredUser();
   const userRelation = userData?.relationship_focus || "parent";
   const isParent = userRelation === "parent";
   // console.log("userRelation", userRelation)
