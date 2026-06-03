@@ -156,47 +156,7 @@ export function SignupForm({
                     data-ms-member="full-name"
                     id="full-name"
                   />
-                </_Builtin.Block>
-
-                <_Builtin.Block
-                  className={_utils.cx(_styles, "signup_input-wrap")}
-                  tag="div"
-                >
-                  <_Builtin.FormBlockLabel className={_utils.cx(_styles, "signup_field-label")}>
-                    {"Choose your relation type"}
-                  </_Builtin.FormBlockLabel>
-                  
-                  <p style={{ fontSize: '14px', marginTop : '10px', marginBottom: '20px', color: '#333' }}>
-                    Identify yourself to customize your experience. Parents can generate insights for their children, while children can explore their relationship with their parents.
-                  </p>
-
-                  <_Builtin.Block tag="div" style={{ display: 'flex', gap: '20px' }}>
-                    {/* Parent Radio */}
-                    <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                      <input
-                        type="radio"
-                        name="relationship_focus"
-                        value="parent"
-                        defaultChecked
-                        data-ms-member="relationship-focus"                        
-                        style={{ marginRight: '8px', transform: 'scale(1.2)' }}
-                      />
-                      <span>Parent</span>
-                    </label>
-
-                    {/* Child Radio */}
-                    <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                      <input
-                        type="radio"
-                        name="relationship_focus"
-                        value="child"                        
-                        data-ms-member="relationship-focus"
-                        style={{ marginRight: '8px', transform: 'scale(1.2)' }}
-                      />
-                      <span>Child</span>
-                    </label>
-                  </_Builtin.Block>
-                </_Builtin.Block>
+                </_Builtin.Block>                
 
                 <_Builtin.Block
                   className={_utils.cx(_styles, "login_passwords-wrap")}
@@ -353,10 +313,7 @@ export function SignupForm({
                     const fullName = document.querySelector('[data-ms-member=full-name]').value
                     const password = document.querySelector('[data-ms-member=password]').value
                     const confirmPassword = document.querySelector('[data-name="Confirm Passowrd"]').value
-                    // NEW: Fetch the selected radio value
-                    const relationshipFocus = document.querySelector('input[data-ms-member="relationship-focus"]:checked')?.value;
-
-                    // Now include relationshipFocus in your API body...                    
+                                     
                     if(!email) return swal({
                       title: "Error",
                       text: "Email is required",
@@ -367,11 +324,7 @@ export function SignupForm({
                       text: "Full name is required",
                       icon: "error",
                     })
-                    if(!relationshipFocus) return swal({
-                      title: "Error",
-                      text: "Please select a relationship focus",
-                      icon: "error",
-                    })
+                    
                     if(!password) return swal({
                       title: "Error",
                       text: "Password is required",
@@ -395,8 +348,7 @@ export function SignupForm({
                                 body: {
                                     email,
                                     name: fullName,
-                                    password,
-                                    relationshipFocus,
+                                    password,                                    
                                 }
                             })
                             const token = authToken

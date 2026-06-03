@@ -81,12 +81,12 @@ function PlacesAutocomplete({ name, form, setForm }) {
   );
 }
 
-function AddChildModal({ isOpen, onClose, onSave, isParent }) {
+function AddChildModal({ isOpen, onClose, onSave}) {
   const [form, setForm] = useState({
+    relation: "",
     name: "",
   });
-
-  // console.log("isParent", isParent);
+  
   if (!isOpen) return <></>;
 
   const handleChange = (e) => {
@@ -100,13 +100,30 @@ function AddChildModal({ isOpen, onClose, onSave, isParent }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal">
-        <h2>{isParent ? "Add another child" : "Add another Parent"}</h2>
+      <div className="modal">        
+        <h2>Add Another Relation</h2>
 
-        <label>{isParent ? "Child's Name" : "Parent's Name"}</label>
+        <label>Select Person's Relation with you</label>
+        <select
+          name="relation"
+          value={form.relation}
+          onChange={handleChange}
+        >
+          <option value="">
+            Select Relation
+          </option>
+          <option value="child">
+            Child
+          </option>
+          <option value="parent">
+            Parent
+          </option>
+        </select>
+        
+        <label>Name of the Person</label>
         <input
           name="name"
-          placeholder={`Enter your ${isParent ? "child" : "parent"}'s name`}
+          placeholder={`Enter the person name`}
           value={form.name}
           onChange={handleChange}
         />
@@ -171,28 +188,39 @@ export function DashboardChildListing({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [userData] = useStoredUser();
-  const userRelation = userData?.relationship_focus || "parent";
-  const isParent = userRelation === "parent";
+  // const [userData] = useStoredUser();
+  // const userRelation = userData?.relationship_focus || "parent";
+  // const isParent = userRelation === "parent";
   // console.log("userRelation", userRelation)
 
-  const text3 = isParent ? "+ Add another child" : "+ Add another Parent";
+  
+  const text3 = "+ Add another Relationship";
 
   return (
     <>
       <AddChildModal
-        isOpen={isOpen}
-        isParent={isParent}
+        isOpen={isOpen}        
         onClose={() => setIsOpen(false)}
         onSave={async (childData) => {
           if (!childData.name) {
             swal({
               title: "Error",
-              text: isParent ? "Child name is required" : "Parent name is required",
+              // text: isParent ? "Child name is required" : "Parent name is required",
+              text: "name is required",
               icon: "error",
             });
             return;
           }
+
+          if(!childData.relation) {
+            swal({
+              title: "Error",
+              text: "Please select a relation",
+              icon: "error",
+            });
+            return;
+          }
+
           // Handle saving child data
           setLoading(true);
           setIsOpen(false);
@@ -207,6 +235,7 @@ export function DashboardChildListing({
               },
               body: {
                 name: childData.name,
+                relationship_focus : childData.relation
                 // dob: childData.birthday + "T" + (childData.birthtime || "00:00"),
                 // place_of_birth: childData?.birthplace,
                 // place_of_birth_id: childData.birthplace_place_id,

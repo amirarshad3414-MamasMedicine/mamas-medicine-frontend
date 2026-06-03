@@ -21,7 +21,6 @@ import { DataConfirmationStep } from "./DataConfirmationStep";
 
 import { request } from "../../devlinkModified/env";
 import { trackPixelEvent } from "../../lib/metaPixel";
-import { useStoredUser } from "../../lib/useStoredUser";
 import swal from "sweetalert";
 
 const convertStep = (step, key) => {
@@ -114,12 +113,46 @@ const validate = (step, values, isParent) => {
 const App = () => {
   const [step, setStep] = useState(0);
   const [results, setResults] = useState({});
+  const [childData, setChildData] = useState(null);
 
-  // Fetch user record once here and pass down role info, rather than hitting localStorage repeatedly in child components
-  const [userData] = useStoredUser();
-  const userRelation = userData?.relationship_focus || "parent";
-  // console.log(`User relationship: ${userRelation}`);
-  const isParent = userRelation === "parent";
+  const childRelation = childData?.relationship_focus || "child";
+  console.log("childRelation", childRelation)
+  // Fetch the selected child record once and derive role info from that record.
+  const isParent = childRelation === "child"; // if the relationship_focus of the child record is "child", then the user is a parent. If it's "parent", then the user is a child. If it's missing or something else, we can default to assuming they're a parent since most users are parents.
+
+  useEffect(() => {
+    const loadChildData = async () => {
+      const childId = new URLSearchParams(window.location.search).get(
+        "child_id"
+      );
+
+      if (!childId) {
+        setChildData(null);
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem("authToken");
+        const response = await request({
+          method: "GET",
+          endpoint: `/get_child_by_id?child_id=${encodeURIComponent(childId)}`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const foundChild =
+          response?.child || response?.data || response?.record || response || null;
+
+        setChildData(foundChild);
+      } catch (error) {
+        console.error("Failed to load selected child:", error);
+        setChildData(null);
+      }
+    };
+
+    loadChildData();
+  }, []);
 
   // Fire Meta Pixel Purchase event when returning from a successful Stripe checkout.
   // Stripe substitutes {CHECKOUT_SESSION_ID} into the success_url; its presence is the signal.
@@ -139,7 +172,7 @@ const App = () => {
     try {
       const token = localStorage.getItem("authToken");
       const mapped = mapToOnboardingPayload(results);
-      const currentRelation = userRelation || "parent";
+      const userRelation = childRelation === "child" ? "parent" : "child";
       let child_id = new URLSearchParams(window.location.search).get(
         "child_id"
       );
@@ -164,7 +197,7 @@ const App = () => {
         child_id,
         journey_id: "fff90478-924f-4ec7-95a1-68b5549a0ec9",
         onboarding_payload: mapped,
-        user_relation : currentRelation,
+        user_relation : userRelation,
       };
 
       const response = await request({
