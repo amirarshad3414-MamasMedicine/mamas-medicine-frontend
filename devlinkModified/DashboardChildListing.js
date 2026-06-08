@@ -186,14 +186,7 @@ export function DashboardChildListing({
 
   
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  // const [userData] = useStoredUser();
-  // const userRelation = userData?.relationship_focus || "parent";
-  // const isParent = userRelation === "parent";
-  // console.log("userRelation", userRelation)
-
-  
+  const [isOpen, setIsOpen] = useState(false);  
   const text3 = "+ Add another Relationship";
 
   return (
@@ -205,7 +198,6 @@ export function DashboardChildListing({
           if (!childData.name) {
             swal({
               title: "Error",
-              // text: isParent ? "Child name is required" : "Parent name is required",
               text: "name is required",
               icon: "error",
             });
