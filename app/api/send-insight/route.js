@@ -15,8 +15,8 @@ function cleanAndEscape(str = "") {
 }
 
 const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY;
-const MAIL_USER = process.env.MAIL_USER || "abdulahadsaleemt124@gmail.com";
-const MAIL_PASS = process.env.MAIL_PASS || "pbma ujnj zmyk jdld";
+const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
+const MAIL_PASS = process.env.MAIL_PASS || "nooh osop cqzh gmdg";
 const NOTIFY_TO = "hi@soul-sighted.com";
 
 console.log( "Klaviyo api key: " + KLAVIYO_API_KEY);

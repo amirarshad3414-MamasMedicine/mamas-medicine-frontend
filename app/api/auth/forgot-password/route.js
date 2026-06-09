@@ -8,8 +8,8 @@ function createTransporter() {
   return nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "abdulahadsaleemt124@gmail.com",
-      pass: "pbma ujnj zmyk jdld",
+      user: "ramshamzamop@gmail.com",
+      pass: "nooh osop cqzh gmdg",
     },
   });
 }

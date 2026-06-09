@@ -5,8 +5,8 @@ const ONE_HOUR_MS = 60 * 60 * 1000;
 const GET_PENDING_EMAILS_ENDPOINT = "get_pending_emails";
 const DELIVER_EMAIL_ENDPOINT = "deliver_email";
 
-const MAIL_USER = process.env.MAIL_USER || "abdulahadsaleemt124@gmail.com";
-const MAIL_PASS = process.env.MAIL_PASS || "pbma ujnj zmyk jdld";
+const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
+const MAIL_PASS = process.env.MAIL_PASS || "nooh osop cqzh gmdg";
 
 let isRunning = false;
 
