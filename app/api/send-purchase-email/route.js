@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
-const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
-const MAIL_PASS = process.env.MAIL_PASS || "nooh osop cqzh gmdg";
+const MAIL_USER = process.env.MAIL_USER || "abdulahadsaleemt124@gmail.com";
+const MAIL_PASS = process.env.MAIL_PASS || "pbma ujnj zmyk jdld";
 const NOTIFY_TO = "hi@soul-sighted.com";
 
 function formatAddress(address) {
