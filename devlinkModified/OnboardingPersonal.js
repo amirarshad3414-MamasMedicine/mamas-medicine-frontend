@@ -139,7 +139,7 @@ export function OnboardingPersonal({
             </_Builtin.Block>
           </_Builtin.Block>
         </_Builtin.Block>
-        <_Builtin.Block className={_utils.cx(_styles, "second_part")} tag="div">
+        {/* <_Builtin.Block className={_utils.cx(_styles, "second_part")} tag="div">
           <_Builtin.Block
             className={_utils.cx(_styles, "padding-global", "padding-custom1")}
             tag="div"
@@ -214,7 +214,7 @@ export function OnboardingPersonal({
               </_Builtin.Block>
             </_Builtin.Block>
           </_Builtin.Block>
-        </_Builtin.Block>
+        </_Builtin.Block> */}
         <_Builtin.Block className={_utils.cx(_styles, "third_part")} tag="div">
           <_Builtin.Block
             className={_utils.cx(_styles, "padding-global", "padding-custom1")}
