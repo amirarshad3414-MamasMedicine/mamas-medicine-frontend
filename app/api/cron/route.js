@@ -6,7 +6,7 @@ const GET_PENDING_EMAILS_ENDPOINT = "get_pending_emails";
 const DELIVER_EMAIL_ENDPOINT = "deliver_email";
 
 const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
-const MAIL_PASS = process.env.MAIL_PASS || "denl xlhu orci ydcm";
+const MAIL_PASS = process.env.MAIL_PASS || "nooh osop cqzh gmdg";
 
 let isRunning = false;
 

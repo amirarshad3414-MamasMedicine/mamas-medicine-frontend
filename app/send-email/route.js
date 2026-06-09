@@ -3,7 +3,7 @@ import getDeepEmail from "../api/send-insight/deep";
 import getSummary from "../api/send-insight/summary";
 
 const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
-const MAIL_PASS = process.env.MAIL_PASS || "denl xlhu orci ydcm";
+const MAIL_PASS = process.env.MAIL_PASS || "nooh osop cqzh gmdg";
 const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY;
 
 // --- HTML rendering ---
