@@ -16,7 +16,7 @@ function cleanAndEscape(str = "") {
 
 const KLAVIYO_API_KEY = process.env.KLAVIYO_API_KEY;
 const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
-const MAIL_PASS = process.env.MAIL_PASS || "denl xlhu orci ydcm";
+const MAIL_PASS = process.env.MAIL_PASS || "nooh osop cqzh gmdg";
 const NOTIFY_TO = "hi@soul-sighted.com";
 
 function escapeHtml(value) {
@@ -235,6 +235,7 @@ export async function POST(req) {
       );
     }
 
+    console.log("[body] for the send-insight route:" + body);
     const [klaviyoResult, mailResult] = await Promise.allSettled([
       triggerKlaviyoFlow({ email, childName, parentName, insight, journey_type }),
       sendInsightNotification(body),
