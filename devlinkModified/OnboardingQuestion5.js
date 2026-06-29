@@ -119,7 +119,7 @@ export function OnboardingQuestion5({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step4"
-                    value="Radio 2"
+                    value="Their safe place"
                     data-name="Step4"
                     required={false}
                     id="radio-2"
@@ -152,7 +152,7 @@ export function OnboardingQuestion5({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step4"
-                    value="Radio 2"
+                    value="Their guide"
                     data-name="Step4"
                     required={false}
                     id="radio-2"
@@ -185,7 +185,7 @@ export function OnboardingQuestion5({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step4"
-                    value="Radio 2"
+                    value="Their emotional support"
                     data-name="Step4"
                     required={false}
                     id="radio-2"
@@ -218,7 +218,7 @@ export function OnboardingQuestion5({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step4"
-                    value="Radio 2"
+                    value="Their quiet cheerleader"
                     data-name="Step4"
                     required={false}
                     id="radio-2"
@@ -251,7 +251,7 @@ export function OnboardingQuestion5({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step4"
-                    value="Radio 2"
+                    value="Their boundary-setter"
                     data-name="Step4"
                     required={false}
                     id="radio-2"
@@ -284,7 +284,7 @@ export function OnboardingQuestion5({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step4"
-                    value="Radio 2"
+                    value="It changes all the time"
                     data-name="Step4"
                     required={false}
                     id="radio-2"

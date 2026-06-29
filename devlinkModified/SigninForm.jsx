@@ -88,6 +88,27 @@ export function LoginFormContent({
                 </_Builtin.Block>
               </_Builtin.Block>
             </_Builtin.Link>
+            <_Builtin.Link
+              className={_utils.cx(_styles, "signup_link")}
+              button={false}
+              block="inline"
+              style={{ marginTop: "1rem" }}
+              options={{
+                href: "/signup-flow",
+              }}
+            >
+              <_Builtin.Block
+                className={_utils.cx(_styles, "sign_bnt")}
+                tag="div"
+              >
+                <_Builtin.Block
+                  className={_utils.cx(_styles, "sign_bnt-text")}
+                  tag="div"
+                >
+                  {text3}
+                </_Builtin.Block>
+              </_Builtin.Block>
+            </_Builtin.Link>
           </_Builtin.Block>
           <_Builtin.Block
             className={_utils.cx(_styles, "login_content")}

@@ -1,0 +1,9 @@
+/* The only rule that can't be expressed with Tailwind utilities: the reused
+   devlink onboarding components (OnboardingNames / OnboardingBirthdays /
+   OnboardingQuestionN) render their own Back/Next nav links (ids ending in
+   "_btn"). Navigation in this flow is driven by the page-level SlideShell, so
+   hide the components' built-in nav. (Their submit buttons are already
+   display:none via their own module CSS.) */
+.signup-flow-patch [id$="_btn"] {
+  display: none !important;
+}

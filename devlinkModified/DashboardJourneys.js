@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as _Builtin from "../devlink/_Builtin";
 import * as _utils from "../devlink/utils";
 import _styles from "../devlink/DashboardJourneys.module.css";
@@ -83,6 +83,21 @@ export function DashboardJourneys({
 }) {
   if (!item) return null;
   const [insightModal, setInsightModal] = useState(null);
+
+  // First-visit convenience: if the signup-flow set the `openInsight` flag,
+  // auto-open the reading (deep + summary) for the selected child once it's ready.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (localStorage.getItem("openInsight") !== "1") return;
+    const insight = item?.insights?.[0];
+    if (insight?.status === "ready") {
+      setInsightModal({
+        child_name: item.child?.name || "Your Child",
+        ...insight,
+      });
+      localStorage.removeItem("openInsight");
+    }
+  }, [item]);
 
   const handleCheckout = async () => {
     setLoading(true);

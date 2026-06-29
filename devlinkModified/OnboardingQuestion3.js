@@ -120,7 +120,7 @@ export function OnboardingQuestion3({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step2"
-                    value="Radio 2"
+                    value="Yes - they know how to push my buttons"
                     data-name="Step2"
                     required={false}
                     id="radio-2"
@@ -153,7 +153,7 @@ export function OnboardingQuestion3({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step2"
-                    value="Radio 2"
+                    value="Sometimes, in specific situations"
                     data-name="Step2"
                     required={false}
                     id="radio-2"
@@ -186,7 +186,7 @@ export function OnboardingQuestion3({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step2"
-                    value="Radio 2"
+                    value="Rarely - our bond feels steady"
                     data-name="Step2"
                     required={false}
                     id="radio-2"
@@ -219,7 +219,7 @@ export function OnboardingQuestion3({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step2"
-                    value="Radio 2"
+                    value="It changes over time"
                     data-name="Step2"
                     required={false}
                     id="radio-2"

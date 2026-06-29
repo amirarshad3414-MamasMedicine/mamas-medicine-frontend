@@ -119,7 +119,7 @@ export function OnboardingQuestion4({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step3"
-                    value="Radio 2"
+                    value="Very close and connected"
                     data-name="Step3"
                     required={false}
                     id="radio-2"
@@ -152,7 +152,7 @@ export function OnboardingQuestion4({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step3"
-                    value="Radio 2"
+                    value="Close, with healthy space"
                     data-name="Step3"
                     required={false}
                     id="radio-2"
@@ -185,7 +185,7 @@ export function OnboardingQuestion4({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step3"
-                    value="Radio 2"
+                    value="Close, but I'd love more depth"
                     data-name="Step3"
                     required={false}
                     id="radio-2"
@@ -218,7 +218,7 @@ export function OnboardingQuestion4({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step3"
-                    value="Radio 2"
+                    value="Close but it's charged!"
                     data-name="Step3"
                     required={false}
                     id="radio-2"
@@ -251,7 +251,7 @@ export function OnboardingQuestion4({
                     className={_utils.cx(_styles, "reflection_radio-bnt")}
                     type="radio"
                     name="Step3"
-                    value="Radio 2"
+                    value="We're re-building closeness as we grow"
                     data-name="Step3"
                     required={false}
                     id="radio-2"
