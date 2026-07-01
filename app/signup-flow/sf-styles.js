@@ -85,8 +85,21 @@ export const SF = {
   progressTrack: "block h-2 rounded-full bg-[#e3e3ee] overflow-hidden",
   progressFill:
     "block h-full w-2/3 rounded-full bg-gradient-to-r from-[#fc97bd] to-[#fcbd97] animate-pulse",
+  // width is driven by inline style; the transition smooths between ticks
+  progressFillAnimated:
+    "block h-full rounded-full bg-gradient-to-r from-[#fc97bd] to-[#fcbd97] transition-[width] duration-100 ease-linear",
   spinner:
     "w-12 h-12 mx-auto mt-8 rounded-full border-4 border-[#e3e3ee] border-t-[#fc97bd] animate-spin",
+
+  // progress-slide testimonial slider (white card on the lavender progress page;
+  // name on top, quote below, left-aligned — no avatar/link)
+  progressTestimonialWrap: "mt-12 w-full max-w-[40rem] mx-auto",
+  progressTestimonial:
+    "bg-white rounded-2xl p-7 border border-[#e3e3ee] shadow-sm text-left",
+  progressTestimonialName: "font-bold text-[#b07b8f] text-[1.15rem] leading-tight",
+  progressTestimonialRole: "text-[#8a8a99] text-[0.9rem] mt-1",
+  progressTestimonialQuote:
+    "text-[1.1rem] md:text-[1.15rem] leading-[1.7] text-[#333]! mt-4 mb-0!",
 
   // section heading placed above a reused devlink component
   sectionHeading: "px-[5%] pt-8",

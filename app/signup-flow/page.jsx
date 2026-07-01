@@ -33,6 +33,7 @@ import { NotFutureSlide } from "./slides/NotFutureSlide";
 import { HowItWorksSlide } from "./slides/HowItWorksSlide";
 import { NamesSlide } from "./slides/NamesSlide";
 import { BirthdaysSlide } from "./slides/BirthdaysSlide";
+import { PersonalSlide } from "./slides/PersonalSlide";
 import { QuestionSlide } from "./slides/QuestionSlide";
 import { ProgressSlide } from "./slides/ProgressSlide";
 import { EmailSlide } from "./slides/EmailSlide";
@@ -48,7 +49,6 @@ const App = () => {
   const [step, setStep] = useState(0);
   const [results, setResults] = useState({});
   const [email, setEmail] = useState("");
-  const [processing, setProcessing] = useState(false);
   const [checkingOut, setCheckingOut] = useState(false);
   const [teaser, setTeaser] = useState(null);
   const [password, setPassword] = useState("");
@@ -83,16 +83,6 @@ const App = () => {
     setStep(idx("afterPurchase"));
   }, []);
 
-  // Progress slides are animated build-up screens — auto-advance through them.
-  useEffect(() => {
-    if (key !== "progress1" && key !== "progress2") return;
-    const t = setTimeout(() => {
-      setStep((s) => s + 1);
-      scrollTop();
-    }, 3200);
-    return () => clearTimeout(t);
-  }, [key]);
-
   const goNext = () => {
     if (SCRAPE_STEPS.has(key)) {
       const merged = { ...results, ...scrapeInputs(slideRef.current) };
@@ -112,13 +102,19 @@ const App = () => {
   };
 
   /* ----- Email slide: register → create record → submit onboarding ----- */
+  // Kicks off the API chain in the background and immediately shows the animated
+  // progress slide. The progress bars run while the request is in flight; the
+  // final bar holds at 80% until `teaser` is set (ready), then completes and the
+  // ProgressSlide's onComplete advances to the teaser.
   const submitAndFetchTeaser = async () => {
     const trimmedEmail = email.trim();
     if (!trimmedEmail || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(trimmedEmail)) {
       return errorSwal("Please enter a valid email address");
     }
 
-    setProcessing(true);
+    setTeaser(null); // reset readiness in case of a retry
+    setStep(idx("progress"));
+    scrollTop();
     try {
 
       const mapped = mapToOnboardingPayload(results);
@@ -191,16 +187,17 @@ const App = () => {
       // child; the dashboard reads them via /get_children using the authToken.
       localStorage.setItem("selectedChild", child_id);
 
+      // Mark ready — the progress slide finishes its last bar and then advances
+      // to the teaser via onComplete. (No setStep here.)
       setTeaser({
         teaser: teaserText,
         child_id,
       });
-      setStep(idx("teaser"));
-      scrollTop();
     } catch (e) {
       errorSwal(e?.message);
-    } finally {
-      setProcessing(false);
+      // On failure, return to the email slide so the user can retry.
+      setStep(idx("email"));
+      scrollTop();
     }
   };
 
@@ -256,15 +253,17 @@ const App = () => {
 
   /* ----- Render the active slide ----- */
   const renderSlide = () => {
-    if (processing) {
-      return (
-        <ProgressSlide
-          heading="Creating your insight…"
-          subtitle="We're mapping your relationship and preparing your free teaser. This only takes a moment."
-          spinner
-        />
-      );
-    }
+    // The in-flight spinner is replaced by the animated `progress` slide, which
+    // is shown as its own step while submit_onboarding runs.
+    // if (processing) {
+    //   return (
+    //     <ProgressSlide
+    //       heading="Creating your insight…"
+    //       subtitle="We're mapping your relationship and preparing your free teaser. This only takes a moment."
+    //       spinner
+    //     />
+    //   );
+    // }
 
     switch (key) {
       case "intro":
@@ -302,6 +301,16 @@ const App = () => {
       case "birthdays":
         return (
           <BirthdaysSlide
+            slideRef={slideRef}
+            formData={results}
+            isParent={isParent}
+            onBack={goBack}
+            onNext={goNext}
+          />
+        );
+      case "personal":
+        return (
+          <PersonalSlide
             slideRef={slideRef}
             formData={results}
             isParent={isParent}
@@ -353,28 +362,24 @@ const App = () => {
             onNext={goNext}
           />
         );
-      case "progress1":
-        return (
-          <ProgressSlide
-            heading="Mapping your relationship…"
-            subtitle="We're bringing together everything you've shared."
-          />
-        );
-      case "progress2":
-        return (
-          <ProgressSlide
-            heading="Preparing your insight…"
-            subtitle="Almost there — your free teaser is on its way."
-          />
-        );
       case "email":
         return (
           <EmailSlide
             email={email}
             setEmail={setEmail}
             onSubmit={submitAndFetchTeaser}
-            processing={processing}
+            processing={false}
             onBack={goBack}
+          />
+        );
+      case "progress":
+        return (
+          <ProgressSlide
+            ready={!!teaser}
+            onComplete={() => {
+              setStep(idx("teaser"));
+              scrollTop();
+            }}
           />
         );
       case "teaser":

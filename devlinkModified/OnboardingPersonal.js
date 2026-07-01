@@ -3,6 +3,7 @@ import React from "react";
 import * as _Builtin from "../devlink/_Builtin";
 import * as _utils from "../devlink/utils";
 import _styles from "../devlink/OnboardingPersonal.module.css";
+import { useFormDataFill } from "./useFormDataFill";
 
 export function OnboardingPersonal({
   as: _Component = _Builtin.Block,
@@ -18,7 +19,12 @@ export function OnboardingPersonal({
     href: "#",
   },
   isParent,
+  formData = {},
 }) {
+  // Pre-fill the textarea from prior answers so the message persists across
+  // back-navigation (matches the raw_user_message input name).
+  useFormDataFill(formData);
+
   return (
     <_Component
       className={_utils.cx(_styles, "container-large-5", "personal")}
@@ -298,13 +304,13 @@ export function OnboardingPersonal({
             >
               <_Builtin.FormTextarea
                 className={_utils.cx(_styles, "personal_text-area")}
-                name="raw_parent_message"
+                name="raw_user_message"
                 maxLength="1800"
-                data-name="raw_parent_message"
+                data-name="raw_user_message"
                 placeholder={`${isParent ? 'What it feels like to parent this child…' : 'What it feels like growing up with this parent…'}`}
                 required={false}
                 autoFocus={false}
-                id="raw_parent_message"
+                id="raw_user_message"
               />
               <_Builtin.Block
                 className={_utils.cx(_styles, "_500ch_max", "text-align-right")}

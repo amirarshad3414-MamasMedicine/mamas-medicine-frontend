@@ -26,22 +26,23 @@ export const STEPS = [
   "howItWorks", // 7  How it works
   "names", // 8  Names (OnboardingNames)
   "birthdays", // 9  Birth details (OnboardingBirthdays)
-  "q2", // 10 Connection question 1 (climate / Step1)
+  "personal", // 10 Free-text message (OnboardingPersonal -> raw_user_message)
+  "q2", // 11 Connection question 1 (climate / Step1)
   "q3", // 11 Connection question 2 (activation / Step2)
   "q4", // 12 Connection question 3 (closeness / Step3)
   "q5", // 13 Connection question 4 (posture / Step4)
-  "progress1", // 14 Animated progress bars
-  "progress2", // 15 Teaser insight loading
-  "email", // 16 Enter email -> API chain
-  "teaser", // 17 Teaser analysis
-  "buy", // 18 Buy now -> Stripe
-  "afterPurchase", // 19 After purchase
+  "email", // 14 Enter email -> kicks off register/create/submit chain
+  "progress", // 15 Animated progress bars while submit_onboarding runs
+  "teaser", // 16 Teaser analysis
+  "buy", // 17 Buy now -> Stripe
+  "afterPurchase", // 18 After purchase
 ];
 export const idx = (key) => STEPS.indexOf(key);
 export const SCRAPE_STEPS = new Set([
   "relationship",
   "names",
   "birthdays",
+  "personal",
   "q2",
   "q3",
   "q4",
@@ -54,6 +55,47 @@ export const PROGRESS_STEPS = [
   "Identifying the strongest relationship patterns",
   "Exploring the growth and gifts hidden in the connection",
   "Creating your personalised insight",
+];
+
+/* Time (ms) for each progress bar to fill 0 -> 100, index-aligned with
+   PROGRESS_STEPS. Bars 1-2 are quick; bars 3-4 are deliberately slow (~2 min
+   combined) to cover submit_onboarding's generation time. The final bar fills
+   to 80% over its duration, then holds until the API response arrives and
+   completes to 100%. Tune these freely. */
+export const PROGRESS_STEP_DURATIONS = [15000, 30000, 40000, 60000, 12000];
+
+/* Once the API response arrives (ready), every remaining bar fills 0 -> 100 at
+   this speed so the user isn't held on the slow durations above. */
+export const PROGRESS_FAST_FORWARD_MS = 700;
+
+/* Testimonials shown as a slider on the progress slide — one per progress bar,
+   switching as each new bar begins (index-aligned with the active bar, clamped
+   to the last one for the final bar). */
+export const PROGRESS_TESTIMONIALS = [
+  {
+    quote:
+      "It's so good and accurate and helpful! I was holding back tears on the train!!",
+    name: "Laylah",
+    role: "Mum of 5 & 8 yr old",
+  },
+  {
+    quote:
+      "That is incredible! I can't believe how insightful it is — including suggestions and ways to help the relationship.",
+    name: "Amanda",
+    role: "Mum of 4",
+  },
+  {
+    quote:
+      "Wow… Wow. We just read this together and both of us couldn't agree more with every aspect of this reading ❤️",
+    name: "Jacqui",
+    role: "Mum of 2 teenagers",
+  },
+  {
+    quote:
+      "It described the power struggle between us so specifically — and it was spot on, but in a very gentle, accepting way.",
+    name: "Bri",
+    role: "Mum + Step Mum",
+  },
 ];
 
 export const TESTIMONIALS = [
@@ -136,7 +178,7 @@ export function mapToOnboardingPayload(data) {
     child_time_of_birth: data["child_birth_time"] || null,
     child_birth_place_id: data["child_place_id"] || "",
 
-    raw_parent_message: "",
+    raw_user_message: data["raw_user_message"] || "",
 
     climate: convertStep("climate", data["Step1"]),
     activation: convertStep("activation", data["Step2"]),

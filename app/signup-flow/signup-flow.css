@@ -7,3 +7,19 @@
 .signup-flow-patch [id$="_btn"] {
   display: none !important;
 }
+
+/* Fade + slide-in for the progress-slide testimonial slider. Re-triggered each
+   time the testimonial changes via a changing React `key`. */
+@keyframes sf-testi-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.sf-testi-in {
+  animation: sf-testi-in 0.5s ease;
+}

@@ -73,7 +73,7 @@ function mapToOnboardingPayload(data) {
     child_time_of_birth: data["child_birth_time"] || null,
     child_birth_place_id: data["child_place_id"] || "", 
 
-    raw_parent_message: data["raw_parent_message"] || null,
+    raw_user_message: data["raw_user_message"] || null,
 
     // Steps mapping (based on your form)
     climate: convertStep("climate", data["Step1"] || null),
