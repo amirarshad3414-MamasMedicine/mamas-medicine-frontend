@@ -218,6 +218,7 @@ const App = () => {
           success_url: `${window.location.origin}/signup-flow?session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${window.location.origin}/signup-flow?payment_failed`,
           line_items: [{ price: STRIPE_PRICE_ID, quantity: 1 }],
+          send_email: true,
         },
       });
       if (!url) throw { message: "Could not start checkout. Please try again." };
