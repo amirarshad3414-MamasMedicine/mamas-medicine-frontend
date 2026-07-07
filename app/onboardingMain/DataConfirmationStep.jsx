@@ -66,7 +66,7 @@ export function DataConfirmationStep({
           <div className="dc-back-nav-item" onClick={onBack}>
             <div className="dc-back-icon-circle">
               <img
-                src="https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png"
+                src="/back-arrow.png"
                 alt="Back"
                 className="dc-back-icon-img"
               />

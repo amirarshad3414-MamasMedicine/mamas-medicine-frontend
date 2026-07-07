@@ -149,7 +149,7 @@
 .onboarding_birth-wrapper {
   display: flex;
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
   flex-direction: column;
   justify-content: flex-start;
   flex-wrap: nowrap;
@@ -471,13 +471,14 @@
 }
 
 .onbording_heading {
-  line-height: 140%;
+  font-size: 2rem;
+  line-height: 130%;
   font-weight: 700;
 }
 
 @media screen and (max-width: 479px) {
   .onbording_heading {
-    font-size: 2rem;
+    font-size: 1.5rem;
     line-height: 140%;
   }
 }
@@ -491,7 +492,7 @@
 @media screen and (max-width: 479px) {
   .onbording_heading.padding_left {
     padding-left: 1rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -1095,13 +1096,13 @@
 }
 
 .paragraph.big {
-  font-size: 2.5rem;
+  font-size: 1.3rem;
   line-height: 160%;
 }
 
 @media screen and (max-width: 479px) {
   .paragraph.big {
-    font-size: 2rem;
+    font-size: 1.05rem;
   }
 }
 

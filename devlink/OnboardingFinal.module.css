@@ -488,14 +488,15 @@
 }
 
 .onbording_heading {
-  line-height: 140%;
+  font-size: 2rem;
+  line-height: 130%;
   font-weight: 700;
   white-space: nowrap;
 }
 
 @media screen and (max-width: 479px) {
   .onbording_heading {
-    font-size: 2rem;
+    font-size: 1.5rem;
     line-height: 120%;
     white-space: nowrap;
   }
@@ -510,7 +511,7 @@
 @media screen and (max-width: 479px) {
   .onbording_heading.padding_left {
     padding-left: 1rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -600,13 +601,13 @@
 }
 
 .paragraph.big {
-  font-size: 2.5rem;
+  font-size: 1.3rem;
   line-height: 160%;
 }
 
 @media screen and (max-width: 479px) {
   .paragraph.big {
-    font-size: 2rem;
+    font-size: 1.05rem;
   }
 }
 
@@ -649,7 +650,7 @@
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary {
     margin-left: 0rem;
-    font-size: 2rem !important;
+    font-size: 1.05rem !important;
   }
 }
 

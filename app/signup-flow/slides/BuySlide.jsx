@@ -17,11 +17,9 @@ export function BuySlide({ onBuy, checkingOut, onBack }) {
   return (
     <SlideShell onBack={onBack}>
       <MarketingSlide
-        eyebrow="Full reading"
-        heading="Unlock your full Soul Sighted Reading"
-        paragraphs={[
-          "Get your complete deep-dive insight and personalised summary, saved to your dashboard so you can return to it any time.",
-        ]}
+        eyebrow="Your full insights"
+        heading="You've uncovered one layer."
+        paragraphs={["Now discover the whole story."]}
       >
         <ul className={SF.bullets} style={{ marginBottom: "2rem" }}>
           {INCLUDES.map((b) => (

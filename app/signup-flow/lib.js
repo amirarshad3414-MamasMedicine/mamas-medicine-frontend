@@ -12,22 +12,21 @@ export const JOURNEY_ID = "fff90478-924f-4ec7-95a1-68b5549a0ec9";
 export const STRIPE_PRICE_ID = "price_1TJk4pBpexBWLlCZ4U9PiHMZ";
 
 export const BACK_ICON =
-  "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png";
+  "/back-arrow.png";
 
 /* Ordered slide keys. Navigation works on this list, so splitting or
    reordering slides is just an edit here. */
 export const STEPS = [
-  "intro", // 1  Sales / intro
-  "relationship", // 2  My child / My parent
-  "story1", // 3  Understand the hidden story
-  "story2", // 4  Every relationship has a story
-  "chart", // 5  Relationship chart
-  "notFuture", // 6  Not predicting the future
-  "howItWorks", // 7  How it works
-  "names", // 8  Names (OnboardingNames)
-  "birthdays", // 9  Birth details (OnboardingBirthdays)
-  "personal", // 10 Free-text message (OnboardingPersonal -> raw_user_message)
-  "q2", // 11 Connection question 1 (climate / Step1)
+  "relationship", // 1  Which relationship (My child / My parent)
+  "story2", // 2  Every relationship tells a story
+  "map", // 3  We'll map the energy of the relationship (image)
+  "notFuture", // 4  This isn't about predicting the future (+ testimonial)
+  "names", // 5  Names (OnboardingNames)
+  "birthdays", // 6  Birth details (OnboardingBirthdays)
+  "confirm", // 7  Detail confirmation (DataConfirmationStep)
+  "personal", // 8  Free-text message (OnboardingPersonal -> raw_user_message)
+  "gentleQuestions", // 9  A few gentle questions intro
+  "q2", // 10 Connection question 1 (climate / Step1)
   "q3", // 11 Connection question 2 (activation / Step2)
   "q4", // 12 Connection question 3 (closeness / Step3)
   "q5", // 13 Connection question 4 (posture / Step4)
@@ -62,7 +61,7 @@ export const PROGRESS_STEPS = [
    combined) to cover submit_onboarding's generation time. The final bar fills
    to 80% over its duration, then holds until the API response arrives and
    completes to 100%. Tune these freely. */
-export const PROGRESS_STEP_DURATIONS = [15000, 30000, 40000, 60000, 12000];
+export const PROGRESS_STEP_DURATIONS = [6000, 10000, 12000, 15000, 15000];
 
 /* Once the API response arrives (ready), every remaining bar fills 0 -> 100 at
    this speed so the user isn't held on the slow durations above. */
@@ -80,9 +79,9 @@ export const PROGRESS_TESTIMONIALS = [
   },
   {
     quote:
-      "That is incredible! I can't believe how insightful it is — including suggestions and ways to help the relationship.",
+      "That is incredible! I can't believe how good it is - including suggestions and ways to help the relationship.",
     name: "Amanda",
-    role: "Mum of 4",
+    role: "Mum of 4 adult children",
   },
   {
     quote:

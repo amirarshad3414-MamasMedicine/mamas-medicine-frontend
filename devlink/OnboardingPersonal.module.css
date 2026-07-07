@@ -21,6 +21,7 @@
   margin-top: 0rem;
   margin-right: 0rem;
   margin-left: 0rem;
+  margin-bottom: 1rem;
 }
 
 @media screen and (max-width: 991px) {
@@ -324,14 +325,21 @@
 }
 
 .onbording_heading {
-  line-height: 140%;
+  font-size: 2rem;
+  line-height: 130%;
   font-weight: 700;
+}
+
+@media screen and (max-width: 767px) {
+  .onbording_heading {
+    font-size: 1.75rem;
+  }
 }
 
 @media screen and (max-width: 479px) {
   .onbording_heading {
-    font-size: 2rem;
-    line-height: 140%;
+    font-size: 1.5rem;
+    line-height: 135%;
   }
 }
 
@@ -512,7 +520,7 @@
   padding-top: 0px;
   font-size: 1.6rem;
   text-align: left;
-  padding-left: 1rem;
+  padding-left: 0rem;
 }
 
 .text-color-primary {
@@ -540,13 +548,19 @@
 }
 
 .paragraph.big {
-  font-size: 2.5rem;
+  font-size: 1.3rem;
   line-height: 160%;
+}
+
+@media screen and (max-width: 767px) {
+  .paragraph.big {
+    font-size: 1.15rem;
+  }
 }
 
 @media screen and (max-width: 479px) {
   .paragraph.big {
-    font-size: 2rem;
+    font-size: 1.05rem;
   }
 }
 
@@ -596,8 +610,8 @@
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary.personal {
     margin-left: 1rem;
-    font-size: 2rem !important;
-    line-height: 1.2;
+    font-size: 1.05rem !important;
+    line-height: 1.5;
     text-align: left;
   }
 }
@@ -812,7 +826,7 @@
 
 .personal_form-wrapper {
   display: flex;
-  margin-bottom: 3rem;
+  margin-bottom: 0rem;
   justify-content: center;
   align-items: center;
 }

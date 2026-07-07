@@ -13,7 +13,7 @@ export function OnboardingPersonal({
     href: "#",
   },
 
-  image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png",
+  image = "/back-arrow.png",
 
   link2 = {
     href: "#",
@@ -30,13 +30,14 @@ export function OnboardingPersonal({
       className={_utils.cx(_styles, "container-large-5", "personal")}
       tag="div"
     >
+      {/* Title block matching your mockup top layout */}
       <_Builtin.Block
-        className={_utils.cx(
+        className={`${_utils.cx(
           _styles,
           "margin-bottom",
           "margin-custom2",
           "personal"
-        )}
+        )} sf-title-margin`}
         tag="div"
       >
         <_Builtin.Heading
@@ -46,6 +47,8 @@ export function OnboardingPersonal({
           {title}
         </_Builtin.Heading>
       </_Builtin.Block>
+
+      {/* Replaced copy block with the exact contents of the mockup */}
       <_Builtin.Block
         className={_utils.cx(_styles, "personal_content-wrapper")}
         tag="div"
@@ -55,8 +58,9 @@ export function OnboardingPersonal({
             className={_utils.cx(_styles, "padding-global", "padding-custom1")}
             tag="div"
           >
+            {/* Paragraph 1 */}
             <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom2")}
+              className={_utils.cx(_styles, "margin-bottom")}
               tag="div"
             >
               <_Builtin.Paragraph
@@ -68,47 +72,13 @@ export function OnboardingPersonal({
                   "personal"
                 )}
               >
-                {"This part is optional."}
+                {"Just as if we were sitting together and talking things through - this part allows a little real life context to come through."}
               </_Builtin.Paragraph>
             </_Builtin.Block>
+
+            {/* Paragraph 2 */}
             <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom2")}
-              tag="div"
-            >
-              <_Builtin.Paragraph
-                className={_utils.cx(
-                  _styles,
-                  "paragraph",
-                  "big",
-                  "text-color-primary",
-                  "personal",
-                  "bold"
-                )}
-              >
-                {
-                  `Some ${isParent ? 'parents' : 'children'} like to share what’s alive right now – others prefer to skip it.`
-                }
-              </_Builtin.Paragraph>
-            </_Builtin.Block>
-            <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom2")}
-              tag="div"
-            >
-              <_Builtin.Paragraph
-                className={_utils.cx(
-                  _styles,
-                  "paragraph",
-                  "big",
-                  "text-color-primary",
-                  "personal",
-                  "bold"
-                )}
-              >
-                {"Both are completely fine."}
-              </_Builtin.Paragraph>
-            </_Builtin.Block>
-            <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom2")}
+              className={_utils.cx(_styles, "margin-bottom")}
               tag="div"
             >
               <_Builtin.Paragraph
@@ -120,13 +90,13 @@ export function OnboardingPersonal({
                   "personal"
                 )}
               >
-                {
-                  "If you do choose to share, it helps shape insights that are more practical, grounded, and deeply relevant to your real life."
-                }
+                {"The good, the hard, the messy - it’s all welcome here. It could be a specific thing you’ve been thinking about lately, or just more general."}
               </_Builtin.Paragraph>
             </_Builtin.Block>
+
+            {/* Paragraph 3 */}
             <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom1")}
+              className={_utils.cx(_styles, "margin-bottom", "last")}
               tag="div"
             >
               <_Builtin.Paragraph
@@ -138,154 +108,14 @@ export function OnboardingPersonal({
                   "personal"
                 )}
               >
-                {
-                  "Just as if we were sitting together and talking things through, this space allows a little real-life context to come through."
-                }
-              </_Builtin.Paragraph>
-            </_Builtin.Block>
-          </_Builtin.Block>
-        </_Builtin.Block>
-        {/* <_Builtin.Block className={_utils.cx(_styles, "second_part")} tag="div">
-          <_Builtin.Block
-            className={_utils.cx(_styles, "padding-global", "padding-custom1")}
-            tag="div"
-            style={{ paddingLeft: 0 }}
-          >
-            <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom2")}
-              tag="div"
-              style={{ paddingLeft: 0 }}
-            >
-              <_Builtin.Paragraph
-                className={_utils.cx(
-                  _styles,
-                  "paragraph",
-                  "big",
-                  "text-color-primary",
-                  "personal",
-                  "bold"
-                )}
-              >
-                {"You might like to share:"}
-              </_Builtin.Paragraph>
-            </_Builtin.Block>
-            <_Builtin.Block
-              className={_utils.cx(_styles, "birth_item-wrapper", "personal")}
-              tag="div"
-            >
-              <_Builtin.Block
-                className={_utils.cx(_styles, "birth_item-dot")}
-                tag="div"
-              />
-              <_Builtin.Block
-                className={_utils.cx(_styles, "birth_item-text", "personal")}
-                tag="div"
-              >
-                {"what’s been feeling challenging (or easy)"}
-              </_Builtin.Block>
-            </_Builtin.Block>
-            <_Builtin.Block
-              className={_utils.cx(_styles, "birth_item-wrapper", "personal")}
-              tag="div"
-            >
-              <_Builtin.Block
-                className={_utils.cx(_styles, "birth_item-dot")}
-                tag="div"
-              />
-              <_Builtin.Block
-                className={_utils.cx(_styles, "birth_item-text", "personal")}
-                tag="div"
-              >
-                {"patterns or triggers you’ve noticed"}
-              </_Builtin.Block>
-            </_Builtin.Block>
-            <_Builtin.Block
-              className={_utils.cx(
-                _styles,
-                "birth_item-wrapper",
-                "personal",
-                "last"
-              )}
-              tag="div"
-            >
-              <_Builtin.Block
-                className={_utils.cx(_styles, "birth_item-dot")}
-                tag="div"
-              />
-              <_Builtin.Block
-                className={_utils.cx(_styles, "birth_item-text", "personal")}
-                tag="div"
-              >
-                {"or what you’re hoping to understand more deeply"}
-              </_Builtin.Block>
-            </_Builtin.Block>
-          </_Builtin.Block>
-        </_Builtin.Block> */}
-        <_Builtin.Block className={_utils.cx(_styles, "third_part")} tag="div">
-          <_Builtin.Block
-            className={_utils.cx(_styles, "padding-global", "padding-custom1")}
-            tag="div"
-          >
-            <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom1")}
-              tag="div"
-            >
-              <_Builtin.Paragraph
-                className={_utils.cx(
-                  _styles,
-                  "paragraph",
-                  "big",
-                  "text-color-primary",
-                  "personal"
-                )}
-              >
-                {"There’s no need to filter or polish your words."}
-                <br />
-                {"The good, the hard, the messy – it’s all welcome here."}
-              </_Builtin.Paragraph>
-            </_Builtin.Block>
-            <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom2")}
-              tag="div"
-            >
-              <_Builtin.Paragraph
-                className={_utils.cx(
-                  _styles,
-                  "paragraph",
-                  "big",
-                  "text-color-primary",
-                  "personal"
-                )}
-              >
-                {
-                  "This is a safe and private space. Nothing you share is stored or shared beyond your insight."
-                }
-              </_Builtin.Paragraph>
-            </_Builtin.Block>
-            <_Builtin.Block
-              className={_utils.cx(
-                _styles,
-                "margin-bottom",
-                "margin-custom2",
-                "last"
-              )}
-              tag="div"
-            >
-              <_Builtin.Paragraph
-                className={_utils.cx(
-                  _styles,
-                  "paragraph",
-                  "big",
-                  "text-color-primary",
-                  "personal"
-                )}
-              >
-                {"There’s no right or wrong – only what’s true for you."}
+                {"This is a safe and private space. Nothing you share is stored or shared beyond your insight."}
               </_Builtin.Paragraph>
             </_Builtin.Block>
           </_Builtin.Block>
         </_Builtin.Block>
       </_Builtin.Block>
+
+      {/* Form / Text Area input element */}
       <_Builtin.Block
         className={_utils.cx(_styles, "personal_form-wrapper")}
         tag="div"
@@ -338,6 +168,8 @@ export function OnboardingPersonal({
           </_Builtin.FormErrorMessage>
         </_Builtin.FormWrapper>
       </_Builtin.Block>
+
+      {/* Bottom Navigation */}
       <_Builtin.Block
         className={_utils.cx(_styles, "onbording_names-navigation")}
         tag="div"

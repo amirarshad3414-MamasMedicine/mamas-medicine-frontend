@@ -711,7 +711,7 @@
 
 @media screen and (max-width: 479px) {
   .paragraph.text-color-primary.max-width-medium {
-    padding-left: 1rem;
+    padding-left: 0rem;
   }
 }
 
@@ -730,13 +730,13 @@
 }
 
 .paragraph.big {
-  font-size: 2.5rem;
+  font-size: 1.3rem;
   line-height: 160%;
 }
 
 @media screen and (max-width: 479px) {
   .paragraph.big {
-    font-size: 2rem;
+    font-size: 1.05rem;
   }
 }
 
@@ -785,7 +785,7 @@
 
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary.personal {
-    margin-left: 1rem;
+    margin-left: 0rem;
     font-size: 1.5rem;
   }
 }
@@ -870,7 +870,7 @@
 
 @media screen and (max-width: 479px) {
   .paragraph.text-color-primary {
-    margin-left: 2rem;
+    margin-left: 0rem;
     font-size: 1.2rem;
   }
 }
@@ -878,7 +878,7 @@
 @media screen and (max-width: 479px) {
   .paragraph.text-color-primary.max-widht10 {
     max-width: 20rem;
-    margin-left: 2rem;
+    margin-left: 0rem;
   }
 }
 

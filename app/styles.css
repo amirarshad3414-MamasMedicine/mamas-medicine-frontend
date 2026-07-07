@@ -1,3 +1,49 @@
+/* Marketing onboarding uses Quicksand for all text, including buttons. */
+.onboarding-patch,
+.onboarding-patch * {
+  font-family: "Quicksand", sans-serif !important;
+}
+
+/* Prevent horizontal scroll on small screens (question slides overflow). */
+.onboarding-patch {
+  overflow-x: hidden;
+}
+
+/* Question/marketing headings: left-aligned on mobile, centered from sm up. */
+.sf-heading-align {
+  text-align: left !important;
+}
+@media (min-width: 640px) {
+  .sf-heading-align {
+    text-align: center !important;
+  }
+}
+
+/* Gentle-questions (OnboardingQuestions1): keep its native gradient panel, but
+   up to the small breakpoint make the font smaller and the section wider. */
+@media (max-width: 639px) {
+  .sf-q1 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  .sf-q1 h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+  }
+  .sf-q1 p {
+    font-size: 1.05rem !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* Birthdays title spacing: larger margin (margin-custom2) on wider screens,
+   smaller (margin-custom1) up to the small breakpoint. */
+@media (max-width: 479px) {
+  .sf-title-margin {
+    margin: 1.5rem 0 !important;
+  }
+}
+
 .header {
   display: flex;
   justify-content: space-between;

@@ -93,8 +93,8 @@
 }
 
 .padding-global.padding-section7 {
-  padding-top: 7rem;
-  padding-bottom: 7rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 @media screen and (max-width: 479px) {
@@ -148,11 +148,16 @@
 
 .onboarding_reflection_1-wrapper {
   display: flex;
+  width: 100%;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 0rem;
   flex-direction: column;
   justify-content: space-between;
   flex-wrap: nowrap;
-  align-items: center;
+  align-items: stretch;
+  text-align: left;
 }
 
 @media screen and (max-width: 479px) {
@@ -161,14 +166,16 @@
     padding-right: 1rem;
     padding-left: 1rem;
     justify-content: flex-start;
-    align-items: center;
+    align-items: stretch;
   }
 }
+
 
 .margin-bottom {
   margin-top: 0rem;
   margin-right: 0rem;
   margin-left: 0rem;
+  margin-bottom: 1rem;
 }
 
 @media screen and (max-width: 991px) {
@@ -472,14 +479,21 @@
 }
 
 .onbording_heading {
-  line-height: 140%;
+  font-size: 2rem;
+  line-height: 130%;
   font-weight: 700;
+}
+
+@media screen and (max-width: 767px) {
+  .onbording_heading {
+    font-size: 1.75rem;
+  }
 }
 
 @media screen and (max-width: 479px) {
   .onbording_heading {
-    font-size: 2rem;
-    line-height: 140%;
+    font-size: 1.5rem;
+    line-height: 135%;
   }
 }
 
@@ -542,11 +556,12 @@
 .onbording_content.reflection1 {
   position: relative;
   overflow: hidden;
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
   padding-left: 1rem;
   padding-right: 1rem;
 }
@@ -557,7 +572,7 @@
   max-width: 80.2rem;
   margin-bottom: 0px;
   padding-top: 0px;
-  font-size: 1.6rem;
+  font-size: 1.05rem;
   text-align: left;
 }
 
@@ -586,13 +601,19 @@
 }
 
 .paragraph.big {
-  font-size: 2.5rem;
+  font-size: 1.3rem;
   line-height: 160%;
+}
+
+@media screen and (max-width: 767px) {
+  .paragraph.big {
+    font-size: 1.15rem;
+  }
 }
 
 @media screen and (max-width: 479px) {
   .paragraph.big {
-    font-size: 2rem;
+    font-size: 1.05rem;
   }
 }
 
@@ -635,8 +656,8 @@
 @media screen and (max-width: 479px) {
   .paragraph.big.text-color-primary {
     margin-left: 0rem;
-    font-size: 1.5rem !important;
-    line-height: 1;
+    font-size: 1.05rem !important;
+    line-height: 1.5;
   }
 }
 

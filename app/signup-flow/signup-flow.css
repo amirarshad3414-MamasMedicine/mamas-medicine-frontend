@@ -8,6 +8,17 @@
   display: none !important;
 }
 
+/* All fonts in the funnel (including buttons) use Quicksand. */
+.signup-flow-patch,
+.signup-flow-patch * {
+  font-family: "Quicksand", sans-serif !important;
+}
+
+/* Prevent horizontal scrolling on small screens (question slides overflow). */
+.signup-flow-patch {
+  overflow-x: hidden;
+}
+
 /* Fade + slide-in for the progress-slide testimonial slider. Re-triggered each
    time the testimonial changes via a changing React `key`. */
 @keyframes sf-testi-in {
@@ -22,4 +33,34 @@
 }
 .sf-testi-in {
   animation: sf-testi-in 0.5s ease;
+}
+
+/* While the last progress bar holds at 80% waiting for the API, sweep a
+   highlight across it so the user sees the insight is still generating. */
+.sf-progress-pulse {
+  position: relative;
+  overflow: hidden;
+}
+.sf-progress-pulse::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 100%
+  );
+  animation: sf-bar-shimmer 1.2s ease-in-out infinite;
+}
+@keyframes sf-bar-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }

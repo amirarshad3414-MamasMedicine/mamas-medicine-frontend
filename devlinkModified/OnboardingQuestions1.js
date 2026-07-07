@@ -27,7 +27,7 @@ export function OnboardingQuestions1({
     href: "#",
   },
 
-  image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png",
+  image = "/back-arrow.png",
   text4 = "Back",
 
   link2 = {
@@ -38,7 +38,11 @@ export function OnboardingQuestions1({
 }) {
   return (
     <_Component
-      className={_utils.cx(_styles, "padding-global", "padding-section7")}
+      className={`${_utils.cx(
+        _styles,
+        "padding-global",
+        "padding-section7"
+      )} sf-q1`}
       tag="div"
     >
       <_Builtin.Block
@@ -50,7 +54,11 @@ export function OnboardingQuestions1({
           tag="div"
         >
           <_Builtin.Block
-            className={_utils.cx(_styles, "margin-bottom", "margin-custom5")}
+            className={`${_utils.cx(
+              _styles,
+              "margin-bottom",
+              "margin-custom5"
+            )} sf-title-margin`}
             tag="div"
           >
             <_Builtin.Heading
@@ -65,7 +73,7 @@ export function OnboardingQuestions1({
             tag="div"
           >
             <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom3")}
+              className={_utils.cx(_styles, "margin-bottom", )}
               tag="div"
             >
               <_Builtin.Paragraph
@@ -83,7 +91,7 @@ export function OnboardingQuestions1({
               </_Builtin.Paragraph>
             </_Builtin.Block>
             <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom3")}
+              className={_utils.cx(_styles, "margin-bottom")}
               tag="div"
             >
               <_Builtin.Paragraph
@@ -94,7 +102,7 @@ export function OnboardingQuestions1({
                   "text-color-primary",
                   "text-align-center"
                 )}
-                style={{ textAlign: "left" }} // Override to left-align the text from center
+                style={{ textAlign: "left"}} // Override to left-align the text from center
               >
                 {text2}
               </_Builtin.Paragraph>

@@ -148,7 +148,7 @@
 
 .onboarding_reflection_2-wrapper {
   display: flex;
-  margin-bottom: 6rem;
+  margin-bottom: 0rem;
   flex-direction: column;
   justify-content: space-between;
   flex-wrap: nowrap;
@@ -181,7 +181,7 @@
 .step_text {
   margin-right: 2rem;
   font-family: Poppins;
-  font-size: 2.5rem;
+  font-size: 1.2rem;
   line-height: 1;
   font-weight: 600;
   white-space: nowrap;
@@ -190,7 +190,7 @@
 @media screen and (max-width: 479px) {
   .step_text {
     margin-right: 1rem;
-    font-size: 1.5rem;
+    font-size: 1.05rem;
     line-height: 1;
     white-space: nowrap;
   }
@@ -531,7 +531,7 @@
 
 .reflection_heading-text {
   font-family: Poppins;
-  font-size: 2.5rem;
+  font-size: 1.6rem;
   line-height: 140%;
   font-weight: 500;
 }
@@ -539,7 +539,7 @@
 @media screen and (max-width: 479px) {
   .reflection_heading-text {
     font-family: Poppins;
-    font-size: 1.8rem;
+    font-size: 1.35rem;
     line-height: 130%;
     font-weight: 500;
   }
@@ -559,7 +559,7 @@
 @media screen and (max-width: 479px) {
   .reflection_form-wrapper {
     width: 100%;
-    margin-bottom: 4rem;
+    margin-bottom: 0rem;
     padding-top: 1.5rem;
     padding-right: 1rem;
     padding-left: 1rem;

@@ -24,16 +24,15 @@ import {
 } from "./lib";
 import { SF } from "./sf-styles";
 
-import { IntroSlide } from "./slides/IntroSlide";
 import { RelationshipSlide } from "./slides/RelationshipSlide";
-import { Story1Slide } from "./slides/Story1Slide";
 import { Story2Slide } from "./slides/Story2Slide";
-import { ChartSlide } from "./slides/ChartSlide";
+import { MapSlide } from "./slides/MapSlide";
 import { NotFutureSlide } from "./slides/NotFutureSlide";
-import { HowItWorksSlide } from "./slides/HowItWorksSlide";
 import { NamesSlide } from "./slides/NamesSlide";
 import { BirthdaysSlide } from "./slides/BirthdaysSlide";
+import { DataConfirmationStep } from "../onboardingMain/DataConfirmationStep";
 import { PersonalSlide } from "./slides/PersonalSlide";
+import { GentleQuestionsSlide } from "./slides/GentleQuestionsSlide";
 import { QuestionSlide } from "./slides/QuestionSlide";
 import { ProgressSlide } from "./slides/ProgressSlide";
 import { EmailSlide } from "./slides/EmailSlide";
@@ -267,28 +266,22 @@ const App = () => {
     // }
 
     switch (key) {
-      case "intro":
-        return <IntroSlide onNext={goNext} />;
       case "relationship":
+        // First slide — no back button.
         return (
           <RelationshipSlide
             results={results}
             setResults={setResults}
             slideRef={slideRef}
-            onBack={goBack}
             onNext={goNext}
           />
         );
-      case "story1":
-        return <Story1Slide onBack={goBack} onNext={goNext} />;
       case "story2":
         return <Story2Slide onBack={goBack} onNext={goNext} />;
-      case "chart":
-        return <ChartSlide onBack={goBack} onNext={goNext} />;
+      case "map":
+        return <MapSlide onBack={goBack} onNext={goNext} />;
       case "notFuture":
         return <NotFutureSlide onBack={goBack} onNext={goNext} />;
-      case "howItWorks":
-        return <HowItWorksSlide onBack={goBack} onNext={goNext} />;
       case "names":
         return (
           <NamesSlide
@@ -309,6 +302,17 @@ const App = () => {
             onNext={goNext}
           />
         );
+      case "confirm":
+        return (
+          <DataConfirmationStep
+            values={results}
+            isParent={isParent}
+            onBack={goBack}
+            onContinue={goNext}
+            onEditParent={() => setStep(idx("names"))}
+            onEditChild={() => setStep(idx("birthdays"))}
+          />
+        );
       case "personal":
         return (
           <PersonalSlide
@@ -319,6 +323,8 @@ const App = () => {
             onNext={goNext}
           />
         );
+      case "gentleQuestions":
+        return <GentleQuestionsSlide onBack={goBack} onNext={goNext} />;
       case "q2":
         return (
           <QuestionSlide

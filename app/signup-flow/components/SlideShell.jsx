@@ -9,11 +9,13 @@ export function SlideNav({ onBack, onNext, nextLabel = "Next" }) {
   return (
     <div className={SF.nav}>
       {onBack && (
-        <button type="button" className={SF.backBtn} onClick={onBack}>
-          <span className={SF.backIcon}>
-            <img className={SF.backIconImg} src={BACK_ICON} alt="" />
-          </span>
-          <span className={SF.backText}>Back</span>
+        <button
+          type="button"
+          className={SF.backBtn}
+          onClick={onBack}
+          aria-label="Back"
+        >
+          <img className={SF.backImg} src={BACK_ICON} alt="Back" />
         </button>
       )}
       {onNext && (

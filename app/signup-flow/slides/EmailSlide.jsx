@@ -27,7 +27,7 @@ export function EmailSlide({ email, setEmail, onSubmit, processing, onBack }) {
             className={SF.input}
           />
           <PrimaryButton onClick={onSubmit} disabled={processing} full>
-            Reveal my free insight
+            Get my free insight
           </PrimaryButton>
         </div>
       </MarketingSlide>

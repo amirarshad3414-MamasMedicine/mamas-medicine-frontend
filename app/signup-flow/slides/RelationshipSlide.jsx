@@ -15,8 +15,17 @@ export function RelationshipSlide({ results, setResults, slideRef, onBack, onNex
     <SlideShell onBack={onBack} onNext={onNext}>
       <div ref={slideRef}>
         <MarketingSlide
-          eyebrow="Step 1"
-          heading="Which relationship has been weighing on your heart lately?"
+          eyebrow={
+            <>
+              1 Minute
+              <br />
+              Free Personalised Insight
+            </>
+          }
+          heading="Which relationship would you like to explore?"
+          paragraphs={[
+            "Some relationships are easy and others are trying to show you something.",
+          ]}
         >
           <div className={SF.choiceGroup}>
             {OPTIONS.map((opt) => {

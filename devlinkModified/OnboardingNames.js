@@ -13,7 +13,7 @@ export function OnboardingNames({
     href: "#",
   },
 
-  image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png",
+  image = "/back-arrow.png",
   text2 = "Back",
 
   link2 = {
@@ -59,12 +59,12 @@ export function OnboardingNames({
                   method="get"
                   id="wf-form-parent-child-names"
                 >
-                  <_Builtin.FormBlockLabel
+                  {/* <_Builtin.FormBlockLabel
                     className={_utils.cx(_styles, "names_child-heading")}
                     htmlFor="parent-name"
                   >                    
                     {"Your Name"}
-                  </_Builtin.FormBlockLabel>
+                  </_Builtin.FormBlockLabel> */}
                   <_Builtin.Block
                     className={_utils.cx(_styles, "names_form-subtitle")}
                     tag="div"
@@ -76,7 +76,7 @@ export function OnboardingNames({
                     name="parent-name"
                     maxLength={256}
                     data-name="parent name"
-                    placeholder={"Your Name"}
+                    placeholder={"Your name"}
                     disabled={false}
                     type="text"
                     required={true}
@@ -144,12 +144,12 @@ export function OnboardingNames({
                       </label>
                     </_Builtin.Block>
                   </_Builtin.Block>
-                  <_Builtin.FormBlockLabel
+                  {/* <_Builtin.FormBlockLabel
                     className={_utils.cx(_styles, "names_child-heading")}
                     htmlFor="child-name"
                   >                    
                     {`2.Your ${isParent ? "child’s name" : "parent's name"}`}
-                  </_Builtin.FormBlockLabel>
+                  </_Builtin.FormBlockLabel> */}
                   <_Builtin.FormTextInput
                     className={_utils.cx(_styles, "text-field-2")}
                     name="child-name"
@@ -243,7 +243,7 @@ export function OnboardingNames({
               </_Builtin.FormWrapper>
             </_Builtin.Block>
             <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-custom3")}
+              className={_utils.cx(_styles, "margin-bottom", "margin-custom1")}
               tag="div"
             >
               <_Builtin.Paragraph

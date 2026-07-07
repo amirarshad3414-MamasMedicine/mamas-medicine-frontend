@@ -121,7 +121,7 @@
   justify-content: center;
   align-items: center;
   gap: 32px;
-  margin-top: 40px;
+  margin-top: 24px;
 }
 
 .dc-back-nav-item {
@@ -169,14 +169,14 @@
 
 .dc-continue-btn-new {
   flex: 1;
-  max-width: 320px;
-  height: 72px;
+  max-width: 420px;
+  padding: 26px 0px;
   background-color: #fcbd97;
   color: #2d2d2d;
-  border-radius: 36px;
+  border-radius: 44px;
   border: none;
   font-family: "Quicksand", sans-serif;
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -259,7 +259,7 @@
   .dc-continue-btn-new {
     max-width: 100%;
     width: 100%;
-    height: 64px;
+    /* height: 64px; */
     font-size: 20px;
   }
 
@@ -277,4 +277,4 @@
     width: 18px;
     height: 18px;
   }
-}
+}

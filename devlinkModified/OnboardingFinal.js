@@ -11,7 +11,7 @@ export function OnboardingFinal({
   title = "You’re all set",
   text1 = "Thank you for sharing.",
   text2 = "Your insight will be prepared with care, using the details you’ve provided.",
-  image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png",
+  image = "/back-arrow.png",
   text3 = "Back",
   text4 = "Send it",
   onBack,
@@ -31,7 +31,11 @@ export function OnboardingFinal({
           tag="div"
         >
           <_Builtin.Block
-            className={_utils.cx(_styles, "margin-bottom", "margin-custom3")}
+            className={`${_utils.cx(
+              _styles,
+              "margin-bottom",
+              "margin-custom3"
+            )} sf-title-margin`}
             tag="div"
           >
             <_Builtin.Heading

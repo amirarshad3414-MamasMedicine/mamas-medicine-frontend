@@ -93,7 +93,7 @@ export function OnboardingBirthdays({
     href: "#",
   },
 
-  image3 = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png",
+  image3 = "/back-arrow.png",
 
   link2 = {
     href: "#",
@@ -120,7 +120,11 @@ export function OnboardingBirthdays({
           tag="div"
         >
           <_Builtin.Block
-            className={_utils.cx(_styles, "margin-bottom", "margin-custom2")}
+            className={`${_utils.cx(
+              _styles,
+              "margin-bottom",
+              "margin-custom2"
+            )} sf-title-margin`}
             tag="div"
           >
             <_Builtin.Heading
@@ -158,7 +162,8 @@ export function OnboardingBirthdays({
                     className={_utils.cx(_styles, "names_form-heading")}
                     tag="div"
                   >                    
-                    {isParent ? "Your details" : "Child details"}  
+                    {/* {isParent ? "Your details" : "Child details"}   */}
+                    {"Your details"}  
                   </_Builtin.Block>
                 </_Builtin.Block>
                 <_Builtin.Block
@@ -176,7 +181,7 @@ export function OnboardingBirthdays({
                     <_Builtin.Span
                       className={_utils.cx(_styles, "span_italic")}
                     >
-                      {"You"}
+                      {""}
                     </_Builtin.Span>
                   </_Builtin.Block>
                 </_Builtin.Block>
@@ -323,7 +328,7 @@ export function OnboardingBirthdays({
                     className={_utils.cx(_styles, "names_form-heading")}
                     tag="div"
                   >
-                    {`4. ${isParent ? "Child details" : "Parent details"}`}
+                    {""}
                   </_Builtin.Block>
                 </_Builtin.Block>
                 <_Builtin.Block
@@ -339,11 +344,9 @@ export function OnboardingBirthdays({
                     tag="div"
                     id="your-child"
                   >
-                    <_Builtin.Span
-                      className={_utils.cx(_styles, "span_italic")}
-                    >
-                      {`${isParent ? "Your child" : "Your Parent"}`}
-                    </_Builtin.Span>
+                    
+                    {`${isParent ? "Your child" : "Your Parent"}`}
+                    
                   </_Builtin.Block>
                 </_Builtin.Block>
                 <_Builtin.FormWrapper

@@ -18,7 +18,7 @@ export function OnboardingQuestion2({
     href: "#",
   },
 
-  image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png",
+  image = "/back-arrow.png",
   text3 = "Back",
 
   link2 = {
@@ -69,15 +69,19 @@ export function OnboardingQuestion2({
             </_Builtin.Block>
           </_Builtin.Block>
           <_Builtin.Block
-            className={_utils.cx(_styles, "margin-bottom", "margin-custom5")}
+            className={`${_utils.cx(
+              _styles,
+              "margin-bottom",
+              "margin-custom5"
+            )} sf-title-margin`}
             tag="div"
           >
             <_Builtin.Block
-              className={_utils.cx(
+              className={`${_utils.cx(
                 _styles,
                 "reflection_heading-text",
                 "text-align-center"
-              )}
+              )} sf-heading-align`}
               tag="div"
             >
               {dynamicQuestionText2}

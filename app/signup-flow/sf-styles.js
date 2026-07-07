@@ -16,40 +16,53 @@
 export const SF = {
   // page + section scaffolding (replicates padding-global + padding-section-medium + container-large-5)
   page: "bg-[#eef1fa] min-h-[60vh]",
-  section: "px-[5%] py-[5rem] max-sm:py-[2rem]",
+  // reduced vertical padding so slides fit on one screen (client: remove large padding)
+  section: "px-[5%] py-[3rem] max-sm:py-[1.5rem]",
   container: "w-full max-w-[90rem] mx-auto",
   wrapper: "flex flex-col items-center",
   content: "flex flex-col items-center w-full",
 
-  // heading + eyebrow + paragraph (replicates onbording_heading + paragraph big text-color-primary)
-  headingWrap: "mb-10 text-center max-w-[64rem] mx-auto",
+  // heading + eyebrow + paragraph — sizes reduced so copy fits one screen
+  headingWrap: "mb-6 text-start sm:text-center max-w-[64rem] mx-auto",
   eyebrow: "uppercase tracking-[0.08em] text-[#b07b8f] font-bold text-[0.95rem] mb-3",
   heading:
-    "text-[2rem]! md:text-[2.5rem]! leading-[1.35]! font-bold! my-0! p-0! text-[#333]",
-  paragraphWrap: "mb-6 max-w-[64rem] w-full",
+    "text-[1.6rem]! md:text-[2rem]! leading-[1.3]! font-bold! my-0! p-0! text-[#333]",
+  paragraphWrap: "mb-4 max-w-[64rem] w-full",
   paragraph:
-    "text-[1.5rem] md:text-[1.9rem] leading-[1.6] text-[#333]! text-center mb-0!",
+    "text-[1.15rem]! md:text-[1.35rem]! leading-[1.55]! text-[#333]! text-start sm:text-center mb-0!",
+  // Page 3 relationship-map image
+  mapImage: "max-h-[30rem] mx-auto rounded-2xl my-5",
+
+  // left-aligned prose (Story2 / gentle copy)
+  proseWrap: "max-w-[46rem] mx-auto text-left",
+  headingLeft:
+    "text-[1.6rem]! md:text-[2rem]! leading-[1.3]! font-bold! text-[#333] mb-5! mt-0!",
+  bodyLeft: "text-[1.1rem] md:text-[1.2rem] leading-[1.65] text-[#333]! mb-4",
+  bodyLeftBold:
+    "text-[1.1rem] md:text-[1.2rem] leading-[1.65] text-[#333]! font-bold mb-4",
+
+  // inline review card (NotFuture slide) — name/role + gold stars, quote below
+  reviewCard:
+    "bg-white rounded-2xl p-5 border border-[#ececf4] shadow-sm max-w-[40rem] mx-auto mt-8 text-left",
+  reviewHead: "flex items-start justify-between gap-3 mb-2",
+  reviewName: "font-bold text-[#333] text-[1.05rem] leading-tight",
+  reviewRole: "text-[#8a8a99] text-[0.85rem]",
+  reviewStars: "text-[#fcbd97] text-[1rem] tracking-[0.1em] shrink-0",
+  reviewQuote: "text-[1.05rem] leading-[1.6] text-[#333]!",
 
   // nav (exact replica of .onbording_names-navigation: flex, centered, 4rem gap,
   // align-stretch; mobile = flex-start + 2rem gap). Outer mt/pb/px are funnel layout.
   nav:
-    "flex justify-center items-stretch gap-16 pb-20! px-[5%] max-sm:justify-start max-sm:items-start max-sm:gap-8",
-  // .back_bnt — transparent; icon stacked above text
-  backBtn: "flex flex-col items-center bg-transparent border-0 cursor-pointer p-0",
-  // .back_bnt-icon — 4rem white circle (2.5rem on mobile), no shadow
-  backIcon:
-    "flex items-center justify-center w-16 h-16 mb-2 rounded-full bg-white max-sm:w-10 max-sm:h-10",
-  // .icon_img — natural size, pointer cursor (matches width/height="auto")
-  backIconImg: "cursor-pointer",
-  // .back_text — Poppins 1.5rem/700 (#333); mobile 1.2rem/500, line-height 100%
-  backText:
-    "[font-family:Poppins,sans-serif] text-[#333] text-[1.5rem] font-bold max-sm:text-[1.2rem] max-sm:leading-none max-sm:font-medium",
+    "flex justify-center items-stretch gap-16 pb-20! px-[5%] max-sm:justify-center max-sm:items-center max-sm:gap-8",
+  // back button — just the new back-arrow.png image (no white circle, no label)
+  backBtn: "flex items-center  bg-transparent border-0 cursor-pointer p-0",
+  backImg: "w-16 h-16 max-sm:w-12 max-sm:h-12 object-contain",
 
   // primary button — exact replica of .btn-onboarding (Quicksand 2rem/700 #333,
   // 1.5rem 2.5rem padding, 3.47rem radius, #fcbd97 fill+border, 300ms transition;
   // hover -> #dadada fill + #333 border; mobile padding-y 1rem)
   btn:
-    "inline-flex items-center justify-center py-6 px-10 rounded-[3.47rem] bg-[#fcbd97] border border-[#fcbd97] text-[#333] text-[2rem] leading-[1.2] font-bold no-underline cursor-pointer transition-colors duration-300 hover:bg-[#dadada] hover:border-[#333] [font-family:Quicksand,sans-serif] max-sm:py-4",
+    "inline-flex items-center justify-center py-6 px-10 rounded-[3.47rem] bg-[#fcbd97] border border-[#fcbd97] text-[#333] text-[2rem] leading-[1.2] font-bold! no-underline cursor-pointer transition-colors duration-300 hover:bg-[#dadada] hover:border-[#333] font-quicksand max-sm:py-4",
   // .onbord modifier — fixed 20rem width (15rem x 4rem on mobile) for the nav Next button
   btnNav: "w-[20rem] max-sm:w-[15rem] max-sm:h-16",
   btnFull: "w-full max-w-[32rem]",

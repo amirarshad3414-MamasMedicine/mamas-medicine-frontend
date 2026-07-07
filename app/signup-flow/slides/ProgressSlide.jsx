@@ -65,6 +65,7 @@ export function ProgressSlide({ ready, onComplete }) {
   }, []);
 
   const active = activeRef.current;
+  const lastIndex = PROGRESS_STEPS.length - 1;
   // One testimonial per bar; hold the last one for the final bar.
   const testimonialIndex = Math.min(active, PROGRESS_TESTIMONIALS.length - 1);
   const testimonial = PROGRESS_TESTIMONIALS[testimonialIndex];
@@ -78,7 +79,8 @@ export function ProgressSlide({ ready, onComplete }) {
           </div>
           <div className={SF.paragraphWrap}>
             <p className={SF.paragraph}>
-              Almost there — your free teaser is on its way.
+              You're moments away from discovering just how powerful parenting
+              astrology can be.
             </p>
           </div>
           <ul className={SF.progressList}>
@@ -86,6 +88,8 @@ export function ProgressSlide({ ready, onComplete }) {
               if (i > active) return null; // upcoming steps stay hidden
               const pct = Math.round(fillsRef.current[i] || 0);
               const done = pct >= 100;
+              // Last bar, still waiting on the API -> shimmer so it keeps moving.
+              const waiting = i === lastIndex && !ready;
               return (
                 <li key={label} className={SF.progressItem}>
                   <span className={SF.progressLabel}>
@@ -93,7 +97,9 @@ export function ProgressSlide({ ready, onComplete }) {
                   </span>
                   <span className={SF.progressTrack}>
                     <span
-                      className={SF.progressFillAnimated}
+                      className={`${SF.progressFillAnimated}${
+                        waiting ? " sf-progress-pulse" : ""
+                      }`}
                       style={{ width: `${pct}%` }}
                     />
                   </span>

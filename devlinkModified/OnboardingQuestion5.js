@@ -18,7 +18,7 @@ export function OnboardingQuestion5({
     href: "#",
   },
 
-  image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa1_left_16025619.png",
+  image = "/back-arrow.png",
   text3 = "Back",
 
   link2 = {
@@ -68,15 +68,19 @@ export function OnboardingQuestion5({
             </_Builtin.Block>
           </_Builtin.Block>
           <_Builtin.Block
-            className={_utils.cx(_styles, "margin-bottom", "margin-custom5")}
+            className={`${_utils.cx(
+              _styles,
+              "margin-bottom",
+              "margin-custom5"
+            )} sf-title-margin`}
             tag="div"
           >
             <_Builtin.Block
-              className={_utils.cx(
+              className={`${_utils.cx(
                 _styles,
                 "reflection_heading-text",
                 "text-align-center"
-              )}
+              )} sf-heading-align`}
               tag="div"
             >
               {dynamicQuestionText2}
@@ -132,7 +136,7 @@ export function OnboardingQuestion5({
                   <_Builtin.FormInlineLabel
                     className={_utils.cx(_styles, "reflection_bnt-label")}
                   >
-                    {"Their safe place"}
+                    {isParent ? "Their safe place" : "Your safe place"}
                   </_Builtin.FormInlineLabel>
                 </_Builtin.FormRadioWrapper>
                 <_Builtin.FormRadioWrapper
@@ -165,7 +169,7 @@ export function OnboardingQuestion5({
                   <_Builtin.FormInlineLabel
                     className={_utils.cx(_styles, "reflection_bnt-label")}
                   >
-                    {"Their guide"}
+                    {isParent ? "Their guide" : "Your guide"}
                   </_Builtin.FormInlineLabel>
                 </_Builtin.FormRadioWrapper>
                 <_Builtin.FormRadioWrapper
@@ -198,7 +202,7 @@ export function OnboardingQuestion5({
                   <_Builtin.FormInlineLabel
                     className={_utils.cx(_styles, "reflection_bnt-label")}
                   >
-                    {"Their emotional support"}
+                    {isParent ? "Their emotional support" : "Your emotional support"}
                   </_Builtin.FormInlineLabel>
                 </_Builtin.FormRadioWrapper>
                 <_Builtin.FormRadioWrapper
@@ -231,7 +235,7 @@ export function OnboardingQuestion5({
                   <_Builtin.FormInlineLabel
                     className={_utils.cx(_styles, "reflection_bnt-label")}
                   >
-                    {"Their quiet cheerleader"}
+                    {isParent ? "Their quiet cheerleader" : "Your quiet cheerleader"}
                   </_Builtin.FormInlineLabel>
                 </_Builtin.FormRadioWrapper>
                 <_Builtin.FormRadioWrapper
@@ -264,7 +268,7 @@ export function OnboardingQuestion5({
                   <_Builtin.FormInlineLabel
                     className={_utils.cx(_styles, "reflection_bnt-label")}
                   >
-                    {"Their boundary-setter"}
+                    {isParent ? "Their boundary-setter" : "Your boundary-setter"}
                   </_Builtin.FormInlineLabel>
                 </_Builtin.FormRadioWrapper>
                 <_Builtin.FormRadioWrapper
