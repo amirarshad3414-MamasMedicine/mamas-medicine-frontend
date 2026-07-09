@@ -9,7 +9,7 @@ function createTransporter() {
     service: "gmail",
     auth: {
       user: "ramshamzamop@gmail.com",
-      pass: "nooh osop cqzh gmdg",
+      pass: "roxb vpso ojxu awng",
     },
   });
 }

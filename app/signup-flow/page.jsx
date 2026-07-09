@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import { NavbarOnboarding } from "../../devlinkModified/NavbarOnboarding";
 import { DashboardFooter } from "../../devlinkModified/DashboardFooter";
 
@@ -174,6 +175,21 @@ const App = () => {
       // console.log(`Submit onboarding response:`, subRes); 
 
       const teaserText = subRes?.teaser || "";
+
+      // 4. Send the teaser email 
+      if(!!teaserText) {
+        // const BASE_URL = "http://localhost:3000";
+        const send_teaser = await axios.post(`/api/send-teaser`, { 
+          email: trimmedEmail,
+          teaser_text: teaserText,
+          parent_name: userRelation === "parent" ? (mapped.username || "") : (mapped.childname || ""),
+          child_name: userRelation === "child" ? (mapped.username || "") : (mapped.childname || ""),          
+        },{
+          headers: {
+            'Content-Type': 'application/json',
+        }});
+      } 
+
       if (!teaserText) {
         throw {
           message:

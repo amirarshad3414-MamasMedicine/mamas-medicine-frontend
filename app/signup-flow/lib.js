@@ -91,7 +91,7 @@ export const PROGRESS_TESTIMONIALS = [
   },
   {
     quote:
-      "It described the power struggle between us so specifically — and it was spot on, but in a very gentle, accepting way.",
+      "It described the power struggle between us so specifically - and it was spot on, but in a very gentle, accepting way.",
     name: "Bri",
     role: "Mum + Step Mum",
   },

@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import teaserFormat from "./teaser";
 
 const MAIL_USER = process.env.MAIL_USER || "ramshamzamop@gmail.com";
-const MAIL_PASS = process.env.MAIL_PASS || "nooh osop cqzh gmdg";
+const MAIL_PASS = process.env.MAIL_PASS || "roxb vpso ojxu awng";
 
 // --- markdown-ish text -> email-safe HTML (same approach /send-email uses for deep) ---
 
