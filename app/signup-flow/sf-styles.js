@@ -41,15 +41,6 @@ export const SF = {
   bodyLeftBold:
     "text-[1.1rem] md:text-[1.2rem] leading-[1.65] text-[#333]! font-bold mb-4",
 
-  // inline review card (NotFuture slide) — name/role + gold stars, quote below
-  reviewCard:
-    "bg-white rounded-2xl p-5 border border-[#ececf4] shadow-sm max-w-[40rem] mx-auto mt-8 text-left",
-  reviewHead: "flex items-start justify-between gap-3 mb-2",
-  reviewName: "font-bold text-[#333] text-[1.05rem] leading-tight",
-  reviewRole: "text-[#8a8a99] text-[0.85rem]",
-  reviewStars: "text-[#fcbd97] text-[1rem] tracking-[0.1em] shrink-0",
-  reviewQuote: "text-[1.05rem] leading-[1.6] text-[#333]!",
-
   // nav (exact replica of .onbording_names-navigation: flex, centered, 4rem gap,
   // align-stretch; mobile = flex-start + 2rem gap). Outer mt/pb/px are funnel layout.
   nav:
@@ -84,6 +75,10 @@ export const SF = {
   bullets: "list-none p-0 m-0 flex flex-col gap-4 text-left max-w-[32rem] mx-auto",
   bullet: "text-[1.25rem] text-[#333] leading-[1.5]",
 
+  // reassurance microcopy sat directly above a primary CTA
+  ctaNote:
+    "text-[0.85rem]! md:text-[0.95rem]! leading-[1.5] text-[#333]! text-center max-w-[32rem] mx-auto mb-4! mt-0!",
+
   // email input
   input:
     "w-full! py-4! px-5! mb-6! text-[1.1rem]! text-[#333]! bg-white! border-[1.5px]! border-[#d9d9e3]! rounded-xl! outline-none! focus:border-[#fc97bd]! [font-family:Quicksand,sans-serif]!",
@@ -93,7 +88,9 @@ export const SF = {
   loading: "flex flex-col items-center text-center w-full",
   progressList:
     "list-none p-0 mt-10 mx-auto max-w-[28rem] w-full flex flex-col gap-6 text-left",
-  progressItem: "font-semibold text-[#333]",
+  progressItem: "font-semibold text-[#333] transition-opacity duration-500",
+  // steps that haven't started filling yet: greyed back, but still on screen
+  progressItemUpcoming: "opacity-40",
   progressLabel: "flex items-center gap-2 mb-2",
   progressTrack: "block h-2 rounded-full bg-[#e3e3ee] overflow-hidden",
   progressFill:

@@ -20,21 +20,20 @@ export const STEPS = [
   "relationship", // 1  Which relationship (My child / My parent)
   "story2", // 2  Every relationship tells a story
   "map", // 3  We'll map the energy of the relationship (image)
-  "notFuture", // 4  This isn't about predicting the future (+ testimonial)
-  "names", // 5  Names (OnboardingNames)
-  "birthdays", // 6  Birth details (OnboardingBirthdays)
-  "confirm", // 7  Detail confirmation (DataConfirmationStep)
-  "personal", // 8  Free-text message (OnboardingPersonal -> raw_user_message)
-  "gentleQuestions", // 9  A few gentle questions intro
-  "q2", // 10 Connection question 1 (climate / Step1)
-  "q3", // 11 Connection question 2 (activation / Step2)
-  "q4", // 12 Connection question 3 (closeness / Step3)
-  "q5", // 13 Connection question 4 (posture / Step4)
-  "email", // 14 Enter email -> kicks off register/create/submit chain
-  "progress", // 15 Animated progress bars while submit_onboarding runs
-  "teaser", // 16 Teaser analysis
-  "buy", // 17 Buy now -> Stripe
-  "afterPurchase", // 18 After purchase
+  "names", // 4  Names (OnboardingNames)
+  "birthdays", // 5  Birth details (OnboardingBirthdays)
+  "confirm", // 6  Detail confirmation (DataConfirmationStep)
+  "gentleQuestions", // 7  A few gentle questions intro
+  "q2", // 8  Connection question 1 (climate / Step1)
+  "q3", // 9  Connection question 2 (activation / Step2)
+  "q4", // 10 Connection question 3 (closeness / Step3)
+  "q5", // 11 Connection question 4 (posture / Step4)
+  "personal", // 12 Free-text message (OnboardingPersonal -> raw_user_message)
+  "email", // 13 Enter email -> kicks off register/create/submit chain
+  "progress", // 14 Animated progress bars while submit_onboarding runs
+  "teaser", // 15 Teaser analysis
+  "buy", // 16 Buy now -> Stripe
+  "afterPurchase", // 17 After purchase
 ];
 export const idx = (key) => STEPS.indexOf(key);
 export const SCRAPE_STEPS = new Set([
@@ -69,7 +68,9 @@ export const PROGRESS_FAST_FORWARD_MS = 700;
 
 /* Testimonials shown as a slider on the progress slide — one per progress bar,
    switching as each new bar begins (index-aligned with the active bar, clamped
-   to the last one for the final bar). */
+   to the last one). Keep this the same length as PROGRESS_STEPS so every bar
+   brings a fresh quote. Quote marks are added by the component; don't include
+   them here. */
 export const PROGRESS_TESTIMONIALS = [
   {
     quote:
@@ -94,6 +95,12 @@ export const PROGRESS_TESTIMONIALS = [
       "It described the power struggle between us so specifically - and it was spot on, but in a very gentle, accepting way.",
     name: "Bri",
     role: "Mum + Step Mum",
+  },
+  {
+    quote:
+      "I felt so seen. It put into words my feelings and gave me something concrete as a core to how it was playing out in my relationship",
+    name: "Jolene",
+    role: "Mum of 10 and 13 year olds",
   },
 ];
 

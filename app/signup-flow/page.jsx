@@ -28,7 +28,6 @@ import { SF } from "./sf-styles";
 import { RelationshipSlide } from "./slides/RelationshipSlide";
 import { Story2Slide } from "./slides/Story2Slide";
 import { MapSlide } from "./slides/MapSlide";
-import { NotFutureSlide } from "./slides/NotFutureSlide";
 import { NamesSlide } from "./slides/NamesSlide";
 import { BirthdaysSlide } from "./slides/BirthdaysSlide";
 import { DataConfirmationStep } from "../onboardingMain/DataConfirmationStep";
@@ -178,7 +177,7 @@ const App = () => {
 
       // 4. Send the teaser email 
       if(!!teaserText) {
-        // const BASE_URL = "http://localhost:3000";
+        
         const send_teaser = await axios.post(`/api/send-teaser`, { 
           email: trimmedEmail,
           teaser_text: teaserText,
@@ -296,8 +295,6 @@ const App = () => {
         return <Story2Slide onBack={goBack} onNext={goNext} />;
       case "map":
         return <MapSlide onBack={goBack} onNext={goNext} />;
-      case "notFuture":
-        return <NotFutureSlide onBack={goBack} onNext={goNext} />;
       case "names":
         return (
           <NamesSlide
@@ -327,16 +324,6 @@ const App = () => {
             onContinue={goNext}
             onEditParent={() => setStep(idx("names"))}
             onEditChild={() => setStep(idx("birthdays"))}
-          />
-        );
-      case "personal":
-        return (
-          <PersonalSlide
-            slideRef={slideRef}
-            formData={results}
-            isParent={isParent}
-            onBack={goBack}
-            onNext={goNext}
           />
         );
       case "gentleQuestions":
@@ -378,6 +365,16 @@ const App = () => {
         return (
           <QuestionSlide
             Component={OnboardingQuestion5}
+            slideRef={slideRef}
+            formData={results}
+            isParent={isParent}
+            onBack={goBack}
+            onNext={goNext}
+          />
+        );
+      case "personal":
+        return (
+          <PersonalSlide
             slideRef={slideRef}
             formData={results}
             isParent={isParent}

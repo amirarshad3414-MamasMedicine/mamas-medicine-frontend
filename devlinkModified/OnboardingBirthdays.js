@@ -55,7 +55,7 @@ export default function PlacesAutocomplete({ name }) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Place of birth (city, country)"
-        style={{ width: "100%", padding: "12px" }}
+        style={{ width: "100%" }}
         name={name}
         onClick={() => (resultClicked.current = false)}
       />
@@ -85,7 +85,7 @@ export default function PlacesAutocomplete({ name }) {
 
 export function OnboardingBirthdays({
   as: _Component = _Builtin.Block,
-  title = "A little about when you both arrived…",
+  title = "Let's create your relationship chart",
   image1 = "",
   image2 = "",
 
@@ -123,8 +123,7 @@ export function OnboardingBirthdays({
             className={`${_utils.cx(
               _styles,
               "margin-bottom",
-              "margin-custom2"
-            )} sf-title-margin`}
+            )} sf-title-margin-birthData`}
             tag="div"
           >
             <_Builtin.Heading
@@ -163,26 +162,7 @@ export function OnboardingBirthdays({
                     tag="div"
                   >                    
                     {/* {isParent ? "Your details" : "Child details"}   */}
-                    {"Your details"}  
-                  </_Builtin.Block>
-                </_Builtin.Block>
-                <_Builtin.Block
-                  className={_utils.cx(
-                    _styles,
-                    "margin-bottom",
-                    "margin-custom1"
-                  )}
-                  tag="div"
-                >
-                  <_Builtin.Block
-                    className={_utils.cx(_styles, "names_form-heading")}
-                    tag="div"
-                  >
-                    <_Builtin.Span
-                      className={_utils.cx(_styles, "span_italic")}
-                    >
-                      {""}
-                    </_Builtin.Span>
+                    {"Your details"}
                   </_Builtin.Block>
                 </_Builtin.Block>
                 <_Builtin.FormWrapper
@@ -327,26 +307,9 @@ export function OnboardingBirthdays({
                   <_Builtin.Block
                     className={_utils.cx(_styles, "names_form-heading")}
                     tag="div"
-                  >
-                    {""}
-                  </_Builtin.Block>
-                </_Builtin.Block>
-                <_Builtin.Block
-                  className={_utils.cx(
-                    _styles,
-                    "margin-bottom",
-                    "margin-custom1"
-                  )}
-                  tag="div"
-                >
-                  <_Builtin.Block
-                    className={_utils.cx(_styles, "names_form-heading")}
-                    tag="div"
                     id="your-child"
                   >
-                    
                     {`${isParent ? "Your child" : "Your Parent"}`}
-                    
                   </_Builtin.Block>
                 </_Builtin.Block>
                 <_Builtin.FormWrapper

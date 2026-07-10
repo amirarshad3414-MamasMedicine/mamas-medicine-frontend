@@ -7,34 +7,29 @@ import _styles from "../devlink/OnboardingQuestions1.module.css";
 export function OnboardingQuestions1({
   as: _Component = _Builtin.Block,
   title = "A few gentle questions to help me tune in...",
-  text1 = (
+  text1 = "Astrology shows the patterns in a relationship.",
+  text2 = "You know how those patterns are actually being lived.",
+  text3 = "These next questions help me understand what your relationship feels like today.",
+  text4 = (
     <>
-      {"Astrology shows the themes and patterns of a relationship."}
+      {"There are no right or wrong answers."}
       <br />
-      <br />
-      {"But every pattern can express in different ways."}
-      <br />
-      {" There’s a softer way it can show up, and a more challenging way."}
-      <br />
-      <br />
-      {"Only you know how it actually feels day to day."}
+      {"Just answer from where your relationship is right now."}
     </>
   ),
-  text2 = "These questions help me understand how this energy is being lived between you, right now. So what you receive feels grounded, relevant, and true to your real life.",
-  text3 = "There are no right or wrong answers - relationships shift, especially as children grow.",
 
   link1 = {
     href: "#",
   },
 
   image = "/back-arrow.png",
-  text4 = "Back",
+  text5 = "Back",
 
   link2 = {
     href: "#",
   },
 
-  text5 = "Next",
+  text6 = "Next",
 }) {
   return (
     <_Component
@@ -73,7 +68,7 @@ export function OnboardingQuestions1({
             tag="div"
           >
             <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", )}
+              className={_utils.cx(_styles, "margin-bottom")}
               tag="div"
             >
               <_Builtin.Paragraph
@@ -82,7 +77,6 @@ export function OnboardingQuestions1({
                   "paragraph",
                   "big",
                   "text-color-primary",
-                  "bold",
                   "text-align-center"
                 )}
                 style={{ textAlign: "left" }} // Override to left-align the text from center
@@ -100,23 +94,48 @@ export function OnboardingQuestions1({
                   "paragraph",
                   "big",
                   "text-color-primary",
+                  "bold",
                   "text-align-center"
                 )}
-                style={{ textAlign: "left"}} // Override to left-align the text from center
+                style={{ textAlign: "left" }} // Override to left-align the text from center
               >
                 {text2}
               </_Builtin.Paragraph>
             </_Builtin.Block>
-            <_Builtin.Paragraph
-              className={_utils.cx(
-                _styles,
-                "paragraph",
-                "text-color-primary",
-                "bold"
-              )}
+            <_Builtin.Block
+              className={_utils.cx(_styles, "margin-bottom")}
+              tag="div"
             >
-              {text3}
-            </_Builtin.Paragraph>
+              <_Builtin.Paragraph
+                className={_utils.cx(
+                  _styles,
+                  "paragraph",
+                  "big",
+                  "text-color-primary",
+                  "text-align-center"
+                )}
+                style={{ textAlign: "left" }} // Override to left-align the text from center
+              >
+                {text3}
+              </_Builtin.Paragraph>
+            </_Builtin.Block>
+            <_Builtin.Block
+              className={_utils.cx(_styles, "margin-bottom")}
+              tag="div"
+            >
+              <_Builtin.Paragraph
+                className={_utils.cx(
+                  _styles,
+                  "paragraph",
+                  "big",
+                  "text-color-primary",
+                  "text-align-center"
+                )}
+                style={{ textAlign: "left" }} // Override to left-align the text from center
+              >
+                {text4}
+              </_Builtin.Paragraph>
+            </_Builtin.Block>
             <_Builtin.Block
               className={_utils.cx(_styles, "reflection1_gradient")}
               tag="div"
@@ -150,7 +169,7 @@ export function OnboardingQuestions1({
                 className={_utils.cx(_styles, "back_text")}
                 tag="div"
               >
-                {text4}
+                {text5}
               </_Builtin.Block>
             </_Builtin.Link>
             <_Builtin.Link
@@ -160,7 +179,7 @@ export function OnboardingQuestions1({
               block=""
               options={link2}
             >
-              {text5}
+              {text6}
             </_Builtin.Link>
           </_Builtin.Block>
         </_Builtin.Block>

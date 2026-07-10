@@ -12,26 +12,21 @@ export function Story2Slide({ onBack, onNext }) {
           <div className={SF.proseWrap}>
             <h2 className={SF.headingLeft}>Every relationship tells a story.</h2>
             <p className={SF.bodyLeft}>
-              Some stories are easy and beautiful. Some feel intense. Others
-              quietly play out through the same arguments, misunderstandings or
-              worries, that seem to repeat again and again.
+              Some feel easy.<br/>
+              Some leave us repeating the same
+              arguments, worries or misunderstandings.
             </p>
             <p className={SF.bodyLeftBold}>
               What if those moments weren't random?
             </p>
             <p className={SF.bodyLeft}>
-              What if they were part of a deeper pattern? One that could help you
-              understand each other with more compassion, less blame, and a
-              little more peace?
-            </p>
-            <p className={SF.bodyLeft}>
-              <strong>The Hidden Story Between You</strong> shows the emotional
+              Soul Sighted maps the hidden emotional
               patterns shaping your relationship.
             </p>
             <p className={SF.bodyLeft}>
-              It helps you see the growth opportunities that would strengthen your
-              bond or sometimes… find purpose in the pain.
+              Button - Let's find yours
             </p>
+            
           </div>
         </div>
       </div>

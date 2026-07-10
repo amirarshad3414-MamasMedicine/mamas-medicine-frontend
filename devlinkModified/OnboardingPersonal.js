@@ -72,7 +72,7 @@ export function OnboardingPersonal({
                   "personal"
                 )}
               >
-                {"Just as if we were sitting together and talking things through - this part allows a little real life context to come through."}
+                {"Your birth details sketch the picture."}
               </_Builtin.Paragraph>
             </_Builtin.Block>
 
@@ -90,7 +90,7 @@ export function OnboardingPersonal({
                   "personal"
                 )}
               >
-                {"The good, the hard, the messy - it’s all welcome here. It could be a specific thing you’ve been thinking about lately, or just more general."}
+                {"Your words add the colour."}
               </_Builtin.Paragraph>
             </_Builtin.Block>
 
@@ -108,7 +108,7 @@ export function OnboardingPersonal({
                   "personal"
                 )}
               >
-                {"This is a safe and private space. Nothing you share is stored or shared beyond your insight."}
+                {"Together, they create a far more personal insight.."}
               </_Builtin.Paragraph>
             </_Builtin.Block>
           </_Builtin.Block>
@@ -137,7 +137,7 @@ export function OnboardingPersonal({
                 name="raw_user_message"
                 maxLength="1800"
                 data-name="raw_user_message"
-                placeholder={`${isParent ? 'What it feels like to parent this child…' : 'What it feels like growing up with this parent…'}`}
+                placeholder={`${isParent ? 'What it feels like to parent this child…' : 'What it felt like growing up with this parent…'}`}
                 required={false}
                 autoFocus={false}
                 id="raw_user_message"

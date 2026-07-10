@@ -1026,6 +1026,25 @@
   align-items: center;
 }
 
+/* Intro copy panel. Under 640px it spans the row as a normal block. From 640px
+   up it hugs its longest line: fit-content resolves to min(max-content,
+   available), so it shrinks to the text but can never overflow the container.
+   The 1.5rem from .padding-custom1 on the inner div is part of that intrinsic
+   width, so the panel keeps its breathing room on both sides. */
+@media screen and (min-width: 640px) {
+  .first_part {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* The wrapper's left-only padding would bias the auto margins, landing the
+     panel 0.75rem right of true center. */
+  .personal_content-wrapper {
+    padding-left: 0rem;
+  }
+}
+
 @media screen and (max-width: 479px) {
   .btn-onboarding.onbord {
     width: 15rem;

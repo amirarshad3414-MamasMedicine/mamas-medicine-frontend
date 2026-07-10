@@ -44,6 +44,26 @@
   }
 }
 
+/* Birthdays title. Set each side explicitly: a `margin` shorthand here would
+   also override the 10px bottom that OnboardingBirthdays.module.css sets. */
+.sf-title-margin-birthData {
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+}
+
+@media (min-width: 480px) {
+  .sf-title-margin-birthData {
+    margin: 1.5rem 0 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .sf-title-margin-birthData {
+    margin: 2rem 0 !important;
+  }
+}
+
+
 .header {
   display: flex;
   justify-content: space-between;

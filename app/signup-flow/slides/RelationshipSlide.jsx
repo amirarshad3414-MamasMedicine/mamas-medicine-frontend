@@ -23,9 +23,7 @@ export function RelationshipSlide({ results, setResults, slideRef, onBack, onNex
             </>
           }
           heading="Which relationship would you like to explore?"
-          paragraphs={[
-            "Some relationships are easy and others are trying to show you something.",
-          ]}
+          
         >
           <div className={SF.choiceGroup}>
             {OPTIONS.map((opt) => {

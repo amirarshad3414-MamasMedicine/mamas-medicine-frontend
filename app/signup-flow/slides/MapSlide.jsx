@@ -13,7 +13,7 @@ export function MapSlide({ onBack, onNext }) {
           <div className={SF.wrapper}>
             <div className={SF.headingWrap}>
               <h2 className={SF.heading}>
-                We'll map the energy of the relationship itself
+                Your relationship has energy
               </h2>
             </div>
             <img
@@ -23,11 +23,16 @@ export function MapSlide({ onBack, onNext }) {
             />
             <div className={SF.content}>
               <div className={SF.paragraphWrap}>
-                <p className={SF.paragraph}>It is disarmingly accurate.</p>
+                <p className={SF.paragraph}>We'll create a relationship chart using both birth details.</p>
               </div>
               <div className={SF.paragraphWrap}>
                 <p className={SF.paragraph}>
-                  You will feel seen &amp; validated in a way you will not expect.
+                  We're not analysing either of you individually.
+                </p>
+              </div>
+              <div className={SF.paragraphWrap}>
+                <p className={SF.paragraph}>
+                  We're mapping the energy that exists between you.
                 </p>
               </div>
             </div>

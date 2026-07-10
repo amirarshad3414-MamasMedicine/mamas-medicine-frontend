@@ -10,10 +10,11 @@ import {
 
 const TICK = 50; // ms between animation frames
 
-// Animated build-up shown while submit_onboarding runs. Each step's bar fills
-// 0 -> 100 in sequence and the next step only appears once the previous bar
-// completes. The final bar fills to 80% then HOLDS until `ready` (the API
-// response) is true, after which it completes to 100% and calls onComplete.
+// Animated build-up shown while submit_onboarding runs. Every step's bar is on
+// screen from the start — upcoming ones sit greyed out at 0% and gain colour as
+// they fill. The bars still fill 0 -> 100 one at a time, in sequence. The final
+// bar fills to 80% then HOLDS until `ready` (the API response) is true, after
+// which it completes to 100% and calls onComplete.
 //
 // Animation state lives in refs (not state) so the interval never restarts and
 // reads the latest `ready`/`onComplete` without re-subscribing; a tick counter
@@ -66,7 +67,7 @@ export function ProgressSlide({ ready, onComplete }) {
 
   const active = activeRef.current;
   const lastIndex = PROGRESS_STEPS.length - 1;
-  // One testimonial per bar; hold the last one for the final bar.
+  // One testimonial per bar; clamp so the last one holds once every bar is done.
   const testimonialIndex = Math.min(active, PROGRESS_TESTIMONIALS.length - 1);
   const testimonial = PROGRESS_TESTIMONIALS[testimonialIndex];
 
@@ -85,13 +86,19 @@ export function ProgressSlide({ ready, onComplete }) {
           </div>
           <ul className={SF.progressList}>
             {PROGRESS_STEPS.map((label, i) => {
-              if (i > active) return null; // upcoming steps stay hidden
               const pct = Math.round(fillsRef.current[i] || 0);
               const done = pct >= 100;
-              // Last bar, still waiting on the API -> shimmer so it keeps moving.
-              const waiting = i === lastIndex && !ready;
+              const started = i <= active; // upcoming steps render greyed out
+              // Last bar, once it's the one filling and still waiting on the
+              // API -> shimmer so it keeps moving.
+              const waiting = i === lastIndex && i === active && !ready;
               return (
-                <li key={label} className={SF.progressItem}>
+                <li
+                  key={label}
+                  className={`${SF.progressItem}${
+                    started ? "" : ` ${SF.progressItemUpcoming}`
+                  }`}
+                >
                   <span className={SF.progressLabel}>
                     {done ? "✓" : "…"} {label}
                   </span>

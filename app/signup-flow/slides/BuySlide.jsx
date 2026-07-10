@@ -5,11 +5,11 @@ import { MarketingSlide } from "../components/MarketingSlide";
 import { SF } from "../sf-styles";
 
 const INCLUDES = [
-  "Why this pattern exists",
-  "The gifts hidden inside it",
-  "The challenges you're most likely to face",
-  "What this relationship is teaching both of you",
-  "Practical guidance for navigating the dynamic",
+  "Understand why this relationship feels the way it does",
+  "Discover the strengths hidden inside it",
+  "Learn what's really driving the challenges",
+  "Grow a stronger connection together",
+  
 ];
 
 // Slide 18 — Buy now -> Stripe checkout.
@@ -17,9 +17,9 @@ export function BuySlide({ onBuy, checkingOut, onBack }) {
   return (
     <SlideShell onBack={onBack}>
       <MarketingSlide
-        eyebrow="Your full insights"
+        eyebrow="Your full insights are ready and waiting."
         heading="You've uncovered one layer."
-        paragraphs={["Now discover the whole story."]}
+        paragraphs={["Now discover everything else your relationship has been trying to show you."]}
       >
         <ul className={SF.bullets} style={{ marginBottom: "2rem" }}>
           {INCLUDES.map((b) => (
@@ -28,6 +28,9 @@ export function BuySlide({ onBuy, checkingOut, onBack }) {
             </li>
           ))}
         </ul>
+        <p className={SF.ctaNote}>
+          Instant access • Saved to your private dashboard + sent to your email
+        </p>
         <PrimaryButton onClick={onBuy} disabled={checkingOut} full>
           {checkingOut ? "Redirecting…" : "Buy now"}
         </PrimaryButton>

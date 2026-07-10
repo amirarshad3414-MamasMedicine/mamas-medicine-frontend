@@ -16,6 +16,15 @@
     border-radius: 1rem;
 }
 
+/* 38px matches the .w-input height the date/time fields inherit.
+   Keep font-size at 16px — below that, iOS Safari zooms on focus. */
+@media (max-width: 479px) {
+  .dropdown-input input {
+    height: 38px;
+    font-size: 1rem;
+  }
+}
+
 .dropdown * {
     background: #f5f5f5;
     color: #333;
