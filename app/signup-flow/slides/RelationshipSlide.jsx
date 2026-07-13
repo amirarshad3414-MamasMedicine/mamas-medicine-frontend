@@ -13,7 +13,7 @@ const OPTIONS = [
 export function RelationshipSlide({ results, setResults, slideRef, onBack, onNext }) {
   return (
     <SlideShell onBack={onBack} onNext={onNext}>
-      <div ref={slideRef}>
+      <div ref={slideRef} className="pt-6">
         <MarketingSlide
           eyebrow={
             <>

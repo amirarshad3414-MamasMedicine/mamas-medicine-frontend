@@ -21,6 +21,13 @@ export function BuySlide({ onBuy, checkingOut, onBack }) {
         heading="You've uncovered one layer."
         paragraphs={["Now discover everything else your relationship has been trying to show you."]}
       >
+        {/* Extra top CTA so users ready to buy don't have to scroll past the
+            full benefits list first. */}
+        <div className="flex justify-center py-6">
+          <PrimaryButton onClick={onBuy} disabled={checkingOut} full>
+            {checkingOut ? "Redirecting…" : "Buy now"}
+          </PrimaryButton>
+        </div>
         <ul className={SF.bullets} style={{ marginBottom: "2rem" }}>
           {INCLUDES.map((b) => (
             <li key={b} className={SF.bullet}>

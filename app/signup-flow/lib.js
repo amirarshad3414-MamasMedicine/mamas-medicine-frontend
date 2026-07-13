@@ -283,3 +283,29 @@ export const errorSwal = (text) =>
     icon: "error",
     className: "custom-swal-error",
   });
+
+/* True when a registration failure means the email already has an account
+   (i.e. they've already claimed their free insight). */
+export const isAccountExistsError = (e) => {
+  const m = (e?.message || "").toLowerCase();
+  return (
+    e?.status === 403 ||
+    e?.status === 409 ||
+    m.includes("already") ||
+    m.includes("in use") ||
+    m.includes("exist")
+  );
+};
+
+/* Friendly "you already have an account" message (replaces the raw
+   "This account is already in use." error). Resolves when OK is pressed. */
+export const alreadyUnlockedSwal = () => {
+  const el = document.createElement("div");
+  el.innerHTML =
+    '<div style="font-size:3rem;line-height:1">❤️</div>' +
+    '<p style="font-weight:700;font-size:1.2rem;color:#333;margin:0.9rem 0 0;font-family:Quicksand,sans-serif">' +
+    "You&#39;ve already unlocked your free insight.</p>" +
+    '<p style="font-size:1.05rem;color:#333;margin:0.75rem 0 0;font-family:Quicksand,sans-serif">' +
+    "Explore another relationship inside your dashboard.</p>";
+  return swal({ content: el, button: "OK", className: "custom-swal-unlock" });
+};

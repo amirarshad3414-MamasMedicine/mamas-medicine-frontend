@@ -22,6 +22,8 @@ import {
   scrapeInputs,
   validateForStep,
   errorSwal,
+  isAccountExistsError,
+  alreadyUnlockedSwal,
 } from "./lib";
 import { SF } from "./sf-styles";
 
@@ -60,8 +62,18 @@ const App = () => {
   const isParent = relationshipFocus === "child";
 
   const scrollTop = () => {
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== "undefined")
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   };
+
+  // Always land at the top of a newly-shown slide. The inline scrollTop() calls
+  // in the click handlers fire before React commits the next slide, so on tall
+  // pages (e.g. teaser -> buy) the browser would keep the old scroll offset and
+  // drop the user near the bottom. Running it in an effect keyed on `step`
+  // guarantees the scroll happens *after* the new slide is painted.
+  useEffect(() => {
+    scrollTop();
+  }, [step]);
 
   // Returning from a successful Stripe checkout: fire the Purchase pixel, then
   // send the user to the dashboard where the full deep + summary insight (already
@@ -208,6 +220,15 @@ const App = () => {
         child_id,
       });
     } catch (e) {
+      // Already-registered email: they've already claimed their free insight.
+      // Show a warm message and send them to the login page on OK.
+      if (isAccountExistsError(e)) {
+        setStep(idx("email"));
+        scrollTop();
+        await alreadyUnlockedSwal();
+        window.location.href = "/signin";
+        return;
+      }
       errorSwal(e?.message);
       // On failure, return to the email slide so the user can retry.
       setStep(idx("email"));

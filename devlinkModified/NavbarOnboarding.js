@@ -96,7 +96,7 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                   <_Builtin.DropdownLink
                     className={_utils.cx(_styles, "soul_link")}
                     options={{
-                      href: "https://soul-sighted.com/parent-child-dynamic",
+                      href: "https://soul-sighted.com/your-family-connection",
                     }}
                   >
                     {"Your Parenting Dynamic"}
@@ -124,6 +124,14 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                     }}
                   >
                     {"Ask Me Anything!"}
+                  </_Builtin.DropdownLink>
+                  <_Builtin.DropdownLink
+                    className={_utils.cx(_styles, "soul_link")}
+                    options={{
+                      href: "https://soul-sighted.com/1-1-reading",
+                    }}
+                  >
+                    {"Go Deeper"}
                   </_Builtin.DropdownLink>
                 </_Builtin.DropdownList>
               </_Builtin.DropdownWrapper>
@@ -158,7 +166,7 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                   <_Builtin.DropdownLink
                     className={_utils.cx(_styles, "soul_link")}
                     options={{
-                      href: "https://soul-sighted.com/parent-child-dynamic",
+                      href: "https://soul-sighted.com/your-family-connection",
                     }}
                   >
                     {"Your Parenting Dynamic"}
@@ -186,6 +194,14 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
                     }}
                   >
                     {"Ask Me Anything!"}
+                  </_Builtin.DropdownLink>
+                  <_Builtin.DropdownLink
+                    className={_utils.cx(_styles, "soul_link")}
+                    options={{
+                      href: "https://soul-sighted.com/1-1-reading",
+                    }}
+                  >
+                    {"Go Deeper"}
                   </_Builtin.DropdownLink>
                 </_Builtin.DropdownList>
               </_Builtin.DropdownWrapper>
