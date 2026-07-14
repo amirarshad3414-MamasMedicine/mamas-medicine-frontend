@@ -87,7 +87,7 @@ export const SF = {
   // loading / progress
   loading: "flex flex-col items-center text-center w-full",
   progressList:
-    "list-none p-0 mt-6 mr-auto ml-0 max-w-[30rem] w-full flex flex-col gap-3.5 text-left",
+    "list-none p-0 mt-6 ml-0 mr-auto sm:mx-auto max-w-[30rem] w-full flex flex-col gap-3.5 text-left",
   progressItem: "font-semibold text-[#333] transition-opacity duration-500",
   // steps that haven't started filling yet: greyed back, but still on screen
   progressItemUpcoming: "opacity-40",
