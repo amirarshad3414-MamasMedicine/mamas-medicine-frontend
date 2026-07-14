@@ -80,6 +80,18 @@ const App = () => {
     // return () => clearInterval(i)
   }, [refresh]);
 
+  // A checkout button sets loading=true then redirects to Stripe. If the user
+  // presses Back, the browser can restore this page from its back/forward cache
+  // with loading still true — a stuck spinner. Reload on bfcache restore so the
+  // dashboard reflects the latest (post-checkout) state.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) window.location.reload();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
   if (loading)
     return (
       <>

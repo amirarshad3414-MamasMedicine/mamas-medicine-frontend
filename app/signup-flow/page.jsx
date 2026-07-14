@@ -94,6 +94,22 @@ const App = () => {
     setStep(idx("afterPurchase"));
   }, []);
 
+  // Clicking "Buy now" sets checkingOut=true and redirects to Stripe. If the
+  // user then presses Back, the browser restores this page from its
+  // back/forward cache with the stale React state, leaving both buttons stuck
+  // on "Redirecting…". `pageshow` fires on that restore (event.persisted), so
+  // reset the in-flight flags to make the buttons usable again.
+  useEffect(() => {
+    const onPageShow = (e) => {
+      if (e.persisted) {
+        setCheckingOut(false);
+        setSettingPassword(false);
+      }
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
   const goNext = () => {
     if (SCRAPE_STEPS.has(key)) {
       const merged = { ...results, ...scrapeInputs(slideRef.current) };
