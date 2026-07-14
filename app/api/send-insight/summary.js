@@ -524,6 +524,8 @@ export default function summaryFormat(childName, html) {
                                                                                                                     <div
                                                                                                                         style="font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:16px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.5;text-align:left;color:#333333;">
                                                                                                                         ${html}
+                                                                                                                        <p style="margin-top:1.5em;">If you'd like to find out how this astrology is affecting your personal chart - <a href="https://soul-sighted.com/1-1-reading" style="color:#333333;text-decoration:underline;" target="_blank">let's chat</a>.</p>
+                                                                                                                        <p>Understanding how our relationships trigger and expand our own chart is where real growth can happen.</p>
                                                                                                                     </div>
                                                                                                                 </td>
                                                                                                             </tr>
@@ -644,19 +646,19 @@ export default function summaryFormat(childName, html) {
                                                                                                                     style="font-size:0px;padding:0px;word-break:break-word;">
                                                                                                                     <div
                                                                                                                         style="font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.5;text-align:left;color:#555555;">
-                                                                                                                        <p>Your reading is also saved in your private portal here &rarr; <a href="https://parenting-insights.soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">Log In</a></p>
-                                                                                                                        <p>I've loved mapping this with you.</p>
+                                                                                                                        <p>The energy changes with each family relationship. Sometimes dramatically.</p>
+                                                                                                                        <p>If you'd like to see the growth potential with your other children or even your own parents, you can begin that journey <a href="https://parenting-insights.soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">here</a>.</p>
+                                                                                                                        <p>It's been my absolute pleasure to share this work with you.</p>
                                                                                                                         <p>Warmly,</p>
                                                                                                                         <img
                                                                                                                             src="https://parenting-insights.soul-sighted.com/email-logo.png"
-                                                                                                                            alt="Soul Sighted's Medicine"
+                                                                                                                            alt="Soul Sighted"
                                                                                                                             style="display:block;outline:none;text-decoration:none;height:auto;width:160px;margin:10px 0;"
                                                                                                                             width="160" />
                                                                                                                         <p>Founder, Soul Sighted</p>
                                                                                                                         <p style="color:#888;font-size:13px;">
-                                                                                                                            P.S. This work spreads quietly, from one conversation to the next.
-                                                                                                                            If it felt meaningful, please tell a friend - it might also help her
-                                                                                                                            find a little more ease.
+                                                                                                                            P.S. Word of mouth is everything for emerging thinking like this.
+                                                                                                                            If it resonated, sharing it with a friend will help them too.
                                                                                                                         </p>
                                                                                                                     </div>
                                                                                                                 </td>
