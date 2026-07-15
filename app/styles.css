@@ -145,7 +145,7 @@
   color: #0b1730cc;
   background-color: #0000;
   border-color: #0b1730cc;
-  font-family: Poppins;
+  font-family: Quicksand;
   font-style: normal;
 }
 
@@ -163,7 +163,7 @@
   height: 5rem;
   padding-top: 0;
   padding-bottom: 0;
-  font-family: Poppins;
+  font-family: Quicksand;
   font-size: 2.5rem;
   font-weight: 400;
   line-height: 1.575rem;
@@ -206,6 +206,13 @@
 .onboarding-patch div:has(> p) {
   margin: 0 !important;
   margin-bottom: 3rem !important;
+}
+
+/* Dashboard "Let's make this personal" (context) page: the global 3rem gap
+   above is far too large here, leaving a big empty space between the intro copy
+   and the text box. Tighten the paragraph spacing on this page only. */
+.onboarding-patch .sf-personal-page div:has(> p) {
+  margin-bottom: 1rem !important;
 }
 
 .onboarding-patch .content div:has(> h2) {
@@ -379,7 +386,7 @@
 
 @media screen and (max-width: 479px) {
   .onboarding-patch > div {
-    padding-top: 0.5rem !important;
+    padding-top: 1.5rem !important; /* client: slightly more top padding above the progress bar */
     transform: scale(0.85); /* tighter scale for smaller devices */
   }
 }

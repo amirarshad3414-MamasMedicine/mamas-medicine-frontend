@@ -6,7 +6,7 @@ import { SF } from "../sf-styles";
 // Page 2 — "Every relationship tells a story" (left aligned).
 export function Story2Slide({ onBack, onNext }) {
   return (
-    <SlideShell onBack={onBack} onNext={onNext}>
+    <SlideShell onBack={onBack} onNext={onNext} nextLabel="Let's find yours…">
       <div className={SF.section}>
         <div className={SF.container}>
           <div className={SF.proseWrap}>
@@ -23,10 +23,6 @@ export function Story2Slide({ onBack, onNext }) {
               Soul Sighted maps the hidden emotional
               patterns shaping your relationship.
             </p>
-            <p className={SF.bodyLeft}>
-              Button - Let's find yours
-            </p>
-            
           </div>
         </div>
       </div>

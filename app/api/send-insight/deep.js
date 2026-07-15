@@ -644,19 +644,19 @@ export default function deepFormat(html) {
                                                                                                                     style="font-size:0px;padding:0px;word-break:break-word;">
                                                                                                                     <div
                                                                                                                         style="font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.5;text-align:left;color:#555555;">
-                                                                                                                        <p>Your reading is also saved in your private portal here &rarr; <a href="https://parenting-insights.soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">Log In</a></p>
-                                                                                                                        <p>I've loved mapping this with you.</p>
+                                                                                                                        <p>Your insights are also saved in your private dashboard <a href="https://parenting-insights.soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">here</a>, along with any future insights.</p>
+                                                                                                                        <p>Comparing these insights with another child - or even your relationship with your own parents - only feels even more magical and purposeful.</p>
+                                                                                                                        <p>Thank you for letting me map this with you.<br />If you'd like to <a href="https://soul-sighted.com/1-1-reading" style="color:#000;text-decoration:underline;" target="_blank">go deeper</a> and chat it through in person, just hit reply and let's book it in.</p>
                                                                                                                         <p>Warmly,</p>
                                                                                                                         <img
                                                                                                                             src="https://parenting-insights.soul-sighted.com/email-logo.png"
                                                                                                                             alt="Soul Sighted"
                                                                                                                             style="display:block;outline:none;text-decoration:none;height:auto;width:160px;margin:10px 0;"
                                                                                                                             width="160" />
-                                                                                                                        <p>Soul Sighted</p>
+                                                                                                                        <p>Founder, Soul Sighted</p>
                                                                                                                         <p style="color:#888;font-size:13px;">
-                                                                                                                            P.S. This work spreads quietly, from one conversation to the next.
-                                                                                                                            If it felt meaningful, please tell a friend - it might also help her
-                                                                                                                            find a little more ease.
+                                                                                                                            P.S. If your insights felt meaningful, please tell a friend about us
+                                                                                                                            and help them gain more clarity in their family too.
                                                                                                                         </p>
                                                                                                                     </div>
                                                                                                                 </td>

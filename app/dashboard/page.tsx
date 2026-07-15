@@ -30,15 +30,35 @@ const App = () => {
   const refreshData = () => setRefresh(!refresh);
 
   useEffect(() => {
+    // No auth token (e.g. it was cleared during the Stripe round-trip) — go
+    // straight to sign in instead of spinning on the loader forever.
+    if (typeof window !== "undefined" && !localStorage.getItem("authToken")) {
+      window.location.href = "/signin";
+      return;
+    }
+
+    let settled = false;
+    // Safety net: if /get_children ever hangs (backend busy generating the
+    // insight right after purchase, flaky network, etc.) never leave the user
+    // stuck on the spinner — drop into the dashboard shell after 12s.
+    const failSafe = setTimeout(() => {
+      if (!settled) setLoading(false);
+    }, 12000);
+
     const f = async () => {
       try {
-        const { children, insights, purchases } = await request({
+        const res: any = await request({
           method: "GET",
           endpoint: "/get_children",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
         });
+        const {
+          children = [],
+          insights = [],
+          purchases = [],
+        } = res || {};
         const childrenObj: Record<
           string,
           { child: any; insights: any[]; purchases: any[] }
@@ -60,25 +80,45 @@ const App = () => {
           setSelectedChild(firstChild?.child?.id);
 
         setChildren(childrenObj);
-        setLoading(false);
       } catch (err: any) {
         if (
           err?.status === 401 ||
-          err?.message?.toLowerCase().includes("expired")
+          err?.status === 403 ||
+          err?.message?.toLowerCase().includes("token") ||
+          err?.message?.toLowerCase().includes("expired") ||
+          err?.message?.toLowerCase().includes("unauthorized")
         ) {
           localStorage.removeItem("authToken");
           localStorage.removeItem("user");
           window.location.href = "/signin";
-        } else {
-          setLoading(false);
+          return;
         }
+        // Any other failure: surface it but still show the dashboard shell.
+        console.error("Dashboard get_children failed:", err);
+      } finally {
+        settled = true;
+        clearTimeout(failSafe);
+        setLoading(false);
       }
     };
     f();
 
+    return () => clearTimeout(failSafe);
     // const i = setInterval(f, 5_000)
     // return () => clearInterval(i)
   }, [refresh]);
+
+  // A checkout button sets loading=true then redirects to Stripe. If the user
+  // presses Back, the browser can restore this page from its back/forward cache
+  // with loading still true — a stuck spinner. Reload on bfcache restore so the
+  // dashboard reflects the latest (post-checkout) state.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) window.location.reload();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
 
   if (loading)
     return (

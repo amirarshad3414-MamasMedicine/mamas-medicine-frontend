@@ -345,18 +345,20 @@ const App = () => {
             isParent={isParent}
           />
         );
+      // Context box (OnboardingPersonal) now comes AFTER the Q1-4 questions,
+      // matching the signup-flow order: gentle intro -> Q1-4 -> personal.
       case 4:
-        return <OnboardingPersonal formData={results} isParent={isParent} />;
-      case 5:
         return <OnboardingQuestion1 formData={results} />;
-      case 6:
+      case 5:
         return <OnboardingQuestion2 formData={results} isParent={isParent} />;
-      case 7:
+      case 6:
         return <OnboardingQuestion3 formData={results} isParent={isParent} />;
-      case 8:
+      case 7:
         return <OnboardingQuestion4 formData={results} isParent={isParent} />;
-      case 9:
+      case 8:
         return <OnboardingQuestion5 formData={results} isParent={isParent} />;
+      case 9:
+        return <OnboardingPersonal formData={results} isParent={isParent} />;
       case 10:
         return (
           <OnboardingFinal

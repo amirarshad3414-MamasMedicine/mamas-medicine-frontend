@@ -27,7 +27,7 @@ export function OnboardingPersonal({
 
   return (
     <_Component
-      className={_utils.cx(_styles, "container-large-5", "personal")}
+      className={`${_utils.cx(_styles, "container-large-5", "personal")} sf-personal-page`}
       tag="div"
     >
       {/* Title block matching your mockup top layout */}
@@ -72,7 +72,7 @@ export function OnboardingPersonal({
                   "personal"
                 )}
               >
-                {"Your birth details sketch the picture."}
+                {"Your birth details draw the picture."}
               </_Builtin.Paragraph>
             </_Builtin.Block>
 
@@ -108,7 +108,27 @@ export function OnboardingPersonal({
                   "personal"
                 )}
               >
-                {"Together, they create a far more personal insight.."}
+                {"Together, they create a far more meaningful insight."}
+              </_Builtin.Paragraph>
+            </_Builtin.Block>
+
+            {/* Paragraph 4 — extra prompt sentence */}
+            <_Builtin.Block
+              className={_utils.cx(_styles, "margin-bottom", "last")}
+              tag="div"
+            >
+              <_Builtin.Paragraph
+                className={_utils.cx(
+                  _styles,
+                  "paragraph",
+                  "big",
+                  "text-color-primary",
+                  "personal"
+                )}
+              >
+                {
+                  "What’s going on between you two lately? The good, the bad, the confusing… we’ll make sense of it together."
+                }
               </_Builtin.Paragraph>
             </_Builtin.Block>
           </_Builtin.Block>
@@ -149,6 +169,23 @@ export function OnboardingPersonal({
                 {"300 words max."}
               </_Builtin.Block>
             </_Builtin.Block>
+            {/* Reminder sits OUTSIDE the fixed-height text-area wrapper so it
+                flows normally below the box instead of overlapping the nav. */}
+            <_Builtin.Paragraph
+              className={`${_utils.cx(
+                _styles,
+                "paragraph",
+                "text-color-primary"
+              )} sf-personal-reminder`}
+              style={{
+                marginTop: "1rem",
+                marginBottom: "0",
+                textAlign: "left",
+                color: "#333",
+              }}
+            >
+              {"Reminder - this is a completely safe and private space."}
+            </_Builtin.Paragraph>
             <_Builtin.FormButton
               className={_utils.cx(_styles, "submit-button-2")}
               type="submit"

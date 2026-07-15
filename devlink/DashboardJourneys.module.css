@@ -215,6 +215,9 @@
 .journey_card-img.is-parenting {
   position: relative;
   padding-bottom: 1.5rem;
+  /* Client: use an image that clearly includes a toddler (parent + toddler
+     bear hugging) instead of the adult-only crop. */
+  background-image: url("/Your Parenting Dynamic.png");
 }
 
 @media screen and (max-width: 479px) {

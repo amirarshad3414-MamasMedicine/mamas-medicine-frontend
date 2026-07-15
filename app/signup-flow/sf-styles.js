@@ -37,9 +37,9 @@ export const SF = {
   proseWrap: "max-w-[46rem] mx-auto text-left",
   headingLeft:
     "text-[1.6rem]! md:text-[2rem]! leading-[1.3]! font-bold! text-[#333] mb-5! mt-0!",
-  bodyLeft: "text-[1.1rem] md:text-[1.2rem] leading-[1.65] text-[#333]! mb-4",
+  bodyLeft: "text-[1rem] md:text-[1.1rem] leading-[1.6] text-[#333]! mb-3",
   bodyLeftBold:
-    "text-[1.1rem] md:text-[1.2rem] leading-[1.65] text-[#333]! font-bold mb-4",
+    "text-[1rem] md:text-[1.1rem] leading-[1.6] text-[#333]! font-bold mb-3",
 
   // nav (exact replica of .onbording_names-navigation: flex, centered, 4rem gap,
   // align-stretch; mobile = flex-start + 2rem gap). Outer mt/pb/px are funnel layout.
@@ -87,11 +87,11 @@ export const SF = {
   // loading / progress
   loading: "flex flex-col items-center text-center w-full",
   progressList:
-    "list-none p-0 mt-10 mx-auto max-w-[28rem] w-full flex flex-col gap-6 text-left",
+    "list-none p-0 mt-6 ml-0 mr-auto sm:mx-auto max-w-[30rem] w-full flex flex-col gap-3.5 text-left",
   progressItem: "font-semibold text-[#333] transition-opacity duration-500",
   // steps that haven't started filling yet: greyed back, but still on screen
   progressItemUpcoming: "opacity-40",
-  progressLabel: "flex items-center gap-2 mb-2",
+  progressLabel: "flex items-center gap-2 mb-1.5 text-[0.9rem]",
   progressTrack: "block h-2 rounded-full bg-[#e3e3ee] overflow-hidden",
   progressFill:
     "block h-full w-2/3 rounded-full bg-gradient-to-r from-[#fc97bd] to-[#fcbd97] animate-pulse",
@@ -103,9 +103,9 @@ export const SF = {
 
   // progress-slide testimonial slider (white card on the lavender progress page;
   // name on top, quote below, left-aligned — no avatar/link)
-  progressTestimonialWrap: "mt-12 w-full max-w-[40rem] mx-auto",
+  progressTestimonialWrap: "mt-6 w-full max-w-[40rem] mx-auto",
   progressTestimonial:
-    "bg-white rounded-2xl p-7 border border-[#e3e3ee] shadow-sm text-left",
+    "bg-white rounded-2xl p-5 border border-[#e3e3ee] shadow-sm text-left",
   progressTestimonialName: "font-bold text-[#b07b8f] text-[1.15rem] leading-tight",
   progressTestimonialRole: "text-[#8a8a99] text-[0.9rem] mt-1",
   progressTestimonialQuote:

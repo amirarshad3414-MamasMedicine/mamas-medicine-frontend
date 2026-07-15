@@ -179,10 +179,10 @@ export const getPurchaseFullInsight = () => {
                                                                     style="padding:28px 24px 12px;word-break:break-word;">
                                                                     <div
                                                                         style="font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:16px;line-height:1.6;text-align:left;color:#2E3A59;">
-                                                                        <p style="padding-bottom:1em;">If you purchased your full insights - they can be found in your private portal here &rarr; <a href="${PORTAL_URL}" style="color:#2E3A59;text-decoration:underline;" target="_blank">soul-sighted login</a></p>
+                                                                        <p style="padding-bottom:1em;">If you purchased your full insights - they can be found in your private dashboard <a href="${PORTAL_URL}" style="color:#2E3A59;text-decoration:underline;" target="_blank">here</a>.</p>
                                                                         <p style="padding-bottom:1em;">It&rsquo;s so interesting to view all your family members from this perspective - and watch how our experiences in both easy going and challenging relationships are mapped in the sky.</p>
                                                                         <p style="padding-bottom:1em;">All our meaningful relationships are teaching us something.</p>
-                                                                        <p style="padding-bottom:1em;">There is so much more to learn. New insights can be purchased inside your private space here &rarr; <a href="${PORTAL_URL}" style="color:#2E3A59;text-decoration:underline;" target="_blank">soul-sighted login</a></p>
+                                                                        <p style="padding-bottom:1em;">There is so much more to learn. New insights can be purchased inside your private space <a href="${PORTAL_URL}" style="color:#2E3A59;text-decoration:underline;" target="_blank">here</a>.</p>
                                                                     </div>
                                                                 </td>
                                                             </tr>

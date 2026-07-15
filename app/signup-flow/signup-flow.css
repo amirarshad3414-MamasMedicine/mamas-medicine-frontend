@@ -8,6 +8,13 @@
   display: none !important;
 }
 
+/* The components' own nav container now has a top margin (for the dashboard
+   view). In the funnel that nav is hidden, so zero the container's margin to
+   avoid leaving an empty gap above SlideShell's own nav. */
+.signup-flow-patch [class*="onbording_names-navigation"] {
+  margin-top: 0 !important;
+}
+
 /* All fonts in the funnel (including buttons) use Quicksand. */
 .signup-flow-patch,
 .signup-flow-patch * {

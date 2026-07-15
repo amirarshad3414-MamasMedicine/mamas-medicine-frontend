@@ -174,7 +174,8 @@
 
 @media screen and (max-width: 479px) {
   .progress_bar-wrapper {
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
+    justify-content: center;
   }
 }
 
@@ -693,6 +694,7 @@
 
 .onbording_names-navigation {
   display: flex;
+  margin-top: 2.5rem;
   justify-content: center;
   align-items: stretch;
   grid-column-gap: 4rem;
@@ -701,6 +703,7 @@
 
 @media screen and (max-width: 479px) {
   .onbording_names-navigation {
+    margin-top: 0.5rem;
     justify-content: center;
     align-items: center;
     grid-column-gap: 2rem;

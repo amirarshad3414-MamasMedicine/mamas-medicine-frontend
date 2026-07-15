@@ -309,7 +309,7 @@ export function SignupForm({
                 </_Builtin.Block>
                 <button id='submit-btn' type="submit" style={{ display: 'none' }} onClick={async ev => {
                     ev.preventDefault()
-                    const email = document.querySelector('[data-ms-member=email').value
+                    const email = document.querySelector('[data-ms-member=email]').value
                     const fullName = document.querySelector('[data-ms-member=full-name]').value
                     const password = document.querySelector('[data-ms-member=password]').value
                     const confirmPassword = document.querySelector('[data-name="Confirm Passowrd"]').value
