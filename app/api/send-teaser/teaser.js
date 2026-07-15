@@ -272,7 +272,7 @@ export default function teaserFormat(html) {
                                                             <tr>
                                                                 <td style="padding:0px;">
                                                                     <img
-                                                                        src="https://parenting-insights.soul-sighted.com/teaser_the_hidden_story.jpeg"
+                                                                        src="https://parenting-insights.soul-sighted.com/email-teaser-header.png"
                                                                         alt="The Hidden Story Between You"
                                                                         style="display:block;outline:none;text-decoration:none;height:auto;width:100%;"
                                                                         width="600" />
@@ -370,6 +370,35 @@ export default function teaserFormat(html) {
                 </tbody>
             </table>
 
+            <!-- SECOND IMAGE SECTION  "See the whole picture" -->
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="kl-section" role="presentation"
+                style="width:100%;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                    style="background:#FFFFFF;background-color:#FFFFFF;width:100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding:8px 18px 20px;">
+                                                <a href="https://parenting-insights.soul-sighted.com/signin" target="_blank" style="text-decoration:none;display:block;">
+                                                    <img
+                                                        src="https://parenting-insights.soul-sighted.com/email-teaser-body.png"
+                                                        alt="See the whole picture"
+                                                        style="display:block;outline:none;text-decoration:none;height:auto;width:100%;border-radius:8px;"
+                                                        width="564" />
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
             <!-- FOOTER TEXT SECTION -->
             <table align="center" border="0" cellpadding="0" cellspacing="0" class="kl-section" role="presentation"
                 style="width:100%;">
@@ -420,18 +449,23 @@ export default function teaserFormat(html) {
                                                                                                                     style="font-size:0px;padding:20px;word-break:break-word;">
                                                                                                                     <div
                                                                                                                         style="font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.5;text-align:left;color:#555555;">
-                                                                                                                        <p>This is just a glimpse. Your full Soul Sighted reading goes deeper &rarr; <a href="https://parenting-insights.soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">Unlock your full reading</a></p>
+                                                                                                                        <p>If you purchased your full insights &ndash; you can find them in your private dashboard <a href="https://parenting-insights.soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">here</a>.</p>
+                                                                                                                        <p>I found it fascinating to learn about my children AND my own parents from this higher perspective.</p>
+                                                                                                                        <p>You begin to see how the most difficult parts of your family relationships are your growth edges, and the most beautiful parts (that can be easily taken for granted) are your gifts.</p>
+                                                                                                                        <p>Then to realise that all those inner feelings are actually mapped in the sky (!) brings huge amounts of purpose and clarity.</p>
+                                                                                                                        <p>All our meaningful relationships are teaching us something.</p>
+                                                                                                                        <p>There is so much more to learn. New insights can be purchased inside your private space <a href="https://parenting-insights.soul-sighted.com/signin" style="color:#000;text-decoration:underline;" target="_blank">here</a>.</p>
+                                                                                                                        <p>I&rsquo;d love to keep working with you.</p>
                                                                                                                         <p>Warmly,</p>
                                                                                                                         <img
                                                                                                                             src="https://parenting-insights.soul-sighted.com/email-logo.png"
                                                                                                                             alt="Soul Sighted"
                                                                                                                             style="display:block;outline:none;text-decoration:none;height:auto;width:160px;margin:10px 0;"
                                                                                                                             width="160" />
-                                                                                                                        <p>Soul Sighted</p>
+                                                                                                                        <p>Founder, Soul Sighted</p>
                                                                                                                         <p style="color:#888;font-size:13px;">
-                                                                                                                            P.S. This work spreads quietly, from one conversation to the next.
-                                                                                                                            If it felt meaningful, please tell a friend - it might also help her
-                                                                                                                            find a little more ease.
+                                                                                                                            P.S. If this surprised you, comforted you, or simply made something click,
+                                                                                                                            please share us with someone who&rsquo;d love their own personalised insight.
                                                                                                                         </p>
                                                                                                                     </div>
                                                                                                                 </td>
