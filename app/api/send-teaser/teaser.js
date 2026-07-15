@@ -239,8 +239,8 @@ export default function teaserFormat(html) {
                                                 <img
                                                     src="https://parenting-insights.soul-sighted.com/email-header-logo.png"
                                                     alt="Soul Sighted"
-                                                    width="190"
-                                                    style="display:inline-block;outline:none;text-decoration:none;height:auto;width:190px;max-width:60%;" />
+                                                    width="300"
+                                                    style="display:inline-block;outline:none;text-decoration:none;height:auto;width:300px;max-width:80%;" />
                                             </td>
                                         </tr>
                                     </tbody>
