@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { NavbarOnboarding } from "../../devlinkModified/NavbarOnboarding";
 import { DashboardFooter } from "../../devlinkModified/DashboardFooter";
-import { SignupForm } from "../../devlink/SignupForm";
 import "../styles.css";
 import "../swal.css";
 
@@ -20,10 +19,19 @@ import { OnboardingComplete } from "../../devlinkModified/OnboardingComplete";
 import { DataConfirmationStep } from "./DataConfirmationStep";
 
 import { request } from "../../devlinkModified/env";
-import { trackPixelEvent } from "../../lib/metaPixel";
-import swal from "sweetalert";
+
+const STEP_KEYS = {
+  5: "Step1",
+  6: "Step2",
+  7: "Step3",
+  8: "Step4",
+};
+
+const normalizeValue = (value) =>
+  typeof value === "string" ? value.replace(/\u2019/g, "'").trim() : value;
 
 const convertStep = (step, key) => {
+  const normalizedKey = normalizeValue(key);
   const map = {
     climate: {
       "Mostly easy and enjoyable": "mostly_easy_and_enjoyable",
@@ -56,7 +64,7 @@ const convertStep = (step, key) => {
     },
   };
 
-  return map[step][key];
+  return map?.[step]?.[normalizedKey] || null;
 };
 
 function mapToOnboardingPayload(data) {
@@ -93,83 +101,83 @@ function mapToOnboardingPayload(data) {
 
 const validate = (step, values, isParent) => {
   const data = mapToOnboardingPayload(values);
-  if (step == 1) {
+  if (step === 1) {
     if (!data?.username) return "Your name is required";
     if (!data?.parentPronouns) return "Your pronouns are required";
     if (!data?.childname) return isParent ? "Your child's name is required" : "Your parent's name is required";
     if (!data?.childPronouns) return isParent ? "Your child's pronouns are required" : "Your parent's pronouns are required";
   }
-  if (step == 2) {
+  if (step === 2) {
     if (!data?.user_dob) return "Your date of birth is required";
     if (!data?.user_birth_place_id) return "Your birthplace is required";
 
-    if (!data?.child_dob) return  isParent ? "Your child's date of birth is required" : "Your parent's date of birth is required";
+    if (!data?.child_dob) return "Your child's date of birth is required";
     if (!data?.child_birth_place_id)
-      return isParent ? "Your child's birthplace is required" : "Your parent's birthplace is required";
+      return "Your child's birthplace is required";
   }
-  
+  if (step >= 5 && step <= 8) {
+    const stepKey = STEP_KEYS[step];
+    if (!values?.[stepKey]) {
+      return "Please choose one option to continue";
+    }
+  }
+
+  return "";
+};
+
+const collectCurrentFormValues = () => {
+  const inputValues = Object.fromEntries(
+    Array.from(document.querySelectorAll("input")).map((input) => {
+      if (input.type === "radio") {
+        return [input.name, input.checked ? input.value : ""];
+      }
+      if (input.type === "checkbox") {
+        return [input.name, input.checked ? "true" : "false"];
+      }
+      return [input.name, input.value];
+    })
+  );
+
+  const selectedRadios = Object.fromEntries(
+    Array.from(document.querySelectorAll('input[type="radio"]:checked')).map(
+      (input) => [input.name, input.value]
+    )
+  );
+
+  const selects = Object.fromEntries(
+    Array.from(document.querySelectorAll("select")).map((select) => [
+      select.name,
+      select.value,
+    ])
+  );
+
+  const textareas = Object.fromEntries(
+    Array.from(document.querySelectorAll("textarea")).map((area) => [
+      area.name,
+      area.value,
+    ])
+  );
+
+  return {
+    ...inputValues,
+    ...selectedRadios,
+    ...selects,
+    ...textareas,
+  };
 };
 
 const App = () => {
   const [step, setStep] = useState(0);
   const [results, setResults] = useState({});
-  const [childData, setChildData] = useState(null);
-
-  const childRelation = childData?.relationship_focus || "child";
-  console.log("childRelation", childRelation)
-  // Fetch the selected child record once and derive role info from that record.
-  const isParent = childRelation === "child"; // if the relationship_focus of the child record is "child", then the user is a parent. If it's "parent", then the user is a child. If it's missing or something else, we can default to assuming they're a parent since most users are parents.
-
-  useEffect(() => {
-    const loadChildData = async () => {
-      const childId = new URLSearchParams(window.location.search).get(
-        "child_id"
-      );
-
-      if (!childId) {
-        setChildData(null);
-        return;
-      }
-
-      try {
-        const token = localStorage.getItem("authToken");
-        const response = await request({
-          method: "GET",
-          endpoint: `/get_child_by_id?child_id=${encodeURIComponent(childId)}`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const foundChild =
-          response?.child || response?.data || response?.record || response || null;
-
-        setChildData(foundChild);
-      } catch (error) {
-        console.error("Failed to load selected child:", error);
-        setChildData(null);
-      }
-    };
-
-    loadChildData();
-  }, []);
-
-  // Fire Meta Pixel Purchase event when returning from a successful Stripe checkout.
-  // Stripe substitutes {CHECKOUT_SESSION_ID} into the success_url; its presence is the signal.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get("session_id");
-    if (!sessionId || sessionId === "{CHECKOUT_SESSION_ID}") return;
-    trackPixelEvent("Purchase", {
-      value: 21.00,
-      currency: "AUD",
-      session_id: sessionId,
-    });
-  }, []);
+  const [inlineError, setInlineError] = useState("");
+  const [submitState, setSubmitState] = useState("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const sendInsightAndEmail = async () => {
     try {
+      setSubmitState("submitting");
+      setSubmitMessage("Preparing your insight. This usually takes less than a minute.");
+
       const token = localStorage.getItem("authToken");
       const mapped = mapToOnboardingPayload(results);
       const userRelation = childRelation === "child" ? "parent" : "child";
@@ -208,9 +216,9 @@ const App = () => {
       });
 
       // ✅ Extract both status AND the actual insight from the response
-      const { status, insight, summary } = response;
+      const { status } = response;
 
-      if (status == "ready") {
+      if (status === "ready") {
         try {
           const userStr = localStorage.getItem("user");
           let email = localStorage.getItem("email");
@@ -226,112 +234,126 @@ const App = () => {
           console.error("Failed to send first email:", emailErr);
         }
 
-        swal({
-          title: "Success",
-          text: "Your insight is ready and has been sent to your email!",
-          icon: "success",
-          className: "custom-swal-success", // This "wraps" the modal in your class
-        }).then(() => (window.location.href = "/dashboard"));
+        setSubmitState("success");
+        setSubmitMessage(
+          "Success. Your insight is on its way to your inbox."
+        );
+        return;
       }
+
+      throw new Error("We could not finish generating your insight. Please try again.");
     } catch (e) {
-      swal({
-        title: "Error",
-        text: e?.message,
-        icon: "error",
-        className: "custom-swal-error", // This "wraps" the modal in your class
-      });
+      setSubmitState("error");
+      setSubmitMessage(e?.message || "Something went wrong while submitting.");
     }
   };
 
   useEffect(() => {
-    if (step !== 11) return;
+    if (step !== 10 || submitState !== "idle") {
+      return;
+    }
 
     sendInsightAndEmail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step, results]);
+  }, [step, results, submitState]);
 
   // f()
   // sendInsightAndEmail();
 
   useEffect(() => {
-    setTimeout(() => {
-      console.log(document.querySelector(".onboarding-patch a"));
-      document.querySelectorAll(".onboarding-patch a").forEach((el) => {
-        // console.log(el, el.childElementCount)
-        if (el.childElementCount === 0) {
-          el.onclick = (e) => {
-            e.preventDefault();
-            const inputs = Object.fromEntries(
-              [...document.getElementsByTagName("input")]
-                .filter((x) => x?.type !== "radio" && x?.type !== "checkbox")
-                .map((x) => [x?.name, x?.value])
-            );
-            const radios = Object.fromEntries(
-              [...document.querySelectorAll('input[type="radio"]:checked')]
-                .filter((x) => {
-                  const indicator = x.parentElement.querySelector("div > div");
-                  return indicator ? indicator.style?.opacity == "1" : true;
-                })
-                .map((x) => [
-                  x?.name,
-                  x?.parentElement?.nodeName == "LABEL"
-                    ? x?.parentElement?.querySelector("span")?.innerText ||
-                    x?.value
-                    : x?.value,
-                ])
-            );
-            const selects = Object.fromEntries(
-              [...document.getElementsByTagName("select")].map((x) => [
-                x?.name,
-                x?.value,
-              ])
-            );
-            const areas = Object.fromEntries(
-              [...document.getElementsByTagName("textarea")].map((x) => [
-                x?.name,
-                x?.value,
-              ])
-            );
-            const newResults = {
-              ...results,
-              ...areas,
-              ...inputs,
-              ...selects,
-              ...radios,
-            };
-            const error = validate(step, newResults, isParent);
-            if (error) {
-              swal({
-                title: "Error",
-                text: error,
-                icon: "error",
-                className: "custom-swal-error", // This "wraps" the modal in your class
-              });
-              return;
-            }
-            setResults(newResults);
-            console.log(newResults);
-            setStep((prev) => (prev == 11 ? prev : prev + 1));
-            document.firstElementChild.scrollIntoView();
-          };
-        } else {
-          el.onclick = (e) => {
-            e.preventDefault();
-            setStep((prev) => (prev == 0 ? prev : prev - 1));
-            document.firstElementChild.scrollIntoView();
-          };
-        }
+    let detachListeners = null;
+    const timer = setTimeout(() => {
+      const root = document.querySelector(".onboarding-patch");
+      if (!root) return;
+
+      const links = Array.from(root.querySelectorAll("a"));
+      const nextLinks = links.filter((el) => el.childElementCount === 0);
+      const backLinks = links.filter((el) => el.childElementCount > 0);
+
+      const getMergedValues = () => ({
+        ...results,
+        ...collectCurrentFormValues(),
       });
-    }, 100);
-  }, [step]);
-  console.log(step);
+
+      const updateNextButtons = () => {
+        const error = validate(step, getMergedValues());
+        const disabled = Boolean(error);
+
+        nextLinks.forEach((link) => {
+          link.classList.toggle("is-disabled", disabled);
+          link.setAttribute("aria-disabled", disabled ? "true" : "false");
+        });
+
+        if (!disabled && inlineError) {
+          setInlineError("");
+        }
+      };
+
+      const handleNext = (event) => {
+        event.preventDefault();
+        const newResults = getMergedValues();
+        const error = validate(step, newResults);
+
+        if (error) {
+          setInlineError(error);
+          updateNextButtons();
+          return;
+        }
+
+        setInlineError("");
+        setResults(newResults);
+        setStep((prev) => (prev === 10 ? prev : prev + 1));
+        document.firstElementChild?.scrollIntoView({ behavior: "smooth" });
+      };
+
+      const handleBack = (event) => {
+        event.preventDefault();
+        setInlineError("");
+        setStep((prev) => (prev === 0 ? prev : prev - 1));
+        document.firstElementChild?.scrollIntoView({ behavior: "smooth" });
+      };
+
+      const formControls = Array.from(
+        root.querySelectorAll("input, select, textarea")
+      );
+
+      nextLinks.forEach((link) => link.addEventListener("click", handleNext));
+      backLinks.forEach((link) => link.addEventListener("click", handleBack));
+      formControls.forEach((field) => {
+        field.addEventListener("input", updateNextButtons);
+        field.addEventListener("change", updateNextButtons);
+      });
+
+      updateNextButtons();
+
+      detachListeners = () => {
+        nextLinks.forEach((link) =>
+          link.removeEventListener("click", handleNext)
+        );
+        backLinks.forEach((link) =>
+          link.removeEventListener("click", handleBack)
+        );
+        formControls.forEach((field) => {
+          field.removeEventListener("input", updateNextButtons);
+          field.removeEventListener("change", updateNextButtons);
+        });
+      };
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+      if (detachListeners) {
+        detachListeners();
+      }
+    };
+  }, [step, results, inlineError]);
 
   const renderStep = () => {
     switch (step) {
       case 0:
         return <OnboardingBegin />;
       case 1:
-        return <OnboardingNames formData={results} isParent={isParent} />;
+        return <OnboardingNames text3="Continue" />;
       case 2:
         return <OnboardingBirthdays formData={results} isParent={isParent} />;
       case 3:
@@ -348,26 +370,44 @@ const App = () => {
       // Context box (OnboardingPersonal) now comes AFTER the Q1-4 questions,
       // matching the signup-flow order: gentle intro -> Q1-4 -> personal.
       case 4:
-        return <OnboardingQuestion1 formData={results} />;
-      case 5:
-        return <OnboardingQuestion2 formData={results} isParent={isParent} />;
-      case 6:
-        return <OnboardingQuestion3 formData={results} isParent={isParent} />;
-      case 7:
-        return <OnboardingQuestion4 formData={results} isParent={isParent} />;
-      case 8:
-        return <OnboardingQuestion5 formData={results} isParent={isParent} />;
-      case 9:
-        return <OnboardingPersonal formData={results} isParent={isParent} />;
-      case 10:
         return (
-          <OnboardingFinal
-            onBack={() => setStep(9)}
-            onNext={() => setStep(11)}
+          <OnboardingQuestion1
+            title="A quick check-in before the final questions"
+            text1="These next answers help shape your insight around your real day-to-day dynamic."
+            text2="Choose what feels most true right now, not what feels perfect."
+            text3="No right answers. Just honest ones."
+            text5="Continue"
           />
         );
-      case 11:
-        return <OnboardingComplete />;
+      case 5:
+        return <OnboardingQuestion2 text4="Continue" />;
+      case 6:
+        return <OnboardingQuestion3 text4="Continue" />;
+      case 7:
+        return <OnboardingQuestion4 text4="Continue" />;
+      case 8:
+        return <OnboardingQuestion5 text4="Continue" />;
+      case 9:
+        return (
+          <OnboardingFinal
+            title="Ready to generate your insight?"
+            text1="Everything looks good."
+            text2="Tap finish and we will prepare your relationship insight now."
+            text4="Finish"
+            hideBack={true}
+          />
+        );
+      case 10:
+        return (
+          <OnboardingComplete
+            title="Your insight is being prepared"
+            text1="Thank you for completing onboarding."
+            text2="You can open your dashboard now while we send your insight to your inbox."
+            text3={submitState === "submitting" ? "Preparing your insight..." : submitMessage}
+            ctaText="Go to dashboard"
+            ctaHref="/dashboard"
+          />
+        );
       default:
         return <OnboardingBegin />;
     }
@@ -377,6 +417,11 @@ const App = () => {
     <>
       <NavbarOnboarding />
       <div className="onboarding-patch">{renderStep()}</div>
+      {inlineError ? (
+        <div className="onboarding-inline-message" role="alert">
+          {inlineError}
+        </div>
+      ) : null}
       <DashboardFooter />
     </>
   );

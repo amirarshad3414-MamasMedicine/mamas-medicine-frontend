@@ -1,11 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import * as _Builtin from "../devlink/_Builtin";
 import * as _utils from "../devlink/utils";
 import _styles from "../devlink/SignupForm.module.css";
 import "../app/styles.css";
-import { request } from "./env"
-import { trackPixelEvent } from "../lib/metaPixel";
+import { request } from "./env";
 
 export function SignupForm({
   as: _Component = _Builtin.Block,
@@ -21,6 +20,168 @@ export function SignupForm({
   image = "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/69677bed6a46cda22d043cac_sign-img-removebg1.png",
   text4 = "Create Account",
 }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formValues, setFormValues] = useState({
+    email: email || "",
+    fullName: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [touched, setTouched] = useState({});
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formFeedback, setFormFeedback] = useState(null);
+  const [serverFieldErrors, setServerFieldErrors] = useState({});
+
+  useEffect(() => {
+    if (!email) return;
+    setFormValues((prev) => ({ ...prev, email }));
+  }, [email]);
+
+  const validateEmail = (value) => /^\S+@\S+\.\S+$/.test(value);
+  const validateName = (value) => /^[A-Za-z\s'-]+$/.test(value);
+  const validatePassword = (value) => /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(value);
+
+  const validateField = (field, values) => {
+    const value = values[field] || "";
+
+    if (field === "email") {
+      if (!value.trim()) return "Email is required";
+      if (!validateEmail(value.trim())) return "Enter a valid email address";
+      return "";
+    }
+
+    if (field === "fullName") {
+      if (!value.trim()) return "Name is required";
+      if (value.trim().length < 2) return "Name must be at least 2 characters";
+      if (!validateName(value.trim()))
+        return "Name can contain letters, spaces, apostrophes, and hyphens only";
+      return "";
+    }
+
+    if (field === "password") {
+      if (!value) return "Password is required";
+      if (!validatePassword(value))
+        return "Use at least 8 characters with at least 1 letter and 1 number";
+      return "";
+    }
+
+    if (field === "confirmPassword") {
+      if (!value) return "Confirm password is required";
+      if (value !== values.password) return "Passwords do not match";
+      return "";
+    }
+
+    return "";
+  };
+
+  const allErrors = useMemo(() => {
+    return {
+      email: validateField("email", formValues),
+      fullName: validateField("fullName", formValues),
+      password: validateField("password", formValues),
+      confirmPassword: validateField("confirmPassword", formValues),
+    };
+  }, [formValues]);
+
+  const visibleErrors = {
+    email:
+      touched.email || submitAttempted
+        ? serverFieldErrors.email || allErrors.email
+        : "",
+    fullName:
+      touched.fullName || submitAttempted
+        ? serverFieldErrors.fullName || allErrors.fullName
+        : "",
+    password:
+      touched.password || submitAttempted
+        ? serverFieldErrors.password || allErrors.password
+        : "",
+    confirmPassword:
+      touched.confirmPassword || submitAttempted
+        ? serverFieldErrors.confirmPassword || allErrors.confirmPassword
+        : "",
+  };
+
+  const isFormValid = !allErrors.email && !allErrors.fullName && !allErrors.password && !allErrors.confirmPassword;
+
+  const handleFieldInput = (field, value) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }));
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    setServerFieldErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+    setFormFeedback(null);
+  };
+
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
+    setSubmitAttempted(true);
+    setTouched({
+      email: true,
+      fullName: true,
+      password: true,
+      confirmPassword: true,
+    });
+
+    if (!isFormValid || isSubmitting) {
+      if (allErrors.email) {
+        document.querySelector('[data-ms-member="email"]')?.focus();
+      }
+      return;
+    }
+
+    setIsSubmitting(true);
+    setServerFieldErrors({});
+    setFormFeedback(null);
+
+    try {
+      const { authToken } = await request({
+        method: "POST",
+        endpoint: "auth/signup",
+        body: {
+          email: formValues.email.trim(),
+          name: formValues.fullName.trim(),
+          password: formValues.password,
+        },
+      });
+
+      const token = authToken;
+      localStorage.setItem("authToken", authToken);
+      const data = await request({
+        method: "GET",
+        endpoint: "auth/me",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.setItem("user", JSON.stringify(data));
+
+      setFormFeedback({ type: "success", message: "Account created successfully. Redirecting..." });
+      setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 700);
+    } catch (e) {
+      const err = e;
+      const message = err?.message || "Unable to sign up. Please try again.";
+
+      if (message.toLowerCase().includes("email")) {
+        setTouched((prev) => ({ ...prev, email: true }));
+        setServerFieldErrors({ email: message });
+        setFormFeedback({ type: "error", message });
+        document.querySelector('[data-ms-member="email"]')?.focus();
+      } else {
+        setFormFeedback({ type: "error", message });
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <_Component
       className={_utils.cx(_styles, "padding-global", "padding-section-medium")}
@@ -108,6 +269,7 @@ export function SignupForm({
                 method="get"
                 data-ms-form="signup"
                 id="email-form"
+                onSubmit={handleSubmit}
               >
                 <_Builtin.Block
                   className={_utils.cx(_styles, "signup_input-wrap", "email")}
@@ -131,7 +293,15 @@ export function SignupForm({
                     autoFocus={false}
                     data-ms-member="email"
                     id="Email"
+                    value={formValues.email}
+                    style={visibleErrors.email ? { borderColor: "#dc2626" } : undefined}
+                    onInput={(event) => handleFieldInput("email", event.target.value)}
                   />
+                  {visibleErrors.email ? (
+                    <_Builtin.Block className={_utils.cx(_styles, "field_error")} tag="div">
+                      {visibleErrors.email}
+                    </_Builtin.Block>
+                  ) : null}
                 </_Builtin.Block>
                 <_Builtin.Block
                   className={_utils.cx(_styles, "signup_input-wrap")}
@@ -155,9 +325,16 @@ export function SignupForm({
                     autoFocus={false}
                     data-ms-member="full-name"
                     id="full-name"
+                    value={formValues.fullName}
+                    style={visibleErrors.fullName ? { borderColor: "#dc2626" } : undefined}
+                    onInput={(event) => handleFieldInput("fullName", event.target.value)}
                   />
-                </_Builtin.Block>                
-
+                  {visibleErrors.fullName ? (
+                    <_Builtin.Block className={_utils.cx(_styles, "field_error")} tag="div">
+                      {visibleErrors.fullName}
+                    </_Builtin.Block>
+                  ) : null}
+                </_Builtin.Block>
                 <_Builtin.Block
                   className={_utils.cx(_styles, "login_passwords-wrap")}
                   tag="div"
@@ -168,70 +345,62 @@ export function SignupForm({
                   >
                     <_Builtin.FormBlockLabel
                       className={_utils.cx(_styles, "signup_field-label")}
-                      htmlFor="psw"
+                      htmlFor="signup-password"
                     >
                       {"Password"}
                     </_Builtin.FormBlockLabel>
-                    <_Builtin.FormTextInput
-                      className={_utils.cx(_styles, "signup_input")}
-                      name="Password"
-                      maxLength={256}
-                      data-name="Password"
-                      placeholder="Create a password"
-                      disabled={false}
-                      type="password"
-                      required={true}
-                      autoFocus={false}
-                      data-ms-member="password"
-                      data-show-1="true"
-                    //   pattern="(?=.*[0-9](?=.*[a-z])(?=.*[A-Z]).{8,}"
-                      title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                      autoComplete="new-password"
-                      id="psw"
-                    />
-                    <_Builtin.TabsWrapper
-                      className={_utils.cx(_styles, "show-password-tabs")}
-                      current="Tab 1"
-                      easing="ease"
-                      fadeIn={300}
-                      fadeOut={100}
+                    <_Builtin.Block
+                      className={_utils.cx(_styles, "password_input_wrap")}
+                      tag="div"
                     >
-                      <_Builtin.TabsMenu
-                        className={_utils.cx(_styles, "show-password-button")}
-                        tag="div"
-                        data-transform-1="true"
+                      <_Builtin.FormTextInput
+                        className={_utils.cx(_styles, "signup_input")}
+                        name="Password"
+                        maxLength={256}
+                        data-name="Password"
+                        placeholder="Create a password"
+                        disabled={false}
+                        type={showPassword ? "text" : "password"}
+                        required={true}
+                        autoFocus={false}
+                        data-ms-member="password"
+                        data-show-1="true"
+                      //   pattern="(?=.*[0-9](?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                        autoComplete="new-password"
+                        id="signup-password"
+                        value={formValues.password}
+                        style={visibleErrors.password ? { borderColor: "#dc2626" } : undefined}
+                        onInput={(event) => handleFieldInput("password", event.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className={_utils.cx(_styles, "password_toggle")}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                        onClick={() => setShowPassword((prev) => !prev)}
                       >
-                        <_Builtin.TabsLink
-                          className={_utils.cx(_styles, "tab-link-tab-1")}
-                          data-w-tab="Tab 1"
-                          block="inline"
-                        >
-                          <_Builtin.HtmlEmbed
-                            className={_utils.cx(_styles, "code-embed")}
-                            content=""
-                            value="%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20enable-background%3D%22new%200%200%2024%2024%22%20height%3D%2220px%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2220px%22%20fill%3D%22currentColor%22%3E%0A%3Crect%20fill%3D%22none%22%20height%3D%2216%22%20width%3D%2216%22%2F%3E%0A%3Cpath%20d%3D%22M0%200h24v24H0V0z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M12%204.5C7%204.5%202.73%207.61%201%2012c1.73%204.39%206%207.5%2011%207.5s9.27-3.11%2011-7.5c-1.73-4.39-6-7.5-11-7.5zM12%2017c-2.76%200-5-2.24-5-5s2.24-5%205-5%205%202.24%205%205-2.24%205-5%205zm0-8c-1.66%200-3%201.34-3%203s1.34%203%203%203%203-1.34%203-3-1.34-3-3-3z%22%2F%3E%3C%2Fsvg%3E"
-                          />
-                        </_Builtin.TabsLink>
-                        <_Builtin.TabsLink
-                          className={_utils.cx(_styles, "tab-link-tab-1")}
-                          data-w-tab="Tab 2"
-                          block="inline"
-                        >
-                          <_Builtin.HtmlEmbed
-                            className={_utils.cx(_styles, "code-embed")}
-                            content=""
-                            value="%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20enable-background%3D%22new%200%200%2024%2024%22%20height%3D%2220px%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2220px%22%20fill%3D%22currentColor%22%3E%0A%3Crect%20fill%3D%22none%22%20height%3D%2224%22%20width%3D%2224%22%2F%3E%0A%0A%3Cpath%20d%3D%22M12%206.5c2.76%200%205%202.24%205%205%200%20.51-.1%201-.24%201.46l3.06%203.06c1.39-1.23%202.49-2.77%203.18-4.53C21.27%207.11%2017%204%2012%204c-1.27%200-2.49.2-3.64.57l2.17%202.17c.47-.14.96-.24%201.47-.24zM2.71%203.16c-.39.39-.39%201.02%200%201.41l1.97%201.97C3.06%207.83%201.77%209.53%201%2011.5%202.73%2015.89%207%2019%2012%2019c1.52%200%202.97-.3%204.31-.82l2.72%202.72c.39.39%201.02.39%201.41%200%20.39-.39.39-1.02%200-1.41L4.13%203.16c-.39-.39-1.03-.39-1.42%200zM12%2016.5c-2.76%200-5-2.24-5-5%200-.77.18-1.5.49-2.14l1.57%201.57c-.03.18-.06.37-.06.57%200%201.66%201.34%203%203%203%20.2%200%20.38-.03.57-.07L14.14%2016c-.65.32-1.37.5-2.14.5zm2.97-5.33c-.15-1.4-1.25-2.49-2.64-2.64l2.64%202.64z%22%2F%3E%3C%2Fsvg%3E"
-                          />
-                        </_Builtin.TabsLink>
-                      </_Builtin.TabsMenu>
-                      <_Builtin.TabsContent
-                        className={_utils.cx(_styles, "hide")}
-                        tag="div"
-                      >
-                        <_Builtin.TabsPane tag="div" data-w-tab="Tab 1" />
-                        <_Builtin.TabsPane tag="div" data-w-tab="Tab 2" />
-                      </_Builtin.TabsContent>
-                    </_Builtin.TabsWrapper>
+                        {showPassword ? (
+                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path
+                              fill="currentColor"
+                              d="M12 6.5c2.76 0 5 2.24 5 5 0 .51-.1 1-.24 1.46l3.06 3.06c1.39-1.23 2.49-2.77 3.18-4.52C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l2.17 2.17c.47-.15.96-.24 1.47-.24zm-9.29-3.34a.996.996 0 0 0 0 1.41l1.97 1.97C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.97-.3 4.31-.82l2.72 2.72a.996.996 0 1 0 1.41-1.41L4.13 3.16a.996.996 0 0 0-1.42 0zM12 16.5c-2.76 0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57 1.57a2.94 2.94 0 0 0-.06.57c0 1.66 1.34 3 3 3 .2 0 .38-.03.57-.07L14.14 16c-.65.32-1.37.5-2.14.5z"
+                            />
+                          </svg>
+                        ) : (
+                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path
+                              fill="currentColor"
+                              d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
+                            />
+                          </svg>
+                        )}
+                      </button>
+                    </_Builtin.Block>
+                    {visibleErrors.password ? (
+                      <_Builtin.Block className={_utils.cx(_styles, "field_error")} tag="div">
+                        {visibleErrors.password}
+                      </_Builtin.Block>
+                    ) : null}
                   </_Builtin.Block>
                   <_Builtin.Block
                     className={_utils.cx(
@@ -243,147 +412,89 @@ export function SignupForm({
                   >
                     <_Builtin.FormBlockLabel
                       className={_utils.cx(_styles, "signup_field-label")}
-                      htmlFor="confirm-passowrd"
+                      htmlFor="signup-confirm-password"
                     >
                       {"Confirm password"}
                     </_Builtin.FormBlockLabel>
-                    <_Builtin.FormTextInput
-                      className={_utils.cx(_styles, "signup_input")}
-                      name="confirm-passowrd"
-                      maxLength={256}
-                      data-name="Confirm Passowrd"
-                      placeholder="Confirm your password"
-                      disabled={false}
-                      type="password"
-                      required={true}
-                      autoFocus={false}
-                      data-show-2="true"
-                      data-ms-member="password"
-                      ms-code-password="confirm"
-                      id="confirm-passowrd"
-                    />
-                    <_Builtin.TabsWrapper
-                      className={_utils.cx(_styles, "show-password-tabs")}
-                      current="Tab 1"
-                      easing="ease"
-                      fadeIn={300}
-                      fadeOut={100}
+                    <_Builtin.Block
+                      className={_utils.cx(_styles, "password_input_wrap")}
+                      tag="div"
                     >
-                      <_Builtin.TabsMenu
-                        className={_utils.cx(_styles, "show-password-button")}
-                        tag="div"
-                        data-transform-2="true"
+                      <_Builtin.FormTextInput
+                        className={_utils.cx(_styles, "signup_input")}
+                        name="confirm-passowrd"
+                        maxLength={256}
+                        data-name="Confirm Passowrd"
+                        placeholder="Confirm your password"
+                        disabled={false}
+                        type={showConfirmPassword ? "text" : "password"}
+                        required={true}
+                        autoFocus={false}
+                        data-show-2="true"
+                        data-ms-member="confirm-password"
+                        ms-code-password="confirm"
+                        id="signup-confirm-password"
+                        value={formValues.confirmPassword}
+                        style={visibleErrors.confirmPassword ? { borderColor: "#dc2626" } : undefined}
+                        onInput={(event) => handleFieldInput("confirmPassword", event.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className={_utils.cx(_styles, "password_toggle")}
+                        aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}
                       >
-                        <_Builtin.TabsLink
-                          className={_utils.cx(_styles, "tab-link-tab-1")}
-                          data-w-tab="Tab 1"
-                          block="inline"
-                        >
-                          <_Builtin.HtmlEmbed
-                            className={_utils.cx(_styles, "code-embed")}
-                            content=""
-                            value="%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20enable-background%3D%22new%200%200%2024%2024%22%20height%3D%2220px%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2220px%22%20fill%3D%22currentColor%22%3E%0A%3Crect%20fill%3D%22none%22%20height%3D%2216%22%20width%3D%2216%22%2F%3E%0A%3Cpath%20d%3D%22M0%200h24v24H0V0z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M12%204.5C7%204.5%202.73%207.61%201%2012c1.73%204.39%206%207.5%2011%207.5s9.27-3.11%2011-7.5c-1.73-4.39-6-7.5-11-7.5zM12%2017c-2.76%200-5-2.24-5-5s2.24-5%205-5%205%202.24%205%205-2.24%205-5%205zm0-8c-1.66%200-3%201.34-3%203s1.34%203%203%203%203-1.34%203-3-1.34-3-3-3z%22%2F%3E%3C%2Fsvg%3E"
-                          />
-                        </_Builtin.TabsLink>
-                        <_Builtin.TabsLink
-                          className={_utils.cx(_styles, "tab-link-tab-1")}
-                          data-w-tab="Tab 2"
-                          block="inline"
-                        >
-                          <_Builtin.HtmlEmbed
-                            className={_utils.cx(_styles, "code-embed")}
-                            content=""
-                            value="%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20enable-background%3D%22new%200%200%2024%2024%22%20height%3D%2220px%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2220px%22%20fill%3D%22currentColor%22%3E%0A%3Crect%20fill%3D%22none%22%20height%3D%2224%22%20width%3D%2224%22%2F%3E%0A%0A%3Cpath%20d%3D%22M12%206.5c2.76%200%205%202.24%205%205%200%20.51-.1%201-.24%201.46l3.06%203.06c1.39-1.23%202.49-2.77%203.18-4.53C21.27%207.11%2017%204%2012%204c-1.27%200-2.49.2-3.64.57l2.17%202.17c.47-.14.96-.24%201.47-.24zM2.71%203.16c-.39.39-.39%201.02%200%201.41l1.97%201.97C3.06%207.83%201.77%209.53%201%2011.5%202.73%2015.89%207%2019%2012%2019c1.52%200%202.97-.3%204.31-.82l2.72%202.72c.39.39%201.02.39%201.41%200%20.39-.39.39-1.02%200-1.41L4.13%203.16c-.39-.39-1.03-.39-1.42%200zM12%2016.5c-2.76%200-5-2.24-5-5%200-.77.18-1.5.49-2.14l1.57%201.57c-.03.18-.06.37-.06.57%200%201.66%201.34%203%203%203%20.2%200%20.38-.03.57-.07L14.14%2016c-.65.32-1.37.5-2.14.5zm2.97-5.33c-.15-1.4-1.25-2.49-2.64-2.64l2.64%202.64z%22%2F%3E%3C%2Fsvg%3E"
-                          />
-                        </_Builtin.TabsLink>
-                      </_Builtin.TabsMenu>
-                      <_Builtin.TabsContent
-                        className={_utils.cx(_styles, "hide")}
-                        tag="div"
-                      >
-                        <_Builtin.TabsPane tag="div" data-w-tab="Tab 1" />
-                        <_Builtin.TabsPane tag="div" data-w-tab="Tab 2" />
-                      </_Builtin.TabsContent>
-                    </_Builtin.TabsWrapper>
+                        {showConfirmPassword ? (
+                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path
+                              fill="currentColor"
+                              d="M12 6.5c2.76 0 5 2.24 5 5 0 .51-.1 1-.24 1.46l3.06 3.06c1.39-1.23 2.49-2.77 3.18-4.52C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l2.17 2.17c.47-.15.96-.24 1.47-.24zm-9.29-3.34a.996.996 0 0 0 0 1.41l1.97 1.97C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.97-.3 4.31-.82l2.72 2.72a.996.996 0 1 0 1.41-1.41L4.13 3.16a.996.996 0 0 0-1.42 0zM12 16.5c-2.76 0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57 1.57a2.94 2.94 0 0 0-.06.57c0 1.66 1.34 3 3 3 .2 0 .38-.03.57-.07L14.14 16c-.65.32-1.37.5-2.14.5z"
+                            />
+                          </svg>
+                        ) : (
+                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path
+                              fill="currentColor"
+                              d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
+                            />
+                          </svg>
+                        )}
+                      </button>
+                    </_Builtin.Block>
+                    {visibleErrors.confirmPassword ? (
+                      <_Builtin.Block className={_utils.cx(_styles, "field_error")} tag="div">
+                        {visibleErrors.confirmPassword}
+                      </_Builtin.Block>
+                    ) : null}
                   </_Builtin.Block>
                 </_Builtin.Block>
-                <button id='submit-btn' type="submit" style={{ display: 'none' }} onClick={async ev => {
-                    ev.preventDefault()
-                    const email = document.querySelector('[data-ms-member=email]').value
-                    const fullName = document.querySelector('[data-ms-member=full-name]').value
-                    const password = document.querySelector('[data-ms-member=password]').value
-                    const confirmPassword = document.querySelector('[data-name="Confirm Passowrd"]').value
-                                     
-                    if(!email) return swal({
-                      title: "Error",
-                      text: "Email is required",
-                      icon: "error",
-                    })
-                    if(!fullName) return swal({
-                      title: "Error",
-                      text: "Full name is required",
-                      icon: "error",
-                    })
-                    
-                    if(!password) return swal({
-                      title: "Error",
-                      text: "Password is required",
-                      icon: "error",
-                    })
-                    if(!confirmPassword) return swal({
-                      title: "Error",
-                      text: "Confirm password is required",
-                      icon: "error",
-                    })
-                    if(password !== confirmPassword) return swal({
-                      title: "Error",
-                      text: "Passwords do not match",
-                      icon: "error",
-                    })
-
-                    try {
-                            const { authToken } = await request({
-                                method: "POST",
-                                endpoint: "auth/signup",
-                                body: {
-                                    email,
-                                    name: fullName,
-                                    password,                                    
-                                }
-                            })
-                            const token = authToken
-                            localStorage.setItem("authToken", authToken)
-                            const data = await request({
-                                method: "GET",
-                                endpoint: "auth/me",
-                                headers: {
-                                    'Authorization': `Bearer ${token}`,
-                                }
-                            })
-                            localStorage.setItem("user", JSON.stringify(data))
-
-                            // Track Meta Pixel CompleteRegistration event
-                            trackPixelEvent('CompleteRegistration');
-
-                            window.location.href = "/dashboard"
-                        } catch(e) {
-                            const err = e
-                            swal({
-                                title: "Error",
-                                text: err?.message,
-                                icon: "error",
-                            })
-                        }
-                }}></button>
-                <div
-                  className="form-button"
-                  type="submit"
-                  onClick={() => {
-                    document.getElementById('submit-btn').click()
-                  }}
+                <button
+                  type="button"
+                  className={`form-button ${(!isFormValid || isSubmitting) ? "is-disabled" : ""}`}
+                  disabled={!isFormValid || isSubmitting}
+                  onClick={handleSubmit}
                 >
-                    <div>Sign Up</div>
-                </div>
+                  {isSubmitting ? (
+                    <span className="form-button-content">
+                      <span className="button-loader" aria-hidden="true" />
+                      Creating account...
+                    </span>
+                  ) : (
+                    <span className="form-button-content">Sign Up</span>
+                  )}
+                </button>
+                {formFeedback ? (
+                  <_Builtin.Block
+                    className={_utils.cx(
+                      _styles,
+                      formFeedback.type === "error" ? "field_error" : "field_success",
+                      "form_error"
+                    )}
+                    tag="div"
+                  >
+                    {formFeedback.message}
+                  </_Builtin.Block>
+                ) : null}
               </_Builtin.FormForm>
               <_Builtin.FormSuccessMessage>
                 <_Builtin.Block tag="div">

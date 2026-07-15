@@ -14,6 +14,7 @@ import { request } from "../../devlinkModified/env";
 
 import "../swal.css";
 import "../loader.css";
+import "./dashboard.css";
 
 const App = () => {
   const [children, setChildren] = useState<
@@ -26,6 +27,29 @@ const App = () => {
   const [selectedChild, setSelectedChild] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
+
+  const selectedChildData = selectedChild ? children[selectedChild] : null;
+  const readyInsightsCount = Object.values(children).reduce((count, entry) => {
+    const readyForChild = (entry?.insights || []).filter(
+      (insight) => insight?.status === "ready"
+    ).length;
+    return count + readyForChild;
+  }, 0);
+  const pendingInsightsCount = Object.values(children).reduce((count, entry) => {
+    const pendingForChild = (entry?.insights || []).filter(
+      (insight) => insight?.status && insight?.status !== "ready"
+    ).length;
+    return count + pendingForChild;
+  }, 0);
+
+  const summaryText =
+    nOfChildren === 0
+      ? "No children added yet. Start your first journey below."
+      : `${readyInsightsCount} insight${
+          readyInsightsCount === 1 ? "" : "s"
+        } ready, ${pendingInsightsCount} in progress across ${nOfChildren} child${
+          nOfChildren === 1 ? "" : "ren"
+        }.`;
 
   const refreshData = () => setRefresh(!refresh);
 
@@ -135,31 +159,60 @@ const App = () => {
     <>
       <div>
         <NavbarOnboarding />
-        <DashboardWelcome nOfChildren={nOfChildren} />
+        <div className="dashboard-shell">
+          <DashboardWelcome
+            nOfChildren={nOfChildren}
+            text2="Your dashboard is ready. Let us begin."
+            text4="Here is a quick look at your family insights."
+            summaryTitle="Quick Summary"
+            summaryText={summaryText}
+          />
 
-        {nOfChildren > 0 && (
-          <>
-            <DashboardYourFamily />
-            <DashboardChildListing
-              family={children}
-              setLoading={setLoading}
-              refreshData={refreshData}
-              selectedChild={selectedChild}
-              setSelectedChild={setSelectedChild}
-            />
-            <DashboardChildJourney
-              setLoading={setLoading}
-              child={children[selectedChild]?.child}
-            />
-          </>
-        )}
+          <section className="dashboard-main-action" aria-labelledby="main-action">
+            <h2 id="main-action" className="dashboard-main-action-title">
+              What to do first
+            </h2>
+            <p className="dashboard-main-action-text">
+              {nOfChildren === 0
+                ? "Start by opening Your Parenting Dynamic below."
+                : readyInsightsCount > 0
+                ? "Open your latest insight from Your Parenting Dynamic."
+                : "Continue your next journey from the highlighted card below."}
+            </p>
+            <a className="dashboard-main-action-btn" href="#journeys-cards-section">
+              Go to journeys
+            </a>
+          </section>
 
-        {nOfChildren == 0 && <DashboardDefaultJourneys />}
-        <DashboardJourneys
-          setLoading={setLoading}
-          item={children?.[selectedChild]}
-          nOfChildren={nOfChildren}
-        />
+          {nOfChildren > 0 && (
+            <>
+              <DashboardYourFamily text="Your Family" />
+              <DashboardChildListing
+                family={children}
+                setLoading={setLoading}
+                refreshData={refreshData}
+                selectedChild={selectedChild}
+                setSelectedChild={setSelectedChild}
+                text3="+ Add Another Child"
+              />
+              <DashboardChildJourney
+                setLoading={setLoading}
+                text="Journey for"
+                child={selectedChildData?.child}
+              />
+            </>
+          )}
+
+          {nOfChildren == 0 && <DashboardDefaultJourneys text="Your Journeys" />}
+          <DashboardJourneys
+            setLoading={setLoading}
+            item={selectedChildData}
+            nOfChildren={nOfChildren}
+            text3="OPEN"
+            text5="OPEN"
+            text7="OPEN"
+          />
+        </div>
         <DashboardFooter />
       </div>
     </>

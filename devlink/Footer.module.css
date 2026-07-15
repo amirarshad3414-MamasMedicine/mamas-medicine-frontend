@@ -1,7 +1,8 @@
 .footer {
   position: relative;
   z-index: 1;
-  background-color: #333;
+  background: linear-gradient(180deg, #24211f 0%, #1b1917 100%);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .padding-global {
@@ -53,21 +54,21 @@
 }
 
 .padding-section-medium {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding-top: 2.8rem;
+  padding-bottom: 2.8rem;
 }
 
 @media screen and (max-width: 991px) {
   .padding-section-medium {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
 }
 
 @media screen and (max-width: 767px) {
   .padding-section-medium {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -151,8 +152,12 @@
 }
 
 .footer_grid {
-  grid-template-columns: 1fr 0.5fr 0.5fr 0.5fr;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr;
   grid-template-rows: auto;
+  grid-column-gap: 2.2rem;
+  grid-row-gap: 1.4rem;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .margin-bottom {
@@ -194,7 +199,7 @@
 }
 
 .margin-xxlarge {
-  margin: 2.5rem;
+  margin: 1rem;
 }
 
 @media screen and (max-width: 991px) {
@@ -226,6 +231,8 @@
 .footer_grin-item.link {
   justify-content: flex-start;
   align-items: flex-start;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 @media screen and (max-width: 479px) {
@@ -539,14 +546,16 @@
 .footer_text.text-color-secondary.max-width-footer {
   max-width: 25rem;
   font-family: Quicksand;
-  font-size: 1rem;
+  font-size: 1.06rem;
+  line-height: 1.55;
+  color: #f3ece4;
 }
 
 .footer_text.bottom {
   margin-right: 2rem;
   font-family: Quicksand;
-  color: hsla(0, 0.00%, 100.00%, 0.50);
-  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
 }
 
 .footer_text.bottom:hover {
@@ -576,9 +585,9 @@
 
 .footer_text.text-color-secondary {
   font-family: Quicksand;
-  font-size: 2rem;
+  font-size: 1.06rem;
   line-height: 160%;
-  cursor: pointer;
+  cursor: default;
 }
 
 @media screen and (max-width: 479px) {
@@ -589,14 +598,15 @@
 
 .bnt {
   display: inline-block;
-  padding: 1.4rem 2.5rem;
+  padding: 1.2rem 2.8rem;
 
-  border: 1px solid var(--coral);
+  border: none;
   border-radius: 3.47rem;
 
   background-color: var(--coral);
 
-  transition: border-color 300ms ease, background-color 300ms ease;
+  transition: all 300ms ease;
+  box-shadow: 0 4px 15px rgba(252, 189, 151, 0.25);
 
   color: #333;
   text-decoration: none;
@@ -617,14 +627,19 @@
 }
 
 .bnt.footer {
-  border-style: none;
-  background-color: #252526;
-  transition: color 300ms ease, border-color 300ms ease, background-color 300ms ease;
-  color: hsla(0, 0.00%, 100.00%, 1.00);
+  border: none;
+  background-color: #fcbd97;
+  transition: all 300ms ease;
+  color: #1f1a17;
+  box-shadow: 0 6px 20px rgba(252, 189, 151, 0.35);
+  font-weight: 600;
 }
 
 .bnt.footer:hover {
-  color: var(--coral);
+  color: #1f1a17;
+  background-color: #ffd4b8;
+  box-shadow: 0 8px 28px rgba(252, 189, 151, 0.45);
+  transform: translateY(-2px);
 }
 
 .bnt.big {
@@ -659,20 +674,21 @@
 
 .bnt_text {
   font-family: Quicksand;
-  font-size: 1.5rem;
-  line-height: 120%;
+  font-size: 1.1rem;
+  line-height: 1.4;
   font-weight: 700;
+  letter-spacing: 0.3px;
 }
 
 @media screen and (max-width: 991px) {
   .bnt_text {
-    font-size: 2.35rem;
+    font-size: 1.05rem;
   }
 }
 
 @media screen and (max-width: 479px) {
   .bnt_text {
-    font-size: 1.2rem;
+    font-size: 0.95rem;
   }
 }
 
@@ -690,31 +706,38 @@
   margin-bottom: 1.4rem;
 
   font-family: Quicksand;
-  color: hsla(0, 0.00%, 100.00%, 0.50);
-  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
   line-height: 120%;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .footer_link {
   margin-bottom: 1rem;
 
   font-family: Quicksand;
-  color: var(--light-grey);
-  font-size: 1rem;
-  line-height: 120%;
-  font-weight: 700;
+  color: #f2ebe2;
+  font-size: 1.06rem;
+  line-height: 1.5;
+  font-weight: 600;
   text-decoration: none;
+  padding: 0.4rem 0;
+  border-bottom: 2px solid transparent;
+  transition: all 200ms ease;
 }
 
 .footer_link:hover {
-  color: var(--coral);
+  color: #fcbd97;
+  border-bottom-color: #fcbd97;
+  padding-left: 0.3rem;
 }
 
 .div-block {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  padding-top: 0.7rem;
 }
 
 @media screen and (max-width: 479px) {

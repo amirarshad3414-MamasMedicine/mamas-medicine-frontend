@@ -9,13 +9,14 @@ export function OnboardingBegin({
   title = "I’m so excited to begin this with you.",
   text1 = "Let's start with a few details, so your insight can be prepared with care",
   text2 = "Take your time - I’m ready when you are.",
-  text3 = "Let’s do it",
+  text3 = "Begin",
 
   link = {
     href: "#",
   },
 
-  text5 = "Let's do it",
+  text5 = "Begin",
+  text6 = "Skip for now",
 }) {
   return (
     <_Component
@@ -82,30 +83,27 @@ export function OnboardingBegin({
                 {text2}
               </_Builtin.Paragraph>
             </_Builtin.Block>
-            <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-xhuge")}
-              tag="div"
-            >
-              <_Builtin.Paragraph
-                className={_utils.cx(
-                  _styles,
-                  "paragraph",
-                  "big",
-                  "text-color-primary",
-                  "onbord"
-                )}
-              ></_Builtin.Paragraph>
-            </_Builtin.Block>
           </_Builtin.Block>
-          <_Builtin.Link
-            className={_utils.cx(_styles, "btn-onboarding")}
-            button={true}
-            id="onboarding_intro_btn"
-            block=""
-            options={link}
-          >
-            {text5}
-          </_Builtin.Link>
+          <_Builtin.Block className={_utils.cx(_styles, "onboarding_intro-actions")} tag="div">
+            <_Builtin.Link
+              className={_utils.cx(_styles, "btn-onboarding")}
+              button={true}
+              id="onboarding_intro_btn"
+              block=""
+              options={link}
+            >
+              {text5}
+            </_Builtin.Link>
+            <button
+              type="button"
+              className={_utils.cx(_styles, "btn-onboarding-secondary")}
+              onClick={() => {
+                window.location.href = "/dashboard";
+              }}
+            >
+              {text6}
+            </button>
+          </_Builtin.Block>
         </_Builtin.Block>
       </_Builtin.Block>
     </_Component>

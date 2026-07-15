@@ -3,8 +3,6 @@ import React from "react";
 import * as _Builtin from "../devlink/_Builtin";
 import * as _utils from "../devlink/utils";
 import _styles from "../devlink/OnboardingComplete.module.css";
-import Lottie from "lottie-react";
-import animationData from "./wave.json";
 
 import "../app/styles.css";
 
@@ -34,6 +32,9 @@ export function OnboardingComplete({
     </>
   ),
   text2 = "Your insights will arrive in your inbox in less than 10 minutes.",
+  text3 = "",
+  ctaText = "Go to dashboard",
+  ctaHref = "/dashboard",
   image2 =
   "https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6968ac26a420d9f418e3cfa9_Swatch-best.png",
 }) {
@@ -114,6 +115,44 @@ export function OnboardingComplete({
                 >
                   {"Keep an eye on your email - that's where it begins."}
                 </_Builtin.Paragraph>
+              </_Builtin.Block>
+              {text3 ? (
+                <_Builtin.Block
+                  className={_utils.cx(
+                    _styles,
+                    "margin-bottom",
+                    "margin-custom3"
+                  )}
+                  tag="div"
+                >
+                  <_Builtin.Paragraph
+                    className={_utils.cx(
+                      _styles,
+                      "paragraph",
+                      "big",
+                      "text-color-primary"
+                    )}
+                  >
+                    {text3}
+                  </_Builtin.Paragraph>
+                </_Builtin.Block>
+              ) : null}
+              <_Builtin.Block
+                className={_utils.cx(
+                  _styles,
+                  "margin-bottom",
+                  "margin-custom3"
+                )}
+                tag="div"
+              >
+                <_Builtin.Link
+                  className="form-button"
+                  button={true}
+                  block=""
+                  options={{ href: ctaHref }}
+                >
+                  {ctaText}
+                </_Builtin.Link>
               </_Builtin.Block>
               <_Builtin.Block
                 className={_utils.cx(_styles, "margin-bottom")}

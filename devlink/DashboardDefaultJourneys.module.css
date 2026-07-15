@@ -5,29 +5,35 @@
 }
 
 .divider_text-wrapper.background-color-secondary {
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.4rem;
   line-height: 100%;
 }
 
 .background-color-secondary {
-  background-color: #fcbd94;
+  background-color: transparent;
 }
 
 .div-block-6 {
-  padding: 1rem;
-  border: 1px solid #333;
-  border-radius: 1.5rem;
+  width: min(90rem, 90%);
+  padding: 0 0 0.7rem;
+  border: 0;
+  border-bottom: 1px solid rgba(51, 51, 51, 0.16);
+  border-radius: 0;
 }
 
 .divider_text-2 {
-  font-family: Buffalo;
-  font-size: 6rem;
-  line-height: 100%;
+  font-family: Poppins;
+  font-size: 1.12rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #1f1a17;
+  text-transform: uppercase;
 }
 
 @media screen and (max-width: 479px) {
   .divider_text-2 {
-    font-size: 2.5rem;
+    font-size: 0.94rem;
   }
 }

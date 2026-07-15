@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import "../app/modal.css";
 import { request } from "./env";
 import SoulReading from "../app/SoulReading";
+import swal from "sweetalert";
 
 export default function InsightModal({ onClose, insight }) {
   const isOpen = !!insight;
@@ -64,42 +65,47 @@ export function DashboardJourneys({
     href: "https://soul-sighted.com/your-emotions",
   },
 
-  text3 = "EXPLORE",
+  text3 = "OPEN",
   text4 = "Your Emotions",
 
   link3 = {
     href: "https://soul-sighted.com/your-core",
   },
 
-  text5 = "EXPLORE",
+  text5 = "OPEN",
   text6 = "Your Core",
 
   link4 = {
     href: "https://soul-sighted.com/ask-me-anything",
   },
 
-  text7 = "EXPLORE",
+  text7 = "OPEN",
   text8 = "Ask Me Anything!",
 }) {
-  if (!item) return null;
   const [insightModal, setInsightModal] = useState(null);
-
-  // First-visit convenience: if the signup-flow set the `openInsight` flag,
-  // auto-open the reading (deep + summary) for the selected child once it's ready.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (localStorage.getItem("openInsight") !== "1") return;
-    const insight = item?.insights?.[0];
-    if (insight?.status === "ready") {
-      setInsightModal({
-        child_name: item.child?.name || "Your Child",
-        ...insight,
-      });
-      localStorage.removeItem("openInsight");
-    }
-  }, [item]);
+  const [showConsentModal, setShowConsentModal] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
+  const primaryInsight = item?.insights?.[0] || null;
+  const summaryPreview = primaryInsight?.summary_text
+    ? primaryInsight.summary_text.replace(/[#*_`>]/g, "").slice(0, 130) +
+      (primaryInsight.summary_text.length > 130 ? "..." : "")
+    : "No insight summary yet. Start this journey to unlock your first preview.";
 
   const handleCheckout = async () => {
+    if (!item?.child?.id) {
+      swal({
+        title: "Add a child first",
+        text: "Please add or select a child before starting this journey.",
+        icon: "info",
+      });
+      return;
+    }
+
+    localStorage.setItem(
+      "marketing_consent",
+      marketingConsent ? "true" : "false"
+    );
+    setShowConsentModal(false);
     setLoading(true);
     try {
       const { url } = await request({
@@ -109,8 +115,8 @@ export function DashboardJourneys({
           authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
         body: {
-          client_reference_id: `${item.child?.id}`,
-          success_url: `${window.location.origin}/onboardingMain?child_id=${item.child?.id}&session_id={CHECKOUT_SESSION_ID}`,
+          client_reference_id: `${item?.child?.id}`,
+          success_url: `${window.location.origin}/onboardingMain?child_id=${item?.child?.id}`,
           cancel_url: `${window.location.origin}?payment_failed`,
           line_items: [
             {
@@ -154,6 +160,22 @@ export function DashboardJourneys({
           tag="div"
         >
           <_Builtin.Block
+            className={_utils.cx(_styles, "journey_section-header")}
+            tag="div"
+          >
+            <_Builtin.Heading
+              className={_utils.cx(_styles, "journey_section-title")}
+              tag="h3"
+            >
+              {"Insights & Journeys"}
+            </_Builtin.Heading>
+            <_Builtin.Paragraph
+              className={_utils.cx(_styles, "journey_section-subtitle")}
+            >
+              {"Start with the highlighted card, then explore the rest."}
+            </_Builtin.Paragraph>
+          </_Builtin.Block>
+          <_Builtin.Block
             className={_utils.cx(_styles, "journeys_first")}
             tag="div"
           >
@@ -166,6 +188,7 @@ export function DashboardJourneys({
                   _styles,
                   "journey_card",
                   "is-view",
+                  "is-primary",
                   "w-node-cecd6210-f0e5-2e8c-c5a8-69ddd7aa66ba-d7aa66b6"
                 )}
                 id={_utils.cx(_styles, "your-parenting-dynamics")}
@@ -195,18 +218,16 @@ export function DashboardJourneys({
                             : undefined,
                       }}
                       onClick={async () => {
-                        console.log(item);
                         if (item?.insights?.length) {
                           if (item?.insights?.[0]?.status == "ready")
                             setInsightModal({
-                              childName: console.log(item),
-                              child_name: item.child?.name || "Your Child",
+                              child_name: item?.child?.name || "Your Child",
                               ...(item?.insights?.[0] ?? {}),
                             });
                         } else if (!item?.purchases?.length) {
                           await handleCheckout();
                         } else {
-                          window.location.href = `/onboardingMain?child_id=${item.child?.id}`;
+                          window.location.href = `/onboardingMain?child_id=${item?.child?.id}`;
                         }
                       }}
                     >
@@ -216,13 +237,19 @@ export function DashboardJourneys({
                       >
                         {item?.insights?.length
                           ? item?.insights?.[0]?.status == "ready"
-                            ? "VIEW"
-                            : "..."
+                            ? "OPEN"
+                            : "PREPARING"
                           : item?.purchases?.length
-                          ? "BEGIN"
-                          : "PURCHASE"}
+                          ? "OPEN"
+                          : "OPEN"}
                       </_Builtin.Block>
                     </div>
+                    <_Builtin.Block
+                      className={_utils.cx(_styles, "journey_badge")}
+                      tag="div"
+                    >
+                      {"Recommended first"}
+                    </_Builtin.Block>
                     <_Builtin.Block
                       className={_utils.cx(_styles, "img_overlay")}
                       tag="div"
@@ -234,6 +261,11 @@ export function DashboardJourneys({
                   >
                     {text2}
                   </_Builtin.Block>
+                  <_Builtin.Paragraph
+                    className={_utils.cx(_styles, "journey_summary-preview")}
+                  >
+                    {summaryPreview}
+                  </_Builtin.Paragraph>
                 </_Builtin.Block>
               </_Builtin.Block>
               <_Builtin.Block
