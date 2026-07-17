@@ -177,7 +177,7 @@ const App = () => {
               refreshData={refreshData}
               selectedChild={selectedChild}
               setSelectedChild={setSelectedChild}
-              text3="+ Add Another Child"
+              text3="+ Add another Relationship"
             />
 
             <DashboardChildJourney
