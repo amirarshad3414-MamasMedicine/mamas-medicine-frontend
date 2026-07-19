@@ -18,6 +18,7 @@ export default function PlacesAutocomplete({ name }) {
   const [resultPlaceId, setResultPlaceId] = useState("");
   const [results, setResults] = useState([]);
   const resultClicked = useRef(false);
+  const hiddenRef = useRef(null);
 
   useEffect(() => {
     if (resultClicked.current) return;
@@ -36,12 +37,26 @@ export default function PlacesAutocomplete({ name }) {
     });
   }, [query]);
 
+  // The onboarding page enables/disables its "Next" button from native
+  // input/change events fired by form controls. Selecting a suggestion sets
+  // the query and the hidden *_place_id input through React state, which does
+  // NOT emit those events — so without this, Next stays disabled (and
+  // pointer-events:none) after a valid birthplace is chosen. Re-emit the
+  // events after the DOM value updates so the parent re-validates.
+  useEffect(() => {
+    const el = hiddenRef.current;
+    if (!el) return;
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+  }, [resultPlaceId, query]);
+
   return (
     <div
       className="dropdown-input"
       style={{ position: "relative", width: "100%" }}
     >
       <input
+        ref={hiddenRef}
         style={{ display: "none" }}
         value={resultPlaceId}
         name={name + "_place_id"}

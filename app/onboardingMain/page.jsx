@@ -19,6 +19,7 @@ import { OnboardingComplete } from "../../devlinkModified/OnboardingComplete";
 import { DataConfirmationStep } from "./DataConfirmationStep";
 
 import { request } from "../../devlinkModified/env";
+import swal from "sweetalert";
 
 const STEP_KEYS = {
   5: "Step1",
@@ -64,7 +65,7 @@ const convertStep = (step, key) => {
     },
   };
 
-  return map?.[step]?.[normalizedKey] || null;
+  return map?.[step]?.[normalizedKey] || "";
 };
 
 function mapToOnboardingPayload(data) {
@@ -73,15 +74,15 @@ function mapToOnboardingPayload(data) {
     username: data["parent-name"] || "",
     childname: data["child-name"] || "",
 
-    user_dob: data["parent_birth_date"] || null,
-    user_time_of_birth: data["parent_birth_time"] || null,
-    user_birth_place_id: data["parent_place_id"] || "", 
+    user_dob: data["parent_birth_date"] || "",
+    user_time_of_birth: data["parent_birth_time"] || "",
+    user_birth_place_id: data["parent_place_id"] || "",
 
-    child_dob: data["child_birth_date"] || null,
-    child_time_of_birth: data["child_birth_time"] || null,
-    child_birth_place_id: data["child_place_id"] || "", 
+    child_dob: data["child_birth_date"] || "",
+    child_time_of_birth: data["child_birth_time"] || "",
+    child_birth_place_id: data["child_place_id"] || "",
 
-    raw_user_message: data["raw_user_message"] || null,
+    raw_user_message: data["raw_user_message"] || "",
 
     // Steps mapping (based on your form)
     climate: convertStep("climate", data["Step1"] || null),
@@ -90,12 +91,12 @@ function mapToOnboardingPayload(data) {
     posture: convertStep("posture", data["Step4"] || null),
 
     // Optional fields (not in your current data)
-    summary: null,
-    emotionTags: null,
-    keyThemes: null,
+    summary: "",
+    emotionTags: "",
+    keyThemes: "",
 
-    parentPronouns: data["Parent-s-Pronouns"] || null,
-    childPronouns: data["Child-s-Pronoun"] || null,
+    parentPronouns: data["Parent-s-Pronouns"] || "",
+    childPronouns: data["Child-s-Pronoun"] || "",
   };
 }
 
@@ -172,6 +173,47 @@ const App = () => {
   const [inlineError, setInlineError] = useState("");
   const [submitState, setSubmitState] = useState("idle");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [childData, setChildData] = useState(null);
+
+  // Fetch the selected child record once and derive role info from that record.
+  // If relationship_focus is "child" the user is the parent (isParent = true);
+  // if "parent" the user is the child. Default to parent since most users are.
+  const childRelation = childData?.relationship_focus || "child";
+  const isParent = childRelation === "child";
+
+  useEffect(() => {
+    const loadChildData = async () => {
+      const childId = new URLSearchParams(window.location.search).get(
+        "child_id"
+      );
+
+      if (!childId) {
+        setChildData(null);
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem("authToken");
+        const response = await request({
+          method: "GET",
+          endpoint: `/get_child_by_id?child_id=${encodeURIComponent(childId)}`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const foundChild =
+          response?.child || response?.data || response?.record || response || null;
+
+        setChildData(foundChild);
+      } catch (error) {
+        console.error("Failed to load selected child:", error);
+        setChildData(null);
+      }
+    };
+
+    loadChildData();
+  }, []);
 
   const sendInsightAndEmail = async () => {
     try {
@@ -238,6 +280,13 @@ const App = () => {
         setSubmitMessage(
           "Success. Your insight is on its way to your inbox."
         );
+
+        swal({
+          title: "Success",
+          text: "Your insight is ready and has been sent to your email!",
+          icon: "success",
+          className: "custom-swal-success",
+        }).then(() => (window.location.href = "/dashboard"));
         return;
       }
 
@@ -245,6 +294,13 @@ const App = () => {
     } catch (e) {
       setSubmitState("error");
       setSubmitMessage(e?.message || "Something went wrong while submitting.");
+
+      swal({
+        title: "Error",
+        text: e?.message || "Something went wrong while submitting.",
+        icon: "error",
+        className: "custom-swal-error",
+      });
     }
   };
 
@@ -276,7 +332,7 @@ const App = () => {
       });
 
       const updateNextButtons = () => {
-        const error = validate(step, getMergedValues());
+        const error = validate(step, getMergedValues(), isParent);
         const disabled = Boolean(error);
 
         nextLinks.forEach((link) => {
@@ -292,7 +348,7 @@ const App = () => {
       const handleNext = (event) => {
         event.preventDefault();
         const newResults = getMergedValues();
-        const error = validate(step, newResults);
+        const error = validate(step, newResults, isParent);
 
         if (error) {
           setInlineError(error);
