@@ -7,32 +7,27 @@ import { useStoredUser } from "../lib/useStoredUser";
 
 export function DashboardWelcome({
   as: _Component = _Builtin.Block,
-  user: initialUser = { name: "" },
+  user: initialUser = { name: '' }, // Rename prop to avoid confusion
   nOfChildren = 0,
-  text1 = "Hi",
-  text2 = "Your dashboard is ready.",
-  text3 = "Welcome back",
-  text4 = "Here is your latest progress.",
-  summaryTitle = "Quick Summary",
-  summaryText = "",
+  text1 = "Welcome, ",
+  text2 = "I'm excited to share this work with you.",
+  text3 = "Welcome back, ",
+  text4 = (
+    <>
+      {"We can't wait to share lots more personalised,"}
+      <br />
+      {" insights - just for YOU"}
+      {"!"}
+    </>
+  ),
 }) {
+
   const [userName, setUserName] = useState("");
   const [storedUser] = useStoredUser();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      try {
-        const userObj = JSON.parse(storedUser);
-        setUserName(userObj.name || "");
-      } catch (e) {
-        setUserName(storedUser);
-      }
-    }
-  }, []);
-
-  const greeting = nOfChildren > 0 ? text3 : text1;
-  const message = nOfChildren > 0 ? text4 : text2;
+    setUserName(storedUser?.name || "");
+  }, [storedUser]);
 
   return (
     <_Component
@@ -47,12 +42,12 @@ export function DashboardWelcome({
         className={_utils.cx(_styles, "container-large-6")}
         tag="div"
       >
-        <_Builtin.Block
-          className={_utils.cx(_styles, "welcome_container-returning")}
+        {nOfChildren == 0 && <_Builtin.Block
+          className={_utils.cx(_styles, "welcome_container-first")}
           tag="div"
         >
           <_Builtin.Block
-            className={_utils.cx(_styles, "margin-bottom", "margin-custom1")}
+            className={_utils.cx(_styles, "margin-bottom", "margin-custom3")}
             tag="div"
           >
             <_Builtin.Paragraph
@@ -64,7 +59,7 @@ export function DashboardWelcome({
               )}
               id="welcome-parent-name"
             >
-              {greeting}, {userName || initialUser.name}
+              {text1} {userName || initialUser.name}
             </_Builtin.Paragraph>
           </_Builtin.Block>
           <_Builtin.Block
@@ -75,38 +70,53 @@ export function DashboardWelcome({
               className={_utils.cx(
                 _styles,
                 "paragraph",
-                "small",
+                "big",
                 "text-color-primary",
-                "text-align-center",
-                "welcome_subline"
+                "text-align-center"
               )}
             >
-              {message}
+              {text2}
             </_Builtin.Paragraph>
           </_Builtin.Block>
-
-          {summaryText ? (
-            <_Builtin.Block className={_utils.cx(_styles, "welcome_summary")} tag="div">
-              <_Builtin.Block
-                className={_utils.cx(_styles, "welcome_summary-title")}
-                tag="div"
-              >
-                {summaryTitle}
-              </_Builtin.Block>
-              <_Builtin.Paragraph
-                className={_utils.cx(
-                  _styles,
-                  "paragraph",
-                  "small",
-                  "text-color-primary",
-                  "welcome_summary-text"
-                )}
-              >
-                {summaryText}
-              </_Builtin.Paragraph>
-            </_Builtin.Block>
-          ) : null}
-        </_Builtin.Block>
+        </_Builtin.Block>}
+        {nOfChildren > 0 && <_Builtin.Block
+          className={_utils.cx(_styles, "welcome_container-returning")}
+          tag="div"
+        >
+          <_Builtin.Block
+            className={_utils.cx(_styles, "margin-bottom", "margin-custom3")}
+            tag="div"
+          >
+            <_Builtin.Paragraph
+              className={_utils.cx(
+                _styles,
+                "paragraph",
+                "big",
+                "text-color-primary",
+                "dash"
+              )}
+              id="welcome-back-parent-name"
+            >
+              {text3} {userName || initialUser.name}
+            </_Builtin.Paragraph>
+          </_Builtin.Block>
+          <_Builtin.Block
+            className={_utils.cx(_styles, "margin-bottom")}
+            tag="div"
+          >
+            <_Builtin.Paragraph
+              className={_utils.cx(
+                _styles,
+                "paragraph",
+                "big",
+                "text-color-primary",
+                "text-align-center"
+              )}
+            >
+              {text4}
+            </_Builtin.Paragraph>
+          </_Builtin.Block>
+        </_Builtin.Block>}
       </_Builtin.Block>
     </_Component>
   );

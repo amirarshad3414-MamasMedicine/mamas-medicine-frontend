@@ -99,10 +99,6 @@
   justify-content: center;
   flex-wrap: nowrap;
   align-items: center;
-  border-top: 1px solid rgba(51, 51, 51, 0.16);
-  border-bottom: 1px solid rgba(51, 51, 51, 0.12);
-  padding-top: 1.25rem;
-  padding-bottom: 1.1rem;
 }
 
 .family_child-wrapper {
@@ -115,20 +111,13 @@
   grid-column-gap: 6.5rem;
   grid-row-gap: 6.5rem; */
   margin-top: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: stretch;
-  gap: 26px;
-
-}
-
-.family_child-item {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.55rem;
+  gap: 40px;
+
 }
 
 @media screen and (max-width: 767px) {
@@ -146,8 +135,8 @@
 
 .family_child {
   display: flex;
-  width: 9.8rem;
-  height: 9.8rem;
+  width: 12rem;
+  height: 12rem;
   justify-content: center;
   align-items: center;
 
@@ -155,13 +144,7 @@
 
   background-color: hsla(0, 0%, 100%, 1);
 
-  box-shadow: inset 0 0 0 6px #f3f0eb;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.family_child:hover {
-  transform: translateY(-2px);
+  box-shadow: inset 0 0 0 8px #f3f0eb;
 }
 
 @media screen and (max-width: 479px) {
@@ -175,7 +158,7 @@
 
 .family_child.is-active {
   background-color: hsla(0, 0%, 100%, 1);
-  box-shadow: inset 0 0 0 7px #fcbd97;
+  box-shadow: inset 0 0 0 8px #fcbd97;
 }
 
 @media screen and (max-width: 479px) {
@@ -187,9 +170,9 @@
 .child_name {
   font-family: Poppins;
   color: hsla(0, 0%, 59.78%, 1);
-  font-size: 1.45rem;
-  font-style: normal;
-  font-weight: 600;
+  font-size: 2rem;
+  font-style: italic;
+  font-weight: 300;
 }
 
 @media screen and (max-width: 479px) {
@@ -204,31 +187,16 @@
 
 .family_link {
   font-family: Poppins;
-  color: #1f1a17;
-  font-size: 1.15rem;
-  font-style: normal;
-  font-weight: 700;
+  color: #333;
+  font-size: 2rem;
+  font-style: italic;
+  font-weight: 300;
   text-decoration: none;
-  padding: 0.85rem 1.2rem;
-  border-radius: 0.8rem;
-  border: 1px solid rgba(31, 26, 23, 0.2);
-  background: #fce3d4;
 }
 
 @media screen and (max-width: 479px) {
   .family_link {
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 500;
   }
-}
-
-.child_action-label {
-  font-family: Quicksand;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #6c6058;
-}
-
-.child_action-label.is-active {
-  color: #2e2723;
 }
