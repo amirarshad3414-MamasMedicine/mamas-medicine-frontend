@@ -78,12 +78,6 @@ export function ProgressSlide({ ready, onComplete }) {
           <div className={SF.headingWrap}>
             <h2 className={SF.heading}>Preparing your insight…</h2>
           </div>
-          <div className={SF.paragraphWrap}>
-            <p className={SF.paragraph}>
-              You're moments away from discovering just how powerful parenting
-              astrology can be.
-            </p>
-          </div>
           <ul className={SF.progressList}>
             {PROGRESS_STEPS.map((label, i) => {
               const pct = Math.round(fillsRef.current[i] || 0);
@@ -128,6 +122,13 @@ export function ProgressSlide({ ready, onComplete }) {
               </blockquote>
             </div>
           )}
+
+          <div className={SF.paragraphWrap}>
+            <p className={SF.paragraph}>
+              You're moments away from discovering just how powerful parenting
+              astrology can be.
+            </p>
+          </div>
         </div>
       </div>
     </div>
