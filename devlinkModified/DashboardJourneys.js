@@ -8,6 +8,7 @@ import "../app/modal.css";
 import { request } from "./env";
 import SoulReading from "../app/SoulReading";
 import swal from "sweetalert";
+import { trackPixelEvent } from "../lib/metaPixel";
 
 export default function InsightModal({ onClose, insight }) {
   const isOpen = !!insight;
@@ -108,6 +109,9 @@ export function DashboardJourneys({
     setShowConsentModal(false);
     setLoading(true);
     try {
+      // Dashboard journey checkout. `source: "dashboard"` distinguishes this
+      // from the free-insight funnel's InitiateCheckout.
+      trackPixelEvent("InitiateCheckout", { source: "dashboard" });
       const { url } = await request({
         method: "POST",
         endpoint: "create_checkout_session",
@@ -116,7 +120,10 @@ export function DashboardJourneys({
         },
         body: {
           client_reference_id: `${item?.child?.id}`,
-          success_url: `${window.location.origin}/onboardingMain?child_id=${item?.child?.id}`,
+          // Stripe substitutes {CHECKOUT_SESSION_ID} on redirect. onboardingMain
+          // fires the Purchase pixel only when this param is present, so the
+          // non-payment re-entry path (window.location.href below) is excluded.
+          success_url: `${window.location.origin}/onboardingMain?child_id=${item?.child?.id}&session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${window.location.origin}?payment_failed`,
           line_items: [
             {
@@ -245,12 +252,6 @@ export function DashboardJourneys({
                       </_Builtin.Block>
                     </div>
                     <_Builtin.Block
-                      className={_utils.cx(_styles, "journey_badge")}
-                      tag="div"
-                    >
-                      {"Recommended first"}
-                    </_Builtin.Block>
-                    <_Builtin.Block
                       className={_utils.cx(_styles, "img_overlay")}
                       tag="div"
                     />
@@ -261,11 +262,6 @@ export function DashboardJourneys({
                   >
                     {text2}
                   </_Builtin.Block>
-                  <_Builtin.Paragraph
-                    className={_utils.cx(_styles, "journey_summary-preview")}
-                  >
-                    {summaryPreview}
-                  </_Builtin.Paragraph>
                 </_Builtin.Block>
               </_Builtin.Block>
               <_Builtin.Block

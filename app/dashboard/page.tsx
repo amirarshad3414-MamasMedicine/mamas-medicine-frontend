@@ -48,6 +48,14 @@ const App = () => {
   const refreshData = () => setRefresh(!refresh);
 
   useEffect(() => {
+    let settled = false;
+    // Safety net: if /get_children ever hangs (backend busy generating the
+    // insight right after purchase, flaky network, etc.) never leave the user
+    // stuck on the spinner — drop into the dashboard shell after 12s.
+    const failSafe = setTimeout(() => {
+      if (!settled) setLoading(false);
+    }, 12000);
+
     const fetchChildren = async () => {
       try {
         const res: any = await request({
@@ -57,6 +65,12 @@ const App = () => {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
         });
+
+        const {
+          children = [],
+          insights = [],
+          purchases = [],
+        } = res || {};
 
         const childrenObj: Record<
           string,
@@ -109,7 +123,21 @@ const App = () => {
     };
 
     fetchChildren();
+
+    return () => clearTimeout(failSafe);
   }, [refresh]);
+
+  // A checkout button sets loading=true then redirects to Stripe. If the user
+  // presses Back, the browser can restore this page from its back/forward cache
+  // with loading still true — a stuck spinner. Reload on bfcache restore so the
+  // dashboard reflects the latest (post-checkout) state.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) window.location.reload();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
 
   if (loading) {
     return (

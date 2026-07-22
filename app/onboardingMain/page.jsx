@@ -19,6 +19,7 @@ import { OnboardingComplete } from "../../devlinkModified/OnboardingComplete";
 import { DataConfirmationStep } from "./DataConfirmationStep";
 
 import { request } from "../../devlinkModified/env";
+import { trackPixelEvent } from "../../lib/metaPixel";
 
 const STEP_KEYS = {
   5: "Step1",
@@ -172,6 +173,63 @@ const App = () => {
   const [inlineError, setInlineError] = useState("");
   const [submitState, setSubmitState] = useState("idle");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [childData, setChildData] = useState(null);
+
+  // This dashboard flow explores an existing child record. Derive whether it is
+  // a Child Reading (relationship_focus "child" => the user is the parent) or a
+  // Parent Reading from that record so every step renders the right wording.
+  const childRelation = childData?.relationship_focus || "child";
+  const isParent = childRelation === "child";
+
+  // Fetch the selected child record once and derive role info from it.
+  useEffect(() => {
+    const loadChildData = async () => {
+      const childId = new URLSearchParams(window.location.search).get(
+        "child_id"
+      );
+      if (!childId) {
+        setChildData(null);
+        return;
+      }
+      try {
+        const token = localStorage.getItem("authToken");
+        const response = await request({
+          method: "GET",
+          endpoint: `/get_child_by_id?child_id=${encodeURIComponent(childId)}`,
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const foundChild =
+          response?.child ||
+          response?.data ||
+          response?.record ||
+          response ||
+          null;
+        setChildData(foundChild);
+      } catch (error) {
+        console.error("Failed to load selected child:", error);
+        setChildData(null);
+      }
+    };
+    loadChildData();
+  }, []);
+
+  // Dashboard journey lands here after a successful Stripe payment. The
+  // checkout success_url carries a real session_id (Stripe swaps in the
+  // {CHECKOUT_SESSION_ID} placeholder); the non-payment re-entry path into this
+  // page has no session_id, so gating on it prevents a false Purchase. The
+  // sessionStorage dedupe in trackPixelEvent keeps it to a single fire.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    if (!sessionId || sessionId === "{CHECKOUT_SESSION_ID}") return;
+    trackPixelEvent("Purchase", {
+      value: 21.0,
+      currency: "AUD",
+      source: "dashboard",
+      session_id: sessionId,
+    });
+  }, []);
 
   const sendInsightAndEmail = async () => {
     try {
@@ -249,7 +307,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (step !== 10 || submitState !== "idle") {
+    if (step !== 11 || submitState !== "idle") {
       return;
     }
 
@@ -267,8 +325,18 @@ const App = () => {
       if (!root) return;
 
       const links = Array.from(root.querySelectorAll("a"));
-      const nextLinks = links.filter((el) => el.childElementCount === 0);
-      const backLinks = links.filter((el) => el.childElementCount > 0);
+      // Real navigation links (e.g. the "Go to dashboard" CTA, href="/dashboard")
+      // must be left alone — only the step "#" buttons are wired for next/back.
+      const isStepButton = (el) => {
+        const href = el.getAttribute("href") || "";
+        return href === "" || href === "#" || href.endsWith("#");
+      };
+      const nextLinks = links.filter(
+        (el) => el.childElementCount === 0 && isStepButton(el)
+      );
+      const backLinks = links.filter(
+        (el) => el.childElementCount > 0 && isStepButton(el)
+      );
 
       const getMergedValues = () => ({
         ...results,
@@ -276,7 +344,7 @@ const App = () => {
       });
 
       const updateNextButtons = () => {
-        const error = validate(step, getMergedValues());
+        const error = validate(step, getMergedValues(), isParent);
         const disabled = Boolean(error);
 
         nextLinks.forEach((link) => {
@@ -292,7 +360,7 @@ const App = () => {
       const handleNext = (event) => {
         event.preventDefault();
         const newResults = getMergedValues();
-        const error = validate(step, newResults);
+        const error = validate(step, newResults, isParent);
 
         if (error) {
           setInlineError(error);
@@ -302,7 +370,7 @@ const App = () => {
 
         setInlineError("");
         setResults(newResults);
-        setStep((prev) => (prev === 10 ? prev : prev + 1));
+        setStep((prev) => (prev === 11 ? prev : prev + 1));
         document.firstElementChild?.scrollIntoView({ behavior: "smooth" });
       };
 
@@ -346,14 +414,14 @@ const App = () => {
         detachListeners();
       }
     };
-  }, [step, results, inlineError]);
+  }, [step, results, inlineError, isParent]);
 
   const renderStep = () => {
     switch (step) {
       case 0:
         return <OnboardingBegin />;
       case 1:
-        return <OnboardingNames text3="Continue" />;
+        return <OnboardingNames text3="Continue" isParent={isParent} />;
       case 2:
         return <OnboardingBirthdays formData={results} isParent={isParent} />;
       case 3:
@@ -380,14 +448,19 @@ const App = () => {
           />
         );
       case 5:
-        return <OnboardingQuestion2 text4="Continue" />;
+        return <OnboardingQuestion2 text4="Continue" isParent={isParent} />;
       case 6:
-        return <OnboardingQuestion3 text4="Continue" />;
+        return <OnboardingQuestion3 text4="Continue" isParent={isParent} />;
       case 7:
-        return <OnboardingQuestion4 text4="Continue" />;
+        return <OnboardingQuestion4 text4="Continue" isParent={isParent} />;
       case 8:
-        return <OnboardingQuestion5 text4="Continue" />;
+        return <OnboardingQuestion5 text4="Continue" isParent={isParent} />;
+      // Context page (free-text raw_user_message) sits AFTER the questions and
+      // BEFORE results — matching the Free Insight (signup-flow) order:
+      // q2-q5 -> personal -> results.
       case 9:
+        return <OnboardingPersonal formData={results} isParent={isParent} />;
+      case 10:
         return (
           <OnboardingFinal
             title="Ready to generate your insight?"
@@ -397,7 +470,7 @@ const App = () => {
             hideBack={true}
           />
         );
-      case 10:
+      case 11:
         return (
           <OnboardingComplete
             title="Your insight is being prepared"

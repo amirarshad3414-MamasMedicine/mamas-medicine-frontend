@@ -11,7 +11,7 @@ export default function Section({ children }) {
     <div className="section" style={{ overflow: "hidden" }}>
       <div className="lottie-bg">
         {/* <Lottie animationData={animationData} loop autoplay /> */}
-        <img src="./wave.gif" alt="Wave animation" className="bg-video-img" />
+        <img src="/wave.gif" alt="Wave animation" className="bg-video-img" />
       </div>
 
       <div className="content" style={{ position: "relative", zIndex: 1 }}>

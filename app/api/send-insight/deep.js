@@ -324,13 +324,20 @@ export default function deepFormat(html) {
                 padding-left: 18px !important
             }
         }
+        /* Larger, still-responsive logo on mobile (bar padding/spacing unchanged) */
+        @media only screen and (max-width: 480px) {
+            .hdr-logo {
+                width: 340px !important;
+                max-width: 92% !important;
+            }
+        }
     </style>
 </head>
 
 <body style="word-spacing:normal;background-color:#f5f5f7;">
     <div class="root-container" id="bodyTable" style="background-color:#f5f5f7;">
         <div class="root-container-spacing">
-            <!-- LOGO HEADER SECTION -->
+            <!-- BLACK LOGO HEADER SECTION -->
             <table align="center" border="0" cellpadding="0" cellspacing="0" class="kl-section" role="presentation"
                 style="width:100%;">
                 <tbody>
@@ -341,88 +348,13 @@ export default function deepFormat(html) {
                                     style="width:100%;">
                                     <tbody>
                                         <tr>
-                                            <td style="direction:ltr;font-size:0px;padding:0px;text-align:center;">
-                                                <div
-                                                    style="background:#FFFFFF;background-color:#FFFFFF;margin:0px auto;border-radius:0px 0px 0px 0px;max-width:600px;">
-                                                    <table align="center" border="0" cellpadding="0" cellspacing="0"
-                                                        role="presentation"
-                                                        style="background:#FFFFFF;background-color:#FFFFFF;width:100%;border-radius:0px 0px 0px 0px;">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td
-                                                                    style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:center;">
-                                                                    <div class="content-padding kl-first">
-                                                                        <div class="kl-row colstack"
-                                                                            style="display:table;table-layout:fixed;width:100%;">
-                                                                            <div class="kl-column"
-                                                                                style="display:table-cell;vertical-align:top;width:100%;">
-                                                                                <div class="mj-column-per-100 mj-outlook-group-fix component-wrapper hlb-wrapper"
-                                                                                    style="font-size:0px;text-align:left;direction:ltr;vertical-align:top;width:100%;">
-                                                                                    <table border="0" cellpadding="0"
-                                                                                        cellspacing="0"
-                                                                                        role="presentation"
-                                                                                        style="width:100%;"
-                                                                                        width="100%">
-                                                                                        <tbody>
-                                                                                            <tr>
-                                                                                                <td class="hlb-block-settings-content"
-                                                                                                    style="background-color:#FFFFFF;vertical-align:top;padding-top:32px;padding-right:12px;padding-bottom:8px;padding-left:12px;">
-                                                                                                    <table border="0"
-                                                                                                        cellpadding="0"
-                                                                                                        cellspacing="0"
-                                                                                                        role="presentation"
-                                                                                                        style=""
-                                                                                                        width="100%">
-                                                                                                        <tbody>
-                                                                                                            <tr>
-                                                                                                                <td align="top"
-                                                                                                                    class="kl-header-link-bar"
-                                                                                                                    style="font-size:0px;padding:0px;word-break:break-word;">
-                                                                                                                    <table
-                                                                                                                        border="0"
-                                                                                                                        cellpadding="0"
-                                                                                                                        cellspacing="0"
-                                                                                                                        style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:0;"
-                                                                                                                        width="100%">
-                                                                                                                        <tbody>
-                                                                                                                            <tr>
-                                                                                                                                <td align="center"
-                                                                                                                                    class="hlb-logo"
-                                                                                                                                    style="display:table-cell;width:100%;padding-bottom:10px;">
-                                                                                                                                    <table
-                                                                                                                                        border="0"
-                                                                                                                                        cellpadding="0"
-                                                                                                                                        cellspacing="0"
-                                                                                                                                        style="border-collapse:collapse;border-spacing:0px;">
-                                                                                                                                        <tbody>
-                                                                                                                                            <tr>
-                                                                                                                                                <td
-                                                                                                                                                    style="width:160px;">
-                                                                                                                                                </td>
-                                                                                                                                            </tr>
-                                                                                                                                        </tbody>
-                                                                                                                                    </table>
-                                                                                                                                </td>
-                                                                                                                            </tr>
-                                                                                                                        </tbody>
-                                                                                                                    </table>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                        </tbody>
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                            <td style="background:#111111;background-color:#111111;padding:18px 0;text-align:center;">
+                                                <img
+                                                    class="hdr-logo"
+                                                    src="https://parenting-insights.soul-sighted.com/email-header-logo.png"
+                                                    alt="Soul Sighted"
+                                                    width="300"
+                                                    style="display:inline-block;outline:none;text-decoration:none;height:auto;width:300px;max-width:80%;" />
                                             </td>
                                         </tr>
                                     </tbody>

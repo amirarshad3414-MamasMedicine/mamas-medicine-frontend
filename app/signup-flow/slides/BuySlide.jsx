@@ -22,8 +22,10 @@ export function BuySlide({ onBuy, checkingOut, onBack }) {
         paragraphs={["Now discover everything else your relationship has been trying to show you."]}
       >
         {/* Extra top CTA so users ready to buy don't have to scroll past the
-            full benefits list first. */}
-        <div className="flex justify-center py-6">
+            full benefits list first. `w-full` makes this wrapper span the row so
+            the button reaches its full `max-w-[32rem]` width — matching the
+            bottom Buy now button exactly (client: both buttons same longer size). */}
+        <div className="w-full flex justify-center py-6">
           <PrimaryButton onClick={onBuy} disabled={checkingOut} full>
             {checkingOut ? "Redirecting…" : "Buy now"}
           </PrimaryButton>

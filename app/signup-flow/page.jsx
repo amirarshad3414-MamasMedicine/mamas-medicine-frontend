@@ -87,6 +87,7 @@ const App = () => {
     trackPixelEvent("Purchase", {
       value: 21.0,
       currency: "AUD",
+      source: "free",
       session_id: sessionId,
     });
     // After a successful payment, go to the password step; setting the password
@@ -259,7 +260,7 @@ const App = () => {
   const startCheckout = async () => {
     setCheckingOut(true);
     try {
-      trackPixelEvent("InitiateCheckout");
+      trackPixelEvent("InitiateCheckout", { source: "free" });
       const { url } = await request({
         method: "POST",
         endpoint: "create_checkout_session",
