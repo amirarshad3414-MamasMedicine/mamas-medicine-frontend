@@ -20,6 +20,7 @@ import { DataConfirmationStep } from "./DataConfirmationStep";
 
 import { request } from "../../devlinkModified/env";
 import swal from "sweetalert";
+import { trackPixelEvent } from "../../lib/metaPixel";
 
 const STEP_KEYS = {
   5: "Step1",
@@ -213,6 +214,24 @@ const App = () => {
     };
 
     loadChildData();
+  }, []);
+
+  // Dashboard journey lands here after a successful Stripe payment. The
+  // checkout success_url carries a real session_id (Stripe swaps in the
+  // {CHECKOUT_SESSION_ID} placeholder); the non-payment re-entry path into this
+  // page has no session_id, so gating on it prevents a false Purchase. The
+  // sessionStorage dedupe in trackPixelEvent keeps it to a single fire.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    if (!sessionId || sessionId === "{CHECKOUT_SESSION_ID}") return;
+    trackPixelEvent("Purchase", {
+      value: 21.0,
+      currency: "AUD",
+      source: "dashboard",
+      session_id: sessionId,
+    });
   }, []);
 
   const sendInsightAndEmail = async () => {

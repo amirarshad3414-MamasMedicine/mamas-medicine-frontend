@@ -218,6 +218,14 @@ export default function teaserFormat(html) {
                 padding-left: 18px !important
             }
         }
+
+        /* Larger, still-responsive logo on mobile (bar padding/spacing unchanged) */
+        @media only screen and (max-width: 480px) {
+            .hdr-logo {
+                width: 340px !important;
+                max-width: 92% !important;
+            }
+        }
     </style>
 </head>
 
@@ -237,6 +245,7 @@ export default function teaserFormat(html) {
                                         <tr>
                                             <td style="background:#111111;background-color:#111111;padding:18px 0;text-align:center;">
                                                 <img
+                                                    class="hdr-logo"
                                                     src="https://parenting-insights.soul-sighted.com/email-header-logo.png"
                                                     alt="Soul Sighted"
                                                     width="300"

@@ -2,12 +2,24 @@
 
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
+// Soul Sighted Meta Pixel
+const PIXEL_ID = '1771804873792757';
 
 export default function MetaPixel() {
   const pathname = usePathname();
+  // The init script below fires the very first PageView on hard load. Skip the
+  // effect's first run so we don't send a duplicate PageView for the landing
+  // page; from then on the effect fires exactly one PageView per client-side
+  // (SPA) route change.
+  const isFirstRun = useRef(true);
 
   useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
     if (window.fbq) {
       window.fbq('track', 'PageView');
       console.log('Meta Pixel PageView tracked for:', pathname);
@@ -38,9 +50,9 @@ export default function MetaPixel() {
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '1879374959400355');
+            fbq('init', '${PIXEL_ID}');
             fbq('track', 'PageView');
-            console.log('Meta Pixel Initialized');
+            console.log('Meta Pixel Initialized (Soul Sighted ${PIXEL_ID})');
           `,
         }}
       />

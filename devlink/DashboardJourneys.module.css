@@ -189,7 +189,7 @@
   border-radius: 1.5rem;
 
   /* background-image: url("https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6931518b86973cc762dfafd9_offers1-compress.webp"); */
-  background-image: url("/your_parenting _dynamic.jpeg");
+  background-image: url("/Your Parenting Dynamic.png");
 
   background-position: 50% 50%;
   background-size: cover;
@@ -199,7 +199,7 @@
 .journey_card-img.is-ask {
   position: relative;
   padding-bottom: 1.5rem;
-  background-image: url("/ask_me_anything.jpeg");
+  background-image: url("/Ask me anything.png");
 
   /* background-image: url("https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/6931591b1cab83ecb27d1170_offers4-compress.webp"); */
 }
@@ -215,9 +215,6 @@
 .journey_card-img.is-parenting {
   position: relative;
   padding-bottom: 1.5rem;
-  /* Client: use an image that clearly includes a toddler (parent + toddler
-     bear hugging) instead of the adult-only crop. */
-  background-image: url("/Your Parenting Dynamic.png");
 }
 
 @media screen and (max-width: 479px) {
@@ -232,7 +229,7 @@
 .journey_card-img.is-emotional {
   position: relative;
   padding-bottom: 1.5rem;
-  background-image: url("/your_emotions.jpeg");
+  background-image: url("/Your Emotions.png");
   /* background-image: url("https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/693158bc42fd6808f20ee932_offers2-compress.webp"); */
 }
 
@@ -247,7 +244,7 @@
 .journey_card-img.is-ingredients {
   position: relative;
   padding-bottom: 1.5rem;
-  background-image: url("/your_core.jpeg");
+  background-image: url("/Your Core.png");
 
   /* background-image: url("https://cdn.prod.website-files.com/692ea98b8849e347f04bc413/693158ce94ac28aa2fa5275c_offers3-compress.webp"); */
 }

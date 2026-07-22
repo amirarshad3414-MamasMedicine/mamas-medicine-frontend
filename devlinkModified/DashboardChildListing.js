@@ -183,10 +183,8 @@ export function DashboardChildListing({
   link = {
     href: "#",
   },
-
-  
 }) {
-  const [isOpen, setIsOpen] = useState(false);  
+  const [isOpen, setIsOpen] = useState(false);
   const text3 = "+ Add another Relationship";
 
   return (

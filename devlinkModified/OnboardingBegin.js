@@ -34,7 +34,7 @@ export function OnboardingBegin({
             className={_utils.cx(
               _styles,
               "margin-bottom",
-              "margin-huge",
+              "margin-custom3",
               "text-align-center"
             )}
             tag="div"
@@ -81,20 +81,6 @@ export function OnboardingBegin({
               >
                 {text2}
               </_Builtin.Paragraph>
-            </_Builtin.Block>
-            <_Builtin.Block
-              className={_utils.cx(_styles, "margin-bottom", "margin-xhuge")}
-              tag="div"
-            >
-              <_Builtin.Paragraph
-                className={_utils.cx(
-                  _styles,
-                  "paragraph",
-                  "big",
-                  "text-color-primary",
-                  "onbord"
-                )}
-              ></_Builtin.Paragraph>
             </_Builtin.Block>
           </_Builtin.Block>
           <_Builtin.Link

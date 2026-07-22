@@ -213,6 +213,14 @@ export function NavbarOnboarding({ as: _Component = _Builtin.NavbarWrapper }) {
               >
                 {"FAQ's"}
               </_Builtin.NavbarLink>
+              <_Builtin.NavbarLink
+                className={_utils.cx(_styles, "nav-link-6")}
+                options={{
+                  href: "https://soul-sighted.com/1-1-reading",
+                }}
+              >
+                {"Go Deeper"}
+              </_Builtin.NavbarLink>
               <_Builtin.Block
                 className={_utils.cx(_styles, "nav-divider")}
                 tag="div"

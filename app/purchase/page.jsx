@@ -58,8 +58,8 @@ const App = () => {
   const onPurchase = async ({}) => {
     setLoading(true);
     try {
-      // Track Meta Pixel InitiateCheckout event
-      trackPixelEvent('InitiateCheckout');
+      // Track Meta Pixel InitiateCheckout event (legacy /purchase route)
+      trackPixelEvent('InitiateCheckout', { source: 'dashboard' });
 
       const { url } = await request({
         method: "POST",
