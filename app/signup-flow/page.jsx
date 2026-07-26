@@ -289,12 +289,32 @@ const App = () => {
     }
     setSettingPassword(true);
     try {
+      const email = localStorage.getItem("email");
       await request({
         method: "POST",
         endpoint: "update_password",
         headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
-        body: { email: localStorage.getItem("email"), newPassword: pw },
+        body: { email, newPassword: pw },
       });
+
+      // Re-authenticate with the new password: update_password rotates the
+      // token, so the old passwordless authToken is no longer valid and the
+      // dashboard's auth guard would otherwise bounce the user to /signin.
+      const { authToken } = await request({
+        method: "POST",
+        endpoint: "auth/login",
+        body: { email, password: pw },
+      });
+      localStorage.setItem("authToken", authToken);
+
+      const data = await request({
+        method: "GET",
+        endpoint: "auth/me",
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      localStorage.setItem("user", JSON.stringify(data));
+      window.dispatchEvent(new Event("auth:user-changed"));
+
       // Signal the dashboard to auto-open the insight view for this first visit.
       localStorage.setItem("openInsight", "1");
       window.location.href = "/dashboard";
