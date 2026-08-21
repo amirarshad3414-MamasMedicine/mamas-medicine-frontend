@@ -26,6 +26,7 @@ import {
   alreadyUnlockedSwal,
 } from "./lib";
 import { SF } from "./sf-styles";
+import { trackOnboardingChoice } from "./track";
 
 import { RelationshipSlide } from "./slides/RelationshipSlide";
 import { Story2Slide } from "./slides/Story2Slide";
@@ -112,13 +113,19 @@ const App = () => {
   }, []);
 
   const goNext = () => {
+    let merged = results;
     if (SCRAPE_STEPS.has(key)) {
-      const merged = { ...results, ...scrapeInputs(slideRef.current) };
+      merged = { ...results, ...scrapeInputs(slideRef.current) };
       const focus = merged.relationship_focus || "child";
       const err = validateForStep(key, merged, focus === "child");
       if (err) return void errorSwal(err);
       setResults(merged);
     }
+    // Count the visitor against the onboarding they committed to. Deliberately
+    // here rather than on the radio's change event: picking an option you never
+    // confirm isn't entering that flow, and this runs only after validation has
+    // passed, so a rejected step never counts.
+    if (key === "relationship") trackOnboardingChoice(merged.relationship_focus);
     setStep((s) => Math.min(STEPS.length - 1, s + 1));
     scrollTop();
     // console.log(`Results after step ${key}:`, results);
