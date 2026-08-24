@@ -1,11 +1,13 @@
-// Counts how many users enter each onboarding in /signup-flow — the "my child"
-// flow vs the "my parent" flow — via the Xano `track_onboarding_visit` endpoint.
+// Records which stages of the /signup-flow funnel a visitor reaches, split by
+// relationship flow ("child" | "parent"), via the Xano `track_onboarding_visit`
+// endpoint. Xano keeps one row per session per flow per stage, so these counts
+// are users-who-reached-stage-N rather than page views.
 import { request } from "../../devlinkModified/env";
 
 const SESSION_KEY = "onboarding_session_id";
 
-/* One id per browser, reused across reloads, so the same person is identifiable
-   across visits and repeat rows can be collapsed when the counts are read. */
+/* One id per browser, reused across reloads, so a visitor who refreshes or
+   navigates back through the funnel stays a single person in the counts. */
 function sessionId() {
   try {
     let id = localStorage.getItem(SESSION_KEY);
@@ -15,25 +17,42 @@ function sessionId() {
     }
     return id;
   } catch {
-    // Private mode / storage disabled: still record the visit, just without a
-    // stable identity for it.
     return "no-storage";
   }
 }
 
-export function trackOnboardingChoice(flow) {
-  if (typeof window === "undefined" || !flow) return;
+/* Records the purchase. Returning from Stripe is a full page load, so React
+   state — and with it the chosen flow — is gone. `flow` is instead carried
+   through Stripe in the return URL and handed back here; only a valid value is
+   forwarded, so a tampered or truncated query string falls through to Xano's
+   inference rather than writing a bogus flow. */
+export function trackPurchase(step, stepIndex, flow) {
+  if (typeof window === "undefined") return;
 
-  // Always sends, so the call is visible in the network tab every time.
-  // Fire-and-forget: analytics must never block or break the funnel.
+  const body = { session_id: sessionId(), step, step_index: stepIndex };
+  if (flow === "child" || flow === "parent") body.flow = flow;
+
+  request({
+    method: "POST",
+    endpoint: "track_onboarding_visit",
+    body,
+  }).catch(() => {});
+}
+
+export function trackOnboardingStage(flow, step, stepIndex) {
+  if (typeof window === "undefined" || !flow || !step) return;
+
+  // Always sends — the request stays visible in the network tab, and Xano is
+  // what decides whether the row is new. Fire-and-forget: analytics must never
+  // block or break the funnel.
   request({
     method: "POST",
     endpoint: "track_onboarding_visit",
     body: {
       session_id: sessionId(),
       flow,
-      step: "relationship",
-      step_index: 0,
+      step,
+      step_index: stepIndex,
     },
   }).catch(() => {});
 }
