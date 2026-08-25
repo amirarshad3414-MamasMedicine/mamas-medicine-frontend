@@ -120,7 +120,7 @@ Classify every pair **read or write** — this drives replay safety in 8.1. Run 
 ### 1.6 External surface inventory
 
 - **Webhooks pointing at Xano:** Stripe (writes Purchases) and the insights provider (calls back with `request_id`). Record registered URLs and handler behavior — a named cutover step; forgetting it means payments keep succeeding while Purchases silently stop recording.
-- **Six hardcoded Xano URLs** to change at cutover: `devlinkModified/env.js:1`, `app/api/env.js:1`, `app/api/cron/route.js:3`, `forgot-password/route.js:4`, `reset-password/route.js:33`, `verify-otp/route.js:6`.
+- **Six hardcoded Xano URLs** to change at cutover: `devlinkModified/env.js:1`, `app/api/env.js:1`, `app/api/cron/route.js:3`, `forgot-password/route.js:4`, `reset-password/route.js:33`, `verify-otp/route.js:6`. One of the six — the cron's — is moot if the dead queue is deleted instead (see Phase 2).
 - Env vars/secrets used by stacks → `.env`.
 
 ### 1.7 Empirical tests (each is minutes of work, and each gates real work)
@@ -148,7 +148,7 @@ Every inventory row gets a decision: **port as-is / fix during port / drop**.
 | `?payment_failed` cancel URL | nothing handles it | fix or drop |
 | **7 stuck Insights** | `processing` forever, empty `last_error` — six from 2026-04-29 (117d), one from 2026-08-05 (19d). The retry logic marks `failed` with a message; these never reached it. Real users with no insight. | fix the mover with a timeout/dead-letter, and decide what happens to the 7 |
 | **Dead columns** | `user_01_id` and `time_of_birth` are null in all 505 children rows; no XanoScript writes them | port or drop |
-| **Email cron ownership** | [app/api/cron/route.js](app/api/cron/route.js) runs on a Vercel schedule in the *frontend* repo and drains the email queue — it is the transport for any reset wave | stays in Next, or moves to `app/tasks/` |
+| **Email cron + the whole `Email` queue are dead** | Verified 2026-08-25. [vercel.json](vercel.json) does schedule [app/api/cron/route.js](app/api/cron/route.js) every 5 minutes, and it does drain the queue through Gmail — but **nothing ever fills the queue.** No frontend call site and no Xano stack calls `scheduled_email`; the only references anywhere are the cron reading and marking. The live `Email` table has **0 pending rows**. So `scheduled_email`, `get_pending_emails` and `deliver_email` are ported but unreachable. | drop the cron, the three endpoints and the `Email` table, or find the caller that was meant to exist |
 | **52 duplicate children** | The unique index is on `(user_01_id, name, date_of_birth)`, but `user_01_id` is NULL in all 505 rows and Postgres treats NULLs as distinct — so it never fires. `add_children` checks `user_id` instead, unbacked by any index. 16 duplicate groups exist; one child is recorded 22 times. | move the index to `user_id`, and decide what to do with the 52 rows |
 | **47 template endpoints** | Groups 1-3 are Xano's starter template (zero traffic); group 5 is the Stripe template writing the empty `session` table | drop all 47 |
 | **`update_password` has no proof of identity** | Takes `email` + `newPassword` only. No auth, no OTP check, nothing tying it to `verify_otp`. Account takeover from an email address alone. | fix with a signed reset token — a deliberate behaviour change, so it needs its own commit and its own diff exception |
@@ -250,7 +250,34 @@ Port per the triage list, translating from XanoScript nearly line-by-line:
 
 **Order:**
 1. Smallest group end-to-end — proves the template.
-2. **If and only if test #1 fails (hashes not exportable): replace the email transport before building the reset flow.** Today, [app/api/auth/forgot-password/route.js:7-14](app/api/auth/forgot-password/route.js#L7-L14) sends OTP mail through a personal Gmail account with credentials inline and no env fallback, and the queue cron sends serially through the same account. A reset wave of ~200 users hits Gmail's daily cap, has no SPF/DKIM alignment with the brand domain so it lands in spam, and the cron's `isRunning` guard is module-level state that does not reliably persist across serverless invocations — so overlapping runs can double-send. Under a forced reset, mail in spam means locked out. Move to a transactional provider (Resend/Postmark/SES) on a verified sending domain, then port the reset flow.
+2. **If and only if test #1 fails (hashes not exportable): fix the OTP transport before building the reset flow.** Scope corrected 2026-08-25 — earlier drafts said "replace the email transport" and treated the queue cron as the sender. That was wrong; the queue and its cron are dead, see 6.1. The reset wave rides on one route: [app/api/auth/forgot-password/route.js](app/api/auth/forgot-password/route.js) sends the OTP straight to the user through a personal Gmail account, credentials inline. ~200 forced resets at once hits Gmail's daily cap and has no SPF/DKIM alignment with the brand domain, so it lands in spam — and under a forced reset, spam means locked out.
+
+   **Tempting wrong answer: route it through Klaviyo.** Klaviyo already sends this product's customer email on a verified domain, so reusing it looks free. Two objections. *Suppression* — a Klaviyo flow will not deliver to a profile that unsubscribed or was suppressed, which would tie "can reset my password" to "accepts marketing"; at cutover every password user needs a reset, so that is exactly the wrong coupling to introduce. *Latency* — flows are queued and throttled; `Insight Ready` tolerates minutes, a six-digit code with an expiry does not. Klaviyo does offer transactional sending that bypasses suppression, but it must be enabled and approved on the account — **verify that before choosing this route.**
+
+   Default: a transactional provider (Resend/Postmark/SES) on a verified sending domain, covering the OTP and the teaser. `EMAIL_PROVIDER_API_KEY` and `EMAIL_FROM` exist for this.
+
+### 6.1 Who actually sends email — verified against the code, 2026-08-25
+
+Xano sends **no email at all**. Its only outbound calls in the live group are
+Klaviyo, Memberstack, Stripe, Google and two of the frontend's own routes.
+
+| Email | Sender | To | Fails how |
+|---|---|---|---|
+| **Insight Ready** — the paid product | **Klaviyo flow**, event carries `deep_text`/`summary_text` | customer | **fatal** — `throw` on rejection |
+| Marketing list subscription | **Klaviyo** | — | swallowed |
+| Teaser (free, at signup) | Gmail, 3 retries | customer | throws after 3 |
+| **OTP / password reset** | Gmail | customer | — |
+| New-insight notification | Gmail | `hi@soul-sighted.com` | logged only |
+| Purchase notification | Gmail | `hi@soul-sighted.com` | — |
+
+Consequences: **Klaviyo is product infrastructure, not marketing** — a bad key
+stops paid readings reaching customers, and the key hardcoded in Xano's
+`checkout` is already dead (401 as of 2026-08-25), so that stack's list
+subscription has been failing silently for some time.
+
+`EMAIL_PROVIDER_API_KEY` / `EMAIL_FROM` are not needed for the *queue* — there
+is no queue. They are needed for the **OTP and teaser**, which still go out
+through a personal Gmail account and are the real work in item 2 above.
 3. Remaining auth: password login, `register_passwordless`, OTP issue/verify.
 4. **Webhook receivers** (Stripe, insights) — idempotent from the start: dedupe on Stripe event ID / provider `request_id`.
 5. Everything else by frontend importance.
@@ -336,13 +363,39 @@ The backend can be built and shape-verified without it, but **cutover cannot hap
 - [x] **M3** Models + migration applied; nullability, per-type defaults and indexes reproduced from the Xano schema
 - [x] **M4** Response schemas — Appendix A enforced in the models
 - [x] **M5** Template group ported (`get_children` first), tests green
-- [ ] **M6** **Mandatory** — empirical test #1 came back negative, so the forced reset is confirmed. Email transport not yet replaced.
+- [ ] **M6** **Mandatory** — empirical test #1 came back negative, so the forced reset is confirmed. Scope corrected 2026-08-25: this is *not* "replace the email transport" (the queue cron it referred to is dead). It is one route, the Gmail-sent OTP in `forgot-password`. **Not** a Klaviyo job — a flow will not deliver to a suppressed profile, which would stop anyone who opted out of marketing from ever resetting, and flow latency does not suit a code that expires in 5 minutes. Default: a transactional provider on a verified domain. Amir's call.
 - [x] **M7** All auth flows ported — webhook receivers **partially** idempotent: `checkout` dedupes by `child_id`, the no-account branch does not
-- [ ] **M8** All 21 endpoints ported with 138 tests ✅ and the parity tooling written ✅ — but no capture has run (it needs approval), so the shape-diff has no corpus yet; load tests and Sentry outstanding
+- [ ] **M8** All 21 endpoints ported with 140 tests ✅ and the parity tooling written ✅ — but no capture has run (it needs approval), so the shape-diff has no corpus yet; load tests and Sentry outstanding
 - [ ] **M9** *(deferred)* Data-migration plan — still the real gate on cutover
 
 **Not started:** deployment, the six hardcoded Xano URLs in the frontend, and
 the capture run itself.
+
+### Live-key verification — 2026-08-25
+
+With the real keys in `.env`, 19 of the 21 endpoints were exercised against
+their actual services rather than stubs. **Onboarding produces a real reading
+end to end on FastAPI**, and the full reset flow passes all 8 steps. Only the
+Stripe pair is untested; the key authenticates (livemode) but a test key is
+needed before `create_checkout_session` can be exercised safely.
+
+That run found a bug no mocked test could: the port sent `null` for omitted
+optional text in the insight payload, and the provider type-checks — it answers
+400 to a null, the retry loop burns all five attempts, and the insight is marked
+`failed`. Anyone skipping the free-text question would have received no reading.
+Xano sends `""`; confirmed against 321 live payloads. Fixed, with tests.
+
+**The lesson generalises:** mocked externals hid a defect in the single most
+important endpoint. Every remaining external boundary — Stripe checkout, the
+`checkout` webhook, Klaviyo — deserves one real call before cutover, not just a
+passing unit test.
+
+Also found: the Klaviyo key hardcoded in Xano's `checkout` stack is **dead**
+(401), so that stack's list-subscribe has been failing silently in production;
+and [app/api/auth/forgot-password/route.js](app/api/auth/forgot-password/route.js)
+declares an unused `XANO_BASE` on line 4 while the real call sits on **line 111**
+— repointing line 4 at cutover would look correct and leave OTP storage on Xano,
+breaking every reset silently.
 
 **Phase 8 tooling — written 2026-08-25, no traffic sent.** `scripts/` now holds
 `capture_responses.py`, `diff_responses.py`, `cleanup_test_data.py` and the
