@@ -1,6 +1,6 @@
-// See devlinkModified/env.js — NEXT_PUBLIC_API_BASE overrides, default is Xano.
+// See devlinkModified/env.js — NEXT_PUBLIC_API_BASE overrides, default is the deployed API (soulsighted.bytescripterz.com).
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE || "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/"
+  process.env.NEXT_PUBLIC_API_BASE || "https://soulsighted.bytescripterz.com/"
 
 export async function request({ method, endpoint, body = null, headers = {} }) {
   console.log(method, endpoint)

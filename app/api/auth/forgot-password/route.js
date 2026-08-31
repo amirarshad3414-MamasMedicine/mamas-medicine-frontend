@@ -1,10 +1,10 @@
 import nodemailer from "nodemailer";
 import { generateOtp } from "../_lib/otpStore";
 
-// NEXT_PUBLIC_API_BASE points this at the local backend for testing; default
+// NEXT_PUBLIC_API_BASE overrides the API base; unset falls back to the deployed API; default
 // is live Xano. Note: the real OTP-store call below now uses this base too.
 const XANO_BASE =
-  process.env.NEXT_PUBLIC_API_BASE || "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/";
+  process.env.NEXT_PUBLIC_API_BASE || "https://soulsighted.bytescripterz.com/";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function createTransporter() {

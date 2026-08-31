@@ -2,7 +2,7 @@
 // NEXT_PUBLIC_API_BASE in .env.local (e.g. http://localhost:8000/). Unset, it
 // falls back to live Xano — so removing that line reverts to production.
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE || "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/";
+  process.env.NEXT_PUBLIC_API_BASE || "https://soulsighted.bytescripterz.com/";
 
 export async function request({ method, endpoint, body = null, headers = {} }) {
   console.log(method, endpoint);
