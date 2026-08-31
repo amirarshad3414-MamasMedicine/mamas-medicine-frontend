@@ -259,7 +259,12 @@ const App = () => {
             pronouns: mapped.childPronouns,
           },
         });
-        child_id = data?.child_id;
+        // add_children returns the row under `id` — there is no `child_id` key
+        // in the response (confirmed against live Xano). Reading only
+        // data?.child_id left this undefined, so submit_onboarding below was
+        // called with no child_id and rejected the request. Same fallback the
+        // signup-flow page already uses.
+        child_id = data?.child_id || data?.id;
       }
 
       const payload = {
@@ -428,7 +433,7 @@ const App = () => {
       case 0:
         return <OnboardingBegin />;
       case 1:
-        return <OnboardingNames text3="Continue" />;
+        return <OnboardingNames text3="Continue" isParent={isParent} />;
       case 2:
         return <OnboardingBirthdays formData={results} isParent={isParent} />;
       case 3:

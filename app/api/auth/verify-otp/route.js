@@ -1,9 +1,12 @@
 import { generateSessionToken } from "../_lib/otpStore";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// NEXT_PUBLIC_API_BASE points this at the local backend for testing; default Xano.
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/";
 
 async function verifyOtpInXano(email, otp) {
-  const res = await fetch("https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/verify_otp", {
+  const res = await fetch(`${API_BASE}verify_otp`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, otp }),

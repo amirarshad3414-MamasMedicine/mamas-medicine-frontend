@@ -1,7 +1,10 @@
 import nodemailer from "nodemailer";
 import { generateOtp } from "../_lib/otpStore";
 
-const XANO_BASE = "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/";
+// NEXT_PUBLIC_API_BASE points this at the local backend for testing; default
+// is live Xano. Note: the real OTP-store call below now uses this base too.
+const XANO_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function createTransporter() {
@@ -108,7 +111,7 @@ function buildOtpEmailHtml(otp, email) {
 }
 
 async function storeOtpInXano(email, otp) {
-  const res = await fetch("https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/otp/store", {
+  const res = await fetch(`${XANO_BASE}otp/store`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, otp, expiresIn: 300 }),

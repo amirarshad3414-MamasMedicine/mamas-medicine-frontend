@@ -311,6 +311,20 @@ export function LoginFormContent({
                       window.location.href = "/dashboard";
                     } catch (e) {
                       const err = e;
+                      // Migrated accounts still hold their old Xano password,
+                      // which the new backend can't verify. It answers with
+                      // PASSWORD_RESET_REQUIRED; send the user to reset (their
+                      // email carried along) so they set a new, verifiable one.
+                      if (err?.data?.code === "PASSWORD_RESET_REQUIRED") {
+                        localStorage.setItem("resetEmail", email);
+                        await swal({
+                          title: "One-time password reset",
+                          text: "We've upgraded our security. Please reset your password once to continue — it only takes a minute.",
+                          icon: "info",
+                        });
+                        window.location.href = `/forgot-password?email=${encodeURIComponent(email)}`;
+                        return;
+                      }
                       const message = err?.message || "Unable to sign in. Please try again.";
                       if (message.toLowerCase().includes("email")) {
                         setErrors({ email: message });

@@ -1,5 +1,9 @@
 import { consumeSessionToken } from "../_lib/otpStore";
 
+// NEXT_PUBLIC_API_BASE points this at the local backend for testing; default Xano.
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE || "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/";
+
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -30,7 +34,7 @@ export async function POST(req) {
     }
 
     // Forward to Xano using the new update_password endpoint
-    const xanoRes = await fetch("https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/update_password", {
+    const xanoRes = await fetch(`${API_BASE}update_password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: session.email, newPassword }),

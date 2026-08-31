@@ -4,16 +4,29 @@
 
 **Scope of this version:** build and verify the FastAPI backend to full parity with Xano. **Data migration (table export/import, file/asset transfer, cutover-day data sync) is deliberately out of scope** and will be planned separately once the backend is proven. Consequence: the Phase 9 runbook is a skeleton, and Phase 8's diff is limited in a specific way — see 8.2.
 
-**Status — 2026-08-25.** Phases 0, 1, 3, 4, 5 and 6 are **done**. All **21** live
-endpoints of the `scripters` group are ported with **138 passing tests**, in a
-separate repo at `~/Documents/soul-sighted-backend` — read its `STATE.md` first.
-Four endpoints are deliberately **not ported** (see Phase 2). Phase 8's scripts
-are **written and tested**, but no capture has run — that still needs approval,
-so the diff has no corpus. Phase 9 remains blocked on the data-migration plan.
+**Status — 2026-08-25 (end of day).** Phases 0, 1, 3, 4, 5 and 6 are **done**.
+All **21** live endpoints are ported with **153 passing tests**, in a separate
+repo at `~/Documents/soul-sighted-backend` — read its `STATE.md` first. Four
+endpoints are deliberately **not ported** (see Phase 2).
+
+**Phase 8 has run once** (approved): 26 pairs captured against live Xano, 22
+shape-clean, four port bugs found and fixed. **And the real frontend has been
+driven against the port** — both funnel variants, end to end, with live Google,
+Stripe and insight keys and real Klaviyo delivery. That found **four more
+defects the tests and the parity diff both missed**, two of them catastrophic
+(no purchase could complete; no paying customer received their reading).
+
+**The headline lesson for this plan:** a green suite and a clean shape-diff did
+not mean the product worked. See the note under Phase 8.
+
+Phase 9 remains blocked on the data-migration plan. One earlier "settled" fact
+has been **reversed**: password hashes *are* exportable — see 1.7 test #1.
 
 **Cutover model (unchanged):** big-bang, single maintenance window, no routing map. Blast radius is every user at once, so **the parity diff is the only safety net.**
 
-**Auth decision (PROVISIONAL — gated on empirical test #1):** the current assumption is that password hashes are not verifiable → **forced password reset** for password users at cutover. This assumption has never been tested. Test #1 in 1.7 settles it, and a positive result removes the reset, the reset wave, and the email risk in Phase 6 entirely. Do not build around the reset until test #1 has failed.
+**Auth decision (REOPENED 2026-08-25 — the forced reset may not be needed):** this plan assumed password hashes could not be extracted, and therefore that every password user must reset at cutover. **That assumption was wrong.** It rested on the column's `visibility = "internal"` flag, taken to mean the Metadata API would suppress it. It does not — `internal` hides the field from the *app* API (`auth/me`), while `GET /workspace/1/table/1/content` returns it. A full backup on 2026-08-25 came back with **84 non-empty hashes**, format `<16 hex>.<64 hex>` (8-byte salt + 32-byte digest, so salted SHA-256 family, not bcrypt).
+
+**What remains unknown is whether the port can *verify* a login against them**, which needs the exact algorithm — undocumented by Xano. One test settles it: create a user through the live API with a known password, read its hash back, and match the pair locally against candidate algorithms. **If it verifies, the forced reset, the ~200-email reset wave and the Phase 6 email risk all disappear.** Until that test runs, treat the reset as possible but no longer confirmed — and do not invest in reset-wave infrastructure first.
 
 **Auth parity rule (decided):** every endpoint keeps exactly the authentication it
 has in Xano. Nothing gains a lock, nothing loses one. Only 5 of the 25 live endpoints
@@ -125,7 +138,9 @@ Classify every pair **read or write** — this drives replay safety in 8.1. Run 
 
 ### 1.7 Empirical tests (each is minutes of work, and each gates real work)
 
-1. **Password-hash exportability — do this first.** Does `GET /workspace/1/table/{users_id}/content` return the password column? If yes and it's bcrypt, `pwdlib` verifies it directly: **no forced reset, no reset wave, no email-transport crisis.** This single check governs the auth decision in the header and the whole of Phase 6 item 2. (If the instance is on Essential/Pro, the Direct Database Connector reaches raw Postgres and answers it definitively.)
+1. **Password-hash exportability — ANSWERED 2026-08-25, and it reverses the earlier "no".** `GET /workspace/1/table/1/content` **does** return the password column: 84 non-empty hashes came out in a full backup. The earlier negative was inferred from `visibility = "internal"` rather than tested; that flag hides the field from the *app* API only. Format is `<16 hex>.<64 hex>` — an 8-byte salt and a 32-byte digest, so a salted SHA-256 family hash, **not bcrypt**, so `pwdlib` cannot verify it directly and Xano documents the algorithm nowhere.
+
+   **The remaining half is still open, and it is the valuable half:** can the port verify a plaintext against one of these? Settle it by creating a user through the live API with a password you choose, reading that row's hash back through the Metadata API, and matching the known pair locally — salted SHA-256 in its usual arrangements first, then PBKDF2/HMAC. **A match deletes the forced reset, the reset wave and the whole Phase 6 email-transport problem.** One live write, cleaned up afterwards.
 2. **`==?` operator — ANSWERED from production data.** All 16 duplicate-children groups have `date_of_birth = null`. If `==?` were null-safe, the exists-check would have matched and blocked them; it did not. So `==?` behaves like standard SQL `=` — **NULL never matches NULL**, and the duplicate check silently passes whenever dob is absent. The FastAPI port must use plain `==`, **not** `IS NOT DISTINCT FROM`, or it will reject inserts Xano accepts and the diff will fail.
 3. **`relationship_focus`** — declared required, frontend omits it in one call site. Does it actually 400 today? Note 384 of 505 existing rows hold `""`, so it is not being enforced as a non-empty value.
 4. **Branch isolation** — do NOT assume a Xano branch is a data sandbox; branching is a logic construct and the DB is instance-wide. Verify before using a branch in 8.1.
@@ -250,9 +265,9 @@ Port per the triage list, translating from XanoScript nearly line-by-line:
 
 **Order:**
 1. Smallest group end-to-end — proves the template.
-2. **If and only if test #1 fails (hashes not exportable): fix the OTP transport before building the reset flow.** Scope corrected 2026-08-25 — earlier drafts said "replace the email transport" and treated the queue cron as the sender. That was wrong; the queue and its cron are dead, see 6.1. The reset wave rides on one route: [app/api/auth/forgot-password/route.js](app/api/auth/forgot-password/route.js) sends the OTP straight to the user through a personal Gmail account, credentials inline. ~200 forced resets at once hits Gmail's daily cap and has no SPF/DKIM alignment with the brand domain, so it lands in spam — and under a forced reset, spam means locked out.
+2. **Only if the hashes prove UNVERIFIABLE: fix the OTP transport before building the reset flow.** (The condition changed 2026-08-25. The hashes *are* exportable — that half of test #1 is answered. What decides the reset now is whether this port can verify a plaintext against Xano's `<salt>.<digest>` format. If it can, there is no reset wave and this item shrinks to ordinary hygiene: the day-to-day reset path still runs on a personal Gmail account.) Scope corrected 2026-08-25 — earlier drafts said "replace the email transport" and treated the queue cron as the sender. That was wrong; the queue and its cron are dead, see 6.1. The reset wave rides on one route: [app/api/auth/forgot-password/route.js](app/api/auth/forgot-password/route.js) sends the OTP straight to the user through a personal Gmail account, credentials inline. ~200 forced resets at once hits Gmail's daily cap and has no SPF/DKIM alignment with the brand domain, so it lands in spam — and under a forced reset, spam means locked out.
 
-   **Tempting wrong answer: route it through Klaviyo.** Klaviyo already sends this product's customer email on a verified domain, so reusing it looks free. Two objections. *Suppression* — a Klaviyo flow will not deliver to a profile that unsubscribed or was suppressed, which would tie "can reset my password" to "accepts marketing"; at cutover every password user needs a reset, so that is exactly the wrong coupling to introduce. *Latency* — flows are queued and throttled; `Insight Ready` tolerates minutes, a six-digit code with an expiry does not. Klaviyo does offer transactional sending that bypasses suppression, but it must be enabled and approved on the account — **verify that before choosing this route.**
+   **Tempting wrong answer: route it through Klaviyo.** Klaviyo already sends this product's customer email on a verified domain, so reusing it looks free. Two objections. *Suppression* — a Klaviyo flow will not deliver to a profile that unsubscribed or was suppressed, which would tie "can reset my password" to "accepts marketing"; at cutover every password user needs a reset, so that is exactly the wrong coupling to introduce. *Latency* — **measured 2026-08-25: Klaviyo delivered the `Insight Ready` email roughly 20 minutes after the event was accepted.** The OTP expires in 300 seconds (`expiresIn: 300`), so a reset code would arrive about four times later than its own expiry — useless on every attempt. That is no longer a judgement call; it is a number. `Insight Ready` tolerates the delay because nobody minds a reading arriving late, which is why that path has always worked in production. Klaviyo does offer transactional sending that bypasses suppression, but even so the latency alone disqualifies it here unless it is demonstrably faster.
 
    Default: a transactional provider (Resend/Postmark/SES) on a verified sending domain, covering the OTP and the teaser. `EMAIL_PROVIDER_API_KEY` and `EMAIL_FROM` exist for this.
 
@@ -293,7 +308,27 @@ through a personal Gmail account and are the real work in item 2 above.
 
 ---
 
-## Phase 8 — Parity Verification (the only safety net)
+## Phase 8 — Parity Verification (necessary, but NOT the only safety net)
+
+> **Corrected 2026-08-25, from evidence.** This phase was written as though the
+> shape diff were the whole safety net. It is not, and the numbers say so: the
+> diff found **4** issues, while driving the real frontend found **4 more** —
+> and the frontend ones were far worse (no purchase could complete; no paying
+> customer received their reading; no reading at all for anyone who filled in a
+> birth time or skipped the free-text box).
+>
+> The reason is structural, not incidental. `capture_responses.py` sends
+> **hand-built** requests, so a clean diff proves the two backends agree about
+> *my reconstruction* of a request — not about what the browser actually sends.
+> And the unit suite replaces every external service with a stub, so it cannot
+> catch an encoding error at the wire. Neither method can see a data-shape
+> difference in a real payload; only real traffic can.
+>
+> **Therefore cutover requires both:** a shape-clean diff *and* every user-facing
+> flow driven through the actual UI against the port. Both funnel variants,
+> the dashboard purchase path, and the reset flow have now been walked; see the
+> backend's STATE.md for what that turned up and what remains untested (a real
+> Stripe payment, `places_details`, `onboarding_visit_stats`).
 
 > **Gate: do not start this phase without explicit approval.** Everything in it
 > sends traffic to the live Xano API, and the write replays create real rows on
@@ -363,9 +398,9 @@ The backend can be built and shape-verified without it, but **cutover cannot hap
 - [x] **M3** Models + migration applied; nullability, per-type defaults and indexes reproduced from the Xano schema
 - [x] **M4** Response schemas — Appendix A enforced in the models
 - [x] **M5** Template group ported (`get_children` first), tests green
-- [ ] **M6** **Mandatory** — empirical test #1 came back negative, so the forced reset is confirmed. Scope corrected 2026-08-25: this is *not* "replace the email transport" (the queue cron it referred to is dead). It is one route, the Gmail-sent OTP in `forgot-password`. **Not** a Klaviyo job — a flow will not deliver to a suppressed profile, which would stop anyone who opted out of marketing from ever resetting, and flow latency does not suit a code that expires in 5 minutes. Default: a transactional provider on a verified domain. Amir's call.
+- [ ] **M6** **REOPENED 2026-08-25 — no longer certainly mandatory.** The forced reset was "confirmed" on the belief that hashes could not be extracted. They can: 84 came out of a backup. Whether the port can *verify* against them is the open half, and a match removes this milestone almost entirely. Scope is also narrower than written: not "replace the email transport" (that queue and cron are dead) but one route, the Gmail-sent OTP in `forgot-password`. **Not** a Klaviyo job — a flow will not deliver to a suppressed profile, and **measured latency is ~20 minutes against a 300-second expiry**. Default if a reset is still needed: a transactional provider on a verified domain. Amir's call.
 - [x] **M7** All auth flows ported — webhook receivers **partially** idempotent: `checkout` dedupes by `child_id`, the no-account branch does not
-- [ ] **M8** All 21 endpoints ported with 140 tests ✅ and the parity tooling written ✅ — but no capture has run (it needs approval), so the shape-diff has no corpus yet; load tests and Sentry outstanding
+- [ ] **M8** All 21 endpoints ported with 153 tests ✅, parity tooling written ✅, **first capture run ✅** (26 pairs, 22 shape-clean, 4 port bugs fixed), **real frontend driven end to end ✅** (both funnel variants, 4 more bugs fixed). Outstanding: re-capture to reach 26/26, a real Stripe payment, `places_details`, `onboarding_visit_stats`, load tests, Sentry
 - [ ] **M9** *(deferred)* Data-migration plan — still the real gate on cutover
 
 **Not started:** deployment, the six hardcoded Xano URLs in the frontend, and

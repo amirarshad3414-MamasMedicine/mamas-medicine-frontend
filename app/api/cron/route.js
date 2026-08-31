@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 
-const BASE_URL = "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE || "https://xnrw-fohw-scw8.a2.xano.io/api:uUEiFEze/";
 const ONE_HOUR_MS = 60 * 60 * 1000;
 const GET_PENDING_EMAILS_ENDPOINT = "get_pending_emails";
 const DELIVER_EMAIL_ENDPOINT = "deliver_email";

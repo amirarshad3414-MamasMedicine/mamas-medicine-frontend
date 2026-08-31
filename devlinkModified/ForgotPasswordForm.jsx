@@ -34,9 +34,15 @@ export function ForgotPasswordForm({
   const otpRefs = useRef([]);
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem("resetEmail");
-    if (storedEmail) {
-      setEmail(storedEmail);
+    // Prefill the email when we arrive from the sign-in "reset required" redirect
+    // (?email=…), or from a stored value. The input is uncontrolled, so set its
+    // DOM value directly in addition to state.
+    const fromQuery = new URLSearchParams(window.location.search).get("email");
+    const prefill = fromQuery || localStorage.getItem("resetEmail");
+    if (prefill) {
+      setEmail(prefill);
+      const input = document.querySelector('[data-ms-member="reset-email"]');
+      if (input) input.value = prefill;
     }
   }, []);
 

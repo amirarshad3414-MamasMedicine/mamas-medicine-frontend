@@ -26,9 +26,29 @@ endpoint, body})`), base `api:uUEiFEze/`.
 # Replacing Xano with FastAPI
 
 A FastAPI port of the Xano `scripters` group lives in a **separate repo** at
-`../soul-sighted-backend`. All 21 live endpoints are ported with 138 passing
-tests. Nothing has switched over — this frontend still calls Xano, and the six
-hardcoded Xano URLs are untouched.
+`../soul-sighted-backend`. All 21 live endpoints are ported with 153 passing
+tests. Nothing has switched over in production — this frontend still calls Xano.
+
+**This frontend can be pointed at the local backend for testing.** Every
+hardcoded Xano URL now reads `NEXT_PUBLIC_API_BASE` and falls back to Xano when
+it is unset, so `.env.local` with
+`NEXT_PUBLIC_API_BASE=http://localhost:8000/` switches the whole app over, and
+deleting that file switches it back. Both funnel variants have been driven end
+to end against the port this way — see the backend's STATE.md.
+
+**Two production bugs were found doing that, and are fixed here but not yet
+committed:** `/signup` never called the backend at all (the submit handler was
+attached to the inner form, which the devlink `FormWrapper` overwrites, so it
+showed a false "Thank you" on every attempt), and `onboardingMain` read
+`data?.child_id` from a response that returns `id`. A third is *not* fixed: the
+"your insight has been sent to your email" popup is unconditional and the block
+that would send it is empty.
+
+**Cutover gotcha:** [app/api/auth/forgot-password/route.js](app/api/auth/forgot-password/route.js)
+declares an unused `XANO_BASE` on line 4 while the real call sits on **line
+111**. Repointing line 4 looks correct and changes nothing — OTP storage would
+keep hitting Xano while `verify_otp` reads Postgres, so every reset would fail
+silently.
 
 **Where everything is written down.** Read these rather than re-deriving:
 

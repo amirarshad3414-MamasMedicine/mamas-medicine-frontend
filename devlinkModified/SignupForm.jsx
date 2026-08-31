@@ -306,6 +306,7 @@ export function SignupForm({
             </_Builtin.Block>
             <_Builtin.FormWrapper
               className={_utils.cx(_styles, "signup_form-block")}
+              onSubmit={handleSubmit}
             >
               <_Builtin.FormForm
                 className={_utils.cx(_styles, "signup_form")}
