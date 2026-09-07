@@ -102,12 +102,18 @@ const App = () => {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
     if (!sessionId || sessionId === "{CHECKOUT_SESSION_ID}") return;
-    trackPixelEvent("Purchase", {
-      value: 21.0,
-      currency: "AUD",
-      source: "free",
-      session_id: sessionId,
-    });
+    // A simulated purchase (an allowlisted tester, see TEST_PURCHASE_EMAILS in
+    // the backend) and a Stripe test-mode payment both carry a cs_test_ id;
+    // neither is revenue, so neither is reported to Meta. Only the pixel is
+    // skipped — the tester still has to be carried to the password step below.
+    if (!sessionId.startsWith("cs_test_")) {
+      trackPixelEvent("Purchase", {
+        value: 21.0,
+        currency: "AUD",
+        source: "free",
+        session_id: sessionId,
+      });
+    }
     // Record the purchase against the funnel. The flow comes back in the URL
     // that was handed to Stripe before checkout; when it is absent (an older
     // checkout link, or a trimmed URL) Xano falls back to inferring it from

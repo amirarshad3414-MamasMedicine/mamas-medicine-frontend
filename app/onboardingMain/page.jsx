@@ -226,6 +226,10 @@ const App = () => {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
     if (!sessionId || sessionId === "{CHECKOUT_SESSION_ID}") return;
+    // A simulated purchase (an allowlisted tester, see TEST_PURCHASE_EMAILS in
+    // the backend) and a Stripe test-mode payment both carry a cs_test_ id.
+    // Neither is revenue, so neither belongs in the ad-conversion numbers.
+    if (sessionId.startsWith("cs_test_")) return;
     trackPixelEvent("Purchase", {
       value: 21.0,
       currency: "AUD",
