@@ -206,6 +206,11 @@ async function triggerKlaviyoFlow({ email, childName, parentName, insight, journ
           },
           properties: {
             child_name: childName,
+            // parent_name on the event as well as the profile: the flow's
+            // webhooks read names from here, where they are frozen per reading,
+            // instead of from the shared profile, which every later reading on
+            // the same account overwrites.
+            parent_name: parentName,
             deep_text: cleanAndEscape(insight?.deep_text || ""),
             summary_text: cleanAndEscape(insight?.summary_text || ""),
           },
